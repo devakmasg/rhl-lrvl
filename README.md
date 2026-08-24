@@ -1,58 +1,136 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# RHL Properties Ltd — Web Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel 13 application for RHL Properties Ltd — public marketing site + admin CMS.
+Built under proposal AK-RHL-26001 (Blue Soft Solutions / Akram Hossen).
 
-## About Laravel
+This is Phase 3 of the build: the public site and admin panel were first built and
+signed off as static HTML (see the sibling `hsc` repo), then ported here into a
+real Laravel + MySQL application.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.3+, Laravel 13
+- MySQL 8+
+- Node.js + npm (Vite, Tailwind CSS v4 — used for the admin panel's design tokens;
+  the public site reuses the original hand-authored `assets/css/style.css`)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Prerequisites
 
-## Learning Laravel
+You need PHP, Composer, and MySQL available on your machine. The easiest way on
+Windows is [Laragon](https://laragon.org/) — it bundles all three plus Apache/Nginx
+with zero manual configuration, and can auto-create a `<folder>.test` virtual host
+for this project. On macOS/Linux, install PHP 8.3+, Composer, and MySQL via your
+usual package manager (Homebrew, apt, etc.), or use [Laravel Herd](https://herd.laravel.com/).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Check you have everything on `PATH`:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php -v        # 8.3 or higher
+composer -V
+mysql --version
+node -v
+npm -v
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Setup
 
-## Contributing
+1. **Clone the repo**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   ```bash
+   git clone https://github.com/devakmasg/rhl-lrvl.git
+   cd rhl-lrvl
+   ```
 
-## Code of Conduct
+2. **Install dependencies**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   ```bash
+   composer install
+   npm install
+   ```
 
-## Security Vulnerabilities
+3. **Environment file**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## License
+   Then edit `.env` and set your database connection:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=hsc_app
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+   (Adjust username/password to match your local MySQL setup — Laragon's default
+   MySQL user is `root` with no password.)
+
+4. **Create the database**
+
+   ```bash
+   mysql -u root -e "CREATE DATABASE hsc_app CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+   ```
+
+5. **Run migrations and seed demo data**
+
+   ```bash
+   php artisan migrate --seed
+   ```
+
+   This creates all tables and seeds them with the same Bangladesh-localised demo
+   content used in the static HTML phase (12 projects, directors, team, services,
+   testimonials, news, inquiries, site settings, and an admin user).
+
+6. **Link public storage** (for project images, brochures, floor plans, news
+   covers, and media library uploads)
+
+   ```bash
+   php artisan storage:link
+   ```
+
+7. **Build front-end assets**
+
+   ```bash
+   npm run build
+   ```
+
+   Or for local development with hot-reloading:
+
+   ```bash
+   npm run dev
+   ```
+
+8. **Serve the app**
+
+   Either point a local vhost (Laragon, Herd, Apache/Nginx) at the `public/`
+   directory, or use the built-in dev server:
+
+   ```bash
+   php artisan serve
+   ```
+
+   The site will be available at `http://localhost:8000` (or your vhost domain).
+
+## Logging in
+
+Admin panel: `/admin/login`
+
+- Email: `admin@rhlproperties.com.bd`
+- Password: `password`
+
+**Change this password immediately** on any environment beyond local development
+(Admin → Profile Settings).
+
+## Notes
+
+- `MAIL_MAILER` defaults to `log` in `.env.example` — inquiry-notification emails
+  write to `storage/logs/laravel.log` instead of sending until real SMTP
+  credentials are configured (blocked on client, see `TASKS.md` in the `hsc` repo).
+- The admin media library has no dedicated database table — it's a thin wrapper
+  over files stored under `storage/app/public/media/`.
+- Real image resizing/compression on upload is not implemented (files are
+  validated and stored as-is); add `intervention/image` if that's needed later.
