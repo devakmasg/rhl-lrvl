@@ -51,8 +51,8 @@
       <span class="intro-tag reveal-up">{{ $page->section('story', 'eyebrow') }}</span>
       <h2 class="reveal-up">{!! str_replace(['trust', 'last'], ['<em>trust</em>', '<em>last</em>'], e($page->content['intro_headline'])) !!}</h2>
       <div class="intro-foot">
-        <div class="reveal-up"><strong>Since 1998</strong>{{ $page->content['intro_since_text'] }}</div>
-        <div class="reveal-up"><strong>Full Spectrum</strong>{{ $page->content['intro_spectrum_text'] }}</div>
+        <div class="reveal-up"><strong>{{ $page->get('intro_since_label') ?: 'Since 1998' }}</strong>{{ $page->content['intro_since_text'] }}</div>
+        <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') ?: 'Full Spectrum' }}</strong>{{ $page->content['intro_spectrum_text'] }}</div>
       </div>
       <a href="{{ route('about') }}" class="link-arrow reveal-up">Read our full story &rarr;</a>
     </div>
@@ -261,7 +261,7 @@
       <img src="{{ $md->photo_url }}" alt="Managing Director, RHL Properties Ltd" loading="lazy" decoding="async">
     </div>
     <div class="reveal-up">
-      <span class="intro-tag">A Message From Our Managing Director</span>
+      <span class="intro-tag">{{ $page->section('md_message', 'eyebrow') }}</span>
       <p class="md-quote">{{ $aboutPage?->get('md_quote') }}</p>
       <div class="md-name">{{ $md->name }}</div>
       <div class="md-role">{{ $md->role }}, RHL Properties Ltd</div>

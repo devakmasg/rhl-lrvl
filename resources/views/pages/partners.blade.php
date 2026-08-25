@@ -8,13 +8,13 @@
 <section class="partner-intro">
   <div class="wrap partner-intro-grid">
     <div>
-      <span class="intro-tag reveal-up">Why RHL Properties</span>
-      <h2 class="reveal-up">Twenty-five years of partnerships that finished on time.</h2>
-      <p class="reveal-up">Since 1998 we have completed fifty-two developments without a single project abandoned mid-construction. Landowners keep their share protected by registered agreement from day one, and investors see the same quarterly reporting our own board reads.</p>
-      <p class="reveal-up">Every partnership begins the same way — a site visit, an honest feasibility study, and written terms before anything is signed.</p>
+      <span class="intro-tag reveal-up">{{ $page->get('intro_eyebrow') }}</span>
+      <h2 class="reveal-up">{{ $page->get('intro_heading') }}</h2>
+      <p class="reveal-up">{{ $page->get('intro_text_1') }}</p>
+      <p class="reveal-up">{{ $page->get('intro_text_2') }}</p>
     </div>
     <div class="partner-figure reveal-up">
-      <img src="{{ asset('assets/images/hero-2-commercial.jpg') }}" alt="A completed RHL Properties commercial development" loading="lazy" decoding="async">
+      <img src="{{ $page->imageUrl('intro_image') }}" alt="A completed RHL Properties commercial development" loading="lazy" decoding="async">
     </div>
   </div>
 </section>
@@ -22,8 +22,8 @@
 <section class="audience" id="partner-options">
   <div class="wrap">
     <div class="audience-head">
-      <span class="intro-tag reveal-up">How it works</span>
-      <h2 class="reveal-up">Choose the path that fits you.</h2>
+      <span class="intro-tag reveal-up">{{ $page->get('how_eyebrow') }}</span>
+      <h2 class="reveal-up">{{ $page->get('how_heading') }}</h2>
     </div>
 
     <div class="audience-switch seg" id="audienceSwitch" role="tablist" aria-label="Choose partnership type">
@@ -32,102 +32,48 @@
     </div>
 
     <div class="audience-panel" id="panel-landowners" role="tabpanel" aria-labelledby="tab-landowners" tabindex="0">
-      <p class="audience-lead">You own the land. We bring design, approvals, financing and construction — and you receive an agreed share of the finished development, secured in writing before work begins.</p>
+      <p class="audience-lead">{{ $page->get('landowner_lead') }}</p>
 
       <div class="pillars">
-        <div class="pillar">
-          <span class="pillar-idx">01</span>
-          <h3>A fair, written share</h3>
-          <p>Your share of the built area is fixed by registered joint-venture deed at the outset — never renegotiated once construction starts.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-idx">02</span>
-          <h3>Signing money up front</h3>
-          <p>A non-refundable advance is paid on signing, with the balance scheduled against verified construction milestones.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-idx">03</span>
-          <h3>We carry the cost</h3>
-          <p>Approvals, design, materials and labour are financed entirely by RHL Properties. You are not asked to fund construction.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-idx">04</span>
-          <h3>Handover on a date</h3>
-          <p>A completion date is written into the agreement, with an agreed penalty payable to you if we miss it.</p>
-        </div>
+        @foreach ($page->get('landowner_pillars', []) as $i => $pillar)
+          <div class="pillar">
+            <span class="pillar-idx">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+            <h3>{{ $pillar['title'] }}</h3>
+            <p>{{ $pillar['desc'] }}</p>
+          </div>
+        @endforeach
       </div>
 
       <div class="process">
-        <div class="step">
-          <span class="step-num">Step 01</span>
-          <div><h3>Submit your land</h3><p>Send us the location, plot size and ownership documents using the form below. A first response takes two to three working days.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 02</span>
-          <div><h3>Site visit and title check</h3><p>Our team visits the plot and our legal counsel verifies title, mutation and any encumbrance. There is no cost to you at this stage.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 03</span>
-          <div><h3>Feasibility and offer</h3><p>We model what the site can support under current planning rules and return a written offer setting out your share, the advance and the timeline.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 04</span>
-          <div><h3>Agreement and advance</h3><p>Terms are registered as a joint-venture deed. The signing advance is paid and the power of attorney is limited strictly to obtaining approvals.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 05</span>
-          <div><h3>Construction and handover</h3><p>You receive quarterly progress reports and open site access throughout. On completion, your share is handed over with individual documentation.</p></div>
-        </div>
+        @foreach ($page->get('landowner_steps', []) as $i => $step)
+          <div class="step">
+            <span class="step-num">Step {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+            <div><h3>{{ $step['title'] }}</h3><p>{{ $step['desc'] }}</p></div>
+          </div>
+        @endforeach
       </div>
     </div>
 
     <div class="audience-panel" id="panel-investors" role="tabpanel" aria-labelledby="tab-investors" tabindex="0" hidden>
-      <p class="audience-lead">Invest alongside a developer that publishes its numbers. Positions are available in individual developments or across a portfolio, from pre-launch through to completed, income-producing assets.</p>
+      <p class="audience-lead">{{ $page->get('investor_lead') }}</p>
 
       <div class="pillars">
-        <div class="pillar">
-          <span class="pillar-idx">01</span>
-          <h3>Enter at any stage</h3>
-          <p>Pre-launch pricing on projects still in approval, or completed assets already tenanted and producing rent from day one.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-idx">02</span>
-          <h3>Reporting you can audit</h3>
-          <p>Quarterly statements covering construction progress, cost against budget, sales velocity and occupancy — the same pack our board reads.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-idx">03</span>
-          <h3>Our capital sits alongside</h3>
-          <p>RHL Properties retains a stake in every development it syndicates, so our exposure moves in the same direction as yours.</p>
-        </div>
-        <div class="pillar">
-          <span class="pillar-idx">04</span>
-          <h3>A defined exit</h3>
-          <p>Resale, buy-back and hold-for-income routes are set out in the subscription documents before you commit, not after.</p>
-        </div>
+        @foreach ($page->get('investor_pillars', []) as $i => $pillar)
+          <div class="pillar">
+            <span class="pillar-idx">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+            <h3>{{ $pillar['title'] }}</h3>
+            <p>{{ $pillar['desc'] }}</p>
+          </div>
+        @endforeach
       </div>
 
       <div class="process">
-        <div class="step">
-          <span class="step-num">Step 01</span>
-          <div><h3>Introductory call</h3><p>A short conversation about your horizon, target return and whether income or capital growth matters more to you.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 02</span>
-          <div><h3>Opportunity pack</h3><p>You receive the current schedule of developments with costs, projected returns, timelines and the risks attached to each.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 03</span>
-          <div><h3>Site and books</h3><p>Visit the sites and review the audited accounts and the delivery record on completed projects before committing anything.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 04</span>
-          <div><h3>Subscription</h3><p>Terms, payment schedule and exit routes are documented and signed. Funds are drawn against construction milestones, not in advance.</p></div>
-        </div>
-        <div class="step">
-          <span class="step-num">Step 05</span>
-          <div><h3>Reporting and exit</h3><p>Quarterly reporting through the build, then distribution, resale or transfer to income according to the route you chose.</p></div>
-        </div>
+        @foreach ($page->get('investor_steps', []) as $i => $step)
+          <div class="step">
+            <span class="step-num">Step {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+            <div><h3>{{ $step['title'] }}</h3><p>{{ $step['desc'] }}</p></div>
+          </div>
+        @endforeach
       </div>
     </div>
   </div>
@@ -136,15 +82,16 @@
 <section class="stats">
   <div class="stats-bg" id="statsBg" data-parallax-bg="0.25"></div>
   <div class="stats-inner wrap">
-    <span class="intro-tag reveal-up" style="color:var(--gold-light)">Track Record</span>
-    <h2 class="reveal-up" style="max-width:640px;margin-bottom:50px;">The numbers behind the partnership.</h2>
+    <span class="intro-tag reveal-up" style="color:var(--gold-light)">{{ $page->get('stats_eyebrow') }}</span>
+    <h2 class="reveal-up" style="max-width:640px;margin-bottom:50px;">{{ $page->get('stats_heading') }}</h2>
     <div class="stats-grid">
-      <div class="stat reveal-card"><div class="num" data-target="52" data-suffix="+">0</div><div class="label">Developments Completed</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="6.4" data-decimals="1" data-suffix="M+">0</div><div class="label">Sq. Ft. Delivered</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="140" data-suffix="+">0</div><div class="label">Landowner Partnerships</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="25" data-suffix="">0</div><div class="label">Years of Excellence</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="0" data-suffix="">0</div><div class="label">Projects Abandoned</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="96" data-suffix="%">0</div><div class="label">Delivered On Schedule</div></div>
+      @foreach ($page->get('stats', []) as $stat)
+        @php
+          preg_match('/^([\d.]+)(.*)$/', $stat['value'], $m);
+          $decimals = str_contains($m[1] ?? '', '.') ? strlen(explode('.', $m[1])[1]) : 0;
+        @endphp
+        <div class="stat reveal-card"><div class="num" data-target="{{ $m[1] ?? $stat['value'] }}" data-decimals="{{ $decimals }}" data-suffix="{{ $m[2] ?? '' }}">0</div><div class="label">{{ $stat['label'] }}</div></div>
+      @endforeach
     </div>
   </div>
 </section>
@@ -153,9 +100,9 @@
   <div class="wrap contact-grid">
     <div>
       <div class="contact-form-head">
-        <span class="intro-tag reveal-up">Start a conversation</span>
-        <h2 class="reveal-up">Submit your land or your interest.</h2>
-        <p class="reveal-up">Tell us which side of the partnership you're on and we'll send the relevant pack. Nothing is committed at this stage.</p>
+        <span class="intro-tag reveal-up">{{ $page->get('contact_eyebrow') }}</span>
+        <h2 class="reveal-up">{{ $page->get('contact_heading') }}</h2>
+        <p class="reveal-up">{{ $page->get('contact_text') }}</p>
       </div>
 
       <form class="form" id="partnerForm" method="POST" action="{{ route('inquiries.partner.store') }}" novalidate>
@@ -234,20 +181,20 @@
     <aside class="contact-aside">
       <div class="detail-block reveal-up">
         <h3>Partnership desk</h3>
-        <a href="tel:+8801711234567">+880 1711-234567</a>
-        <a href="mailto:hello@rhlproperties.com.bd">hello@rhlproperties.com.bd</a>
+        <a href="tel:{{ preg_replace('/\s+/', '', $setting->phone ?? '+8801711234567') }}">{{ $setting->phone ?? '+880 1711-234567' }}</a>
+        <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>
       </div>
       <div class="detail-block reveal-up">
         <h3>What to have ready</h3>
-        <p class="muted">Landowners: title deed, mutation certificate, latest rent receipt and a recent survey plan. Investors: nothing — the first conversation needs no paperwork.</p>
+        <p class="muted">{{ $page->get('aside_ready_text') }}</p>
       </div>
       <div class="detail-block reveal-up">
         <h3>Typical timeline</h3>
-        <p class="muted">First response in 2–3 working days. Site visit and title check within two weeks. Written offer within a month of the visit.</p>
+        <p class="muted">{{ $page->get('aside_timeline_text') }}</p>
       </div>
       <div class="detail-block reveal-up">
         <h3>See the work first</h3>
-        <p class="muted">Every completed and ongoing development is listed with its status and location.</p>
+        <p class="muted">{{ $page->get('aside_work_text') }}</p>
         <a href="{{ route('projects.index') }}#portfolio" class="link-arrow">Browse the portfolio &rarr;</a>
       </div>
     </aside>

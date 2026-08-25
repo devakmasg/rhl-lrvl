@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Director;
 use App\Models\Page;
 use App\Models\Service;
+use App\Models\Setting;
 use App\Models\TeamMember;
 use App\Models\Testimonial;
 
@@ -59,7 +60,10 @@ class PageController extends Controller
 
     public function partners()
     {
-        return view('pages.partners');
+        $page = Page::where('slug', 'partners')->firstOrFail();
+        $setting = Setting::first();
+
+        return view('pages.partners', compact('page', 'setting'));
     }
 
     public function testimonials()

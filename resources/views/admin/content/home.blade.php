@@ -223,11 +223,15 @@
     </div>
     <div class="field-row">
       <div class="field">
-        <label for="introSince">"Since 1998" Blurb</label>
+        <label for="introSinceLabel">First Label</label>
+        <input type="text" id="introSinceLabel" name="intro_since_label" value="{{ old('intro_since_label', $content['intro_since_label'] ?? 'Since 1998') }}" style="margin-bottom:10px;">
+        <label for="introSince">First Blurb</label>
         <textarea id="introSince" name="intro_since_text" style="min-height:70px;">{{ old('intro_since_text', $content['intro_since_text'] ?? '') }}</textarea>
       </div>
       <div class="field">
-        <label for="introSpectrum">"Full Spectrum" Blurb</label>
+        <label for="introSpectrumLabel">Second Label</label>
+        <input type="text" id="introSpectrumLabel" name="intro_spectrum_label" value="{{ old('intro_spectrum_label', $content['intro_spectrum_label'] ?? 'Full Spectrum') }}" style="margin-bottom:10px;">
+        <label for="introSpectrum">Second Blurb</label>
         <textarea id="introSpectrum" name="intro_spectrum_text" style="min-height:70px;">{{ old('intro_spectrum_text', $content['intro_spectrum_text'] ?? '') }}</textarea>
       </div>
     </div>
@@ -312,7 +316,7 @@
             </td>
             <td>
               @if ($def['heading'] === null)
-                <span class="cell-sub">Uses the “Our Story” headline above.</span>
+                <span class="cell-sub">{{ $key === 'story' ? 'Uses the "Our Story" headline above.' : 'This section has no separate heading.' }}</span>
               @else
                 <input type="text" name="section_heading[{{ $key }}]"
                        value="{{ old('section_heading.'.$key, $content['sections'][$key]['heading'] ?? $def['heading']) }}"

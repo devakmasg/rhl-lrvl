@@ -55,6 +55,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('content/home/hero-slides/reorder', [ContentController::class, 'reorderHeroSlides'])->name('content.home.hero-slides.reorder');
         Route::get('content/about', [ContentController::class, 'editAbout'])->name('content.about');
         Route::put('content/about', [ContentController::class, 'updateAbout'])->name('content.about.update');
+        Route::get('content/partners', [ContentController::class, 'editPartners'])->name('content.partners');
+        Route::put('content/partners', [ContentController::class, 'updatePartners'])->name('content.partners.update');
 
         Route::post('content/home/journey', [JourneyChapterController::class, 'store'])->name('content.home.journey.store');
         Route::put('content/home/journey/{journeyChapter}', [JourneyChapterController::class, 'update'])->name('content.home.journey.update');

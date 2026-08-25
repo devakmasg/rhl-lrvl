@@ -8,16 +8,22 @@
 <section class="intro">
   <div class="wrap intro-grid">
     <div>
-      <span class="intro-tag reveal-up">Who We Are</span>
-      <h2 class="reveal-up">A legacy built on <em>trust</em>, developments built to <em>last</em>.</h2>
+      <span class="intro-tag reveal-up">{{ $page->get('intro_eyebrow') }}</span>
+      <h2 class="reveal-up">{!! str_replace(['trust', 'last'], ['<em>trust</em>', '<em>last</em>'], e($page->get('intro_heading'))) !!}</h2>
       <div class="intro-foot">
-        <div class="reveal-up"><strong>Since 1998</strong>Over two decades delivering landmark residential and commercial developments across Dhaka's most sought-after neighbourhoods.</div>
-        <div class="reveal-up"><strong>Full Spectrum</strong>From land acquisition and RAJUK-approved design to construction, handover and long-term asset management.</div>
+        <div class="reveal-up"><strong>{{ $page->get('intro_since_label') }}</strong>{{ $page->get('intro_since_text') }}</div>
+        <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') }}</strong>{{ $page->get('intro_spectrum_text') }}</div>
       </div>
     </div>
     <div class="intro-media reveal-up">
-      <img data-parallax="0.15" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80" alt="RHL Properties Ltd signature development">
-      <div class="badge"><div class="n">25+</div><div class="l">Years of Excellence</div></div>
+      <img data-parallax="0.15" decoding="async" loading="lazy" src="{{ $page->imageUrl('intro_image') }}" alt="RHL Properties Ltd signature development">
+      @php
+        $badgeNumber = $page->get('intro_badge_number');
+        $badgeLabel = $page->get('intro_badge_label');
+      @endphp
+      @if ($badgeNumber || $badgeLabel)
+        <div class="badge"><div class="n">{{ $badgeNumber }}</div><div class="l">{{ $badgeLabel }}</div></div>
+      @endif
     </div>
   </div>
 </section>
@@ -25,7 +31,7 @@
 <section class="prose">
   <div class="wrap">
     <div class="prose-inner">
-      <span class="intro-tag reveal-up">Company Overview</span>
+      <span class="intro-tag reveal-up">{{ $page->get('overview_eyebrow') }}</span>
       <h2 class="reveal-up">{{ $page->content['headline'] }}</h2>
       @foreach ($page->content['overview'] as $paragraph)
         <p class="reveal-up">{{ $paragraph }}</p>
@@ -37,8 +43,8 @@
 <section class="milestones">
   <div class="wrap">
     <div class="milestones-head">
-      <span class="intro-tag reveal-up">Our History</span>
-      <h2 class="reveal-up">Milestones along the way.</h2>
+      <span class="intro-tag reveal-up">{{ $page->get('history_eyebrow') }}</span>
+      <h2 class="reveal-up">{{ $page->get('history_heading') }}</h2>
     </div>
     <div class="process">
       @foreach ($page->content['milestones'] as $milestone)
@@ -53,7 +59,7 @@
 
 <section class="pd-facts-band">
   <div class="wrap">
-    <span class="intro-tag reveal-up" style="padding-top:44px;display:block;">At A Glance</span>
+    <span class="intro-tag reveal-up" style="padding-top:44px;display:block;">{{ $page->get('facts_eyebrow') }}</span>
     <dl class="pd-facts" style="padding-top:24px;">
       @foreach ($page->content['facts'] as $fact)
         <div class="fact reveal-card"><dt>{{ $fact['k'] }}</dt><dd>{{ $fact['v'] }}</dd></div>
@@ -65,35 +71,30 @@
 <section class="quicklinks">
   <div class="wrap">
     <div class="quicklinks-head">
-      <span class="intro-tag reveal-up">Explore Further</span>
-      <h2 class="reveal-up">Get to know RHL Properties.</h2>
+      <span class="intro-tag reveal-up">{{ $page->get('quicklinks_eyebrow') }}</span>
+      <h2 class="reveal-up">{{ $page->get('quicklinks_heading') }}</h2>
     </div>
+    @php
+      // Destination route and link-verb are structural (each card points at a
+      // specific page) so they stay fixed in the view; only the title/desc
+      // copy is admin-editable, in the same order as the seeded content.
+      $quicklinkMeta = [
+        ['route' => 'mission-vision', 'link' => 'Read more'],
+        ['route' => 'md-message', 'link' => 'Read more'],
+        ['route' => 'directors', 'link' => 'Meet the board'],
+        ['route' => 'management', 'link' => 'Meet the team'],
+        ['route' => 'achievements', 'link' => 'See achievements'],
+      ];
+    @endphp
     <div class="quicklinks-grid">
-      <a class="quicklink-card reveal-card" href="{{ route('mission-vision') }}">
-        <h3>Mission &amp; Vision</h3>
-        <p>What we're building toward, and the values that guide every development.</p>
-        <span class="link-arrow">Read more &rarr;</span>
-      </a>
-      <a class="quicklink-card reveal-card" href="{{ route('md-message') }}">
-        <h3>Managing Director's Message</h3>
-        <p>A word from {{ $page->content['md_name'] }} on the company's approach to every handover.</p>
-        <span class="link-arrow">Read more &rarr;</span>
-      </a>
-      <a class="quicklink-card reveal-card" href="{{ route('directors') }}">
-        <h3>Board of Directors</h3>
-        <p>The board overseeing strategy, governance and capital discipline.</p>
-        <span class="link-arrow">Meet the board &rarr;</span>
-      </a>
-      <a class="quicklink-card reveal-card" href="{{ route('management') }}">
-        <h3>Management Team</h3>
-        <p>The people running construction, sales, finance and delivery day to day.</p>
-        <span class="link-arrow">Meet the team &rarr;</span>
-      </a>
-      <a class="quicklink-card reveal-card" href="{{ route('achievements') }}">
-        <h3>Achievements</h3>
-        <p>Milestones, industry recognition and certifications earned over 25+ years.</p>
-        <span class="link-arrow">See achievements &rarr;</span>
-      </a>
+      @foreach ($page->get('quicklinks', []) as $i => $quicklink)
+        @continue(!isset($quicklinkMeta[$i]))
+        <a class="quicklink-card reveal-card" href="{{ route($quicklinkMeta[$i]['route']) }}">
+          <h3>{{ $quicklink['title'] }}</h3>
+          <p>{{ $quicklink['desc'] }}</p>
+          <span class="link-arrow">{{ $quicklinkMeta[$i]['link'] }} &rarr;</span>
+        </a>
+      @endforeach
     </div>
   </div>
 </section>
@@ -101,14 +102,15 @@
 <section class="stats">
   <div class="stats-bg" id="statsBg" data-parallax-bg="0.25"></div>
   <div class="stats-inner wrap">
-    <span class="intro-tag reveal-up" style="color:var(--gold-light)">By The Numbers</span>
+    <span class="intro-tag reveal-up" style="color:var(--gold-light)">{{ $page->get('stats_eyebrow') }}</span>
     <div class="stats-grid">
-      <div class="stat reveal-card"><div class="num" data-target="6.4" data-decimals="1" data-suffix="M+">0</div><div class="label">Sq. Ft. Developed</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="52" data-suffix="+">0</div><div class="label">Landmark Projects</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="25" data-suffix="">0</div><div class="label">Years of Excellence</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="8200" data-suffix="+">0</div><div class="label">Satisfied Clients</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="12" data-suffix="">0</div><div class="label">Cities Present</div></div>
-      <div class="stat reveal-card"><div class="num" data-target="30" data-suffix="+">0</div><div class="label">Industry Awards</div></div>
+      @foreach ($page->get('stats', []) as $stat)
+        @php
+          preg_match('/^([\d.]+)(.*)$/', $stat['value'], $m);
+          $decimals = str_contains($m[1] ?? '', '.') ? strlen(explode('.', $m[1])[1]) : 0;
+        @endphp
+        <div class="stat reveal-card"><div class="num" data-target="{{ $m[1] ?? $stat['value'] }}" data-decimals="{{ $decimals }}" data-suffix="{{ $m[2] ?? '' }}">0</div><div class="label">{{ $stat['label'] }}</div></div>
+      @endforeach
     </div>
   </div>
 </section>

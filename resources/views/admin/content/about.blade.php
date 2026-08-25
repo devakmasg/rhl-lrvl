@@ -28,7 +28,53 @@
   </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">"Who We Are" Intro</h2>
+    <div class="field-row" style="margin-bottom:16px;">
+      <div class="field">
+        <label for="introEyebrow">Eyebrow</label>
+        <input type="text" id="introEyebrow" name="intro_eyebrow" value="{{ old('intro_eyebrow', $content['intro_eyebrow'] ?? '') }}">
+      </div>
+      <div class="field">
+        <label for="introHeading">Heading</label>
+        <input type="text" id="introHeading" name="intro_heading" value="{{ old('intro_heading', $content['intro_heading'] ?? '') }}">
+        <span class="hint">The words "trust" and "last" are italicised automatically.</span>
+      </div>
+    </div>
+    <div class="field-row" style="margin-bottom:16px;">
+      <div class="field">
+        <label for="introSinceLabel">First Label</label>
+        <input type="text" id="introSinceLabel" name="intro_since_label" value="{{ old('intro_since_label', $content['intro_since_label'] ?? '') }}" style="margin-bottom:10px;">
+        <label for="introSinceText">First Blurb</label>
+        <textarea id="introSinceText" name="intro_since_text" style="min-height:70px;">{{ old('intro_since_text', $content['intro_since_text'] ?? '') }}</textarea>
+      </div>
+      <div class="field">
+        <label for="introSpectrumLabel">Second Label</label>
+        <input type="text" id="introSpectrumLabel" name="intro_spectrum_label" value="{{ old('intro_spectrum_label', $content['intro_spectrum_label'] ?? '') }}" style="margin-bottom:10px;">
+        <label for="introSpectrumText">Second Blurb</label>
+        <textarea id="introSpectrumText" name="intro_spectrum_text" style="min-height:70px;">{{ old('intro_spectrum_text', $content['intro_spectrum_text'] ?? '') }}</textarea>
+      </div>
+    </div>
+    <div class="field-row">
+      @include('admin.partials.image-field', [
+        'name' => 'intro_image',
+        'label' => 'Section Photo',
+        'currentUrl' => $page->imageUrl('intro_image'),
+      ])
+      <div class="field">
+        <label for="introBadgeNumber">Badge Number</label>
+        <input type="text" id="introBadgeNumber" name="intro_badge_number" value="{{ old('intro_badge_number', $content['intro_badge_number'] ?? '') }}">
+        <label for="introBadgeLabel" style="margin-top:12px;">Badge Label</label>
+        <input type="text" id="introBadgeLabel" name="intro_badge_label" value="{{ old('intro_badge_label', $content['intro_badge_label'] ?? '') }}">
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-pad" style="margin-bottom:20px;">
     <h2 style="font-size:15.5px;margin-bottom:16px;">Company Overview</h2>
+    <div class="field" style="margin-bottom:16px;">
+      <label for="overviewEyebrow">Eyebrow</label>
+      <input type="text" id="overviewEyebrow" name="overview_eyebrow" value="{{ old('overview_eyebrow', $content['overview_eyebrow'] ?? '') }}" style="max-width:280px;">
+    </div>
     <div class="field" style="margin-bottom:16px;">
       <label for="aboutHeadline">Page Headline</label>
       <input type="text" id="aboutHeadline" name="headline" value="{{ old('headline', $content['headline'] ?? '') }}" required>
@@ -45,6 +91,16 @@
       <h2 style="font-size:15.5px;">Company History (Milestones)</h2>
       <button type="button" class="btn btn-outline btn-sm" id="addMilestone">+ Add Milestone</button>
     </div>
+    <div class="field-row" style="margin-bottom:16px;">
+      <div class="field">
+        <label for="historyEyebrow">Eyebrow</label>
+        <input type="text" id="historyEyebrow" name="history_eyebrow" value="{{ old('history_eyebrow', $content['history_eyebrow'] ?? '') }}">
+      </div>
+      <div class="field">
+        <label for="historyHeading">Heading</label>
+        <input type="text" id="historyHeading" name="history_heading" value="{{ old('history_heading', $content['history_heading'] ?? '') }}">
+      </div>
+    </div>
     <div id="milestonesList"></div>
   </div>
 
@@ -52,6 +108,10 @@
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
       <h2 style="font-size:15.5px;">At-a-Glance Facts</h2>
       <button type="button" class="btn btn-outline btn-sm" id="addFact">+ Add Fact</button>
+    </div>
+    <div class="field" style="margin-bottom:16px;max-width:280px;">
+      <label for="factsEyebrow">Eyebrow</label>
+      <input type="text" id="factsEyebrow" name="facts_eyebrow" value="{{ old('facts_eyebrow', $content['facts_eyebrow'] ?? '') }}">
     </div>
     <div id="factsList"></div>
   </div>
@@ -109,6 +169,38 @@
       <span class="hint">Separate paragraphs with a blank line.</span>
     </div>
   </div>
+
+  <div class="card card-pad" style="margin-top:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">"Explore Further" Cards</h2>
+    <div class="field-row" style="margin-bottom:16px;">
+      <div class="field">
+        <label for="quicklinksEyebrow">Eyebrow</label>
+        <input type="text" id="quicklinksEyebrow" name="quicklinks_eyebrow" value="{{ old('quicklinks_eyebrow', $content['quicklinks_eyebrow'] ?? '') }}">
+      </div>
+      <div class="field">
+        <label for="quicklinksHeading">Heading</label>
+        <input type="text" id="quicklinksHeading" name="quicklinks_heading" value="{{ old('quicklinks_heading', $content['quicklinks_heading'] ?? '') }}">
+      </div>
+    </div>
+    <p class="hint" style="margin-bottom:14px;">These 5 cards always link to Mission &amp; Vision, MD Message, Directors, Management and Achievements in that order — only the title and description below are editable.</p>
+    @include('admin.content._fixed-rows', [
+      'prefix' => 'quicklink', 'rows' => $content['quicklinks'] ?? [],
+      'count' => 5, 'itemLabel' => 'Card',
+    ])
+  </div>
+
+  <div class="card card-pad" style="margin-top:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">"By The Numbers" Stats</h2>
+    <div class="field" style="margin-bottom:16px;max-width:280px;">
+      <label for="statsEyebrow">Eyebrow</label>
+      <input type="text" id="statsEyebrow" name="stats_eyebrow" value="{{ old('stats_eyebrow', $content['stats_eyebrow'] ?? '') }}">
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <label style="font-size:12.5px;font-weight:600;color:var(--charcoal-soft);">Stats</label>
+      <button type="button" class="btn btn-outline btn-sm" id="addAboutStat">+ Add Stat</button>
+    </div>
+    <div id="aboutStatsList"></div>
+  </div>
 </form>
 @endsection
 
@@ -148,5 +240,10 @@
     (v) => `<div class="field"><input type="text" name="value_title[]" placeholder="Value title" value="${esc(v.title)}"></div>
             <div class="field"><input type="text" name="value_desc[]" placeholder="Short description" value="${esc(v.desc)}"></div>`,
     @json(old('value_title') ? collect(old('value_title'))->map(fn($t, $i) => ['title' => $t, 'desc' => old('value_desc')[$i] ?? ''])->values() : ($content['core_values'] ?? [])));
+
+  makeRepeater(document.getElementById('aboutStatsList'), document.getElementById('addAboutStat'),
+    (v) => `<div class="field" style="max-width:130px;"><input type="text" name="stat_value[]" placeholder="Value, e.g. 6.4M+" value="${esc(v.value)}"></div>
+            <div class="field"><input type="text" name="stat_label[]" placeholder="Label" value="${esc(v.label)}"></div>`,
+    @json(old('stat_value') ? collect(old('stat_value'))->map(fn($t, $i) => ['value' => $t, 'label' => old('stat_label')[$i] ?? ''])->values() : ($content['stats'] ?? [])));
 </script>
 @endpush

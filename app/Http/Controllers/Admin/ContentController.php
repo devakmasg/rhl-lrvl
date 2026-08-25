@@ -94,7 +94,9 @@ class ContentController extends Controller
             'hero_label' => $data['hero_label'] ?? '',
             'hero_sub' => $data['hero_sub'] ?? '',
             'intro_headline' => $data['intro_headline'],
+            'intro_since_label' => $data['intro_since_label'] ?? '',
             'intro_since_text' => $data['intro_since_text'] ?? '',
+            'intro_spectrum_label' => $data['intro_spectrum_label'] ?? '',
             'intro_spectrum_text' => $data['intro_spectrum_text'] ?? '',
             'why_cards' => $whyCards,
             'stats' => $stats,
@@ -199,12 +201,25 @@ class ContentController extends Controller
     public function updateAbout(Request $request): RedirectResponse
     {
         $data = $request->validate([
+            'intro_eyebrow' => ['nullable', 'string', 'max:255'],
+            'intro_heading' => ['nullable', 'string', 'max:255'],
+            'intro_since_label' => ['nullable', 'string', 'max:100'],
+            'intro_since_text' => ['nullable', 'string'],
+            'intro_spectrum_label' => ['nullable', 'string', 'max:100'],
+            'intro_spectrum_text' => ['nullable', 'string'],
+            'intro_image' => ['nullable', 'image', 'max:5120'],
+            'intro_badge_number' => ['nullable', 'string', 'max:20'],
+            'intro_badge_label' => ['nullable', 'string', 'max:100'],
+            'overview_eyebrow' => ['nullable', 'string', 'max:255'],
             'headline' => ['required', 'string', 'max:255'],
             'overview' => ['nullable', 'string'],
+            'history_eyebrow' => ['nullable', 'string', 'max:255'],
+            'history_heading' => ['nullable', 'string', 'max:255'],
             'milestone_year' => ['array'],
             'milestone_year.*' => ['nullable', 'string', 'max:20'],
             'milestone_text' => ['array'],
             'milestone_text.*' => ['nullable', 'string'],
+            'facts_eyebrow' => ['nullable', 'string', 'max:255'],
             'fact_k' => ['array'],
             'fact_k.*' => ['nullable', 'string', 'max:255'],
             'fact_v' => ['array'],
@@ -221,6 +236,17 @@ class ContentController extends Controller
             'md_photo' => ['nullable', 'image', 'max:5120'],
             'md_quote' => ['nullable', 'string'],
             'md_message' => ['nullable', 'string'],
+            'quicklinks_eyebrow' => ['nullable', 'string', 'max:255'],
+            'quicklinks_heading' => ['nullable', 'string', 'max:255'],
+            'quicklink_title' => ['array', 'size:5'],
+            'quicklink_title.*' => ['nullable', 'string', 'max:255'],
+            'quicklink_desc' => ['array', 'size:5'],
+            'quicklink_desc.*' => ['nullable', 'string'],
+            'stats_eyebrow' => ['nullable', 'string', 'max:255'],
+            'stat_value' => ['array'],
+            'stat_value.*' => ['nullable', 'string', 'max:50'],
+            'stat_label' => ['array'],
+            'stat_label.*' => ['nullable', 'string', 'max:255'],
         ]);
 
         $page = Page::where('slug', 'about')->firstOrFail();
@@ -229,11 +255,26 @@ class ContentController extends Controller
         $milestones = $this->zipRepeater($data['milestone_year'] ?? [], $data['milestone_text'] ?? [], 'year', 'text');
         $facts = $this->zipRepeater($data['fact_k'] ?? [], $data['fact_v'] ?? [], 'k', 'v');
         $coreValues = $this->zipRepeater($data['value_title'] ?? [], $data['value_desc'] ?? [], 'title', 'desc');
+        $quicklinks = $this->zipFixedRows($data['quicklink_title'] ?? [], $data['quicklink_desc'] ?? []);
+        $stats = $this->zipRepeater($data['stat_value'] ?? [], $data['stat_label'] ?? [], 'value', 'label');
 
         $content = [
+            'intro_eyebrow' => $data['intro_eyebrow'] ?? '',
+            'intro_heading' => $data['intro_heading'] ?? '',
+            'intro_since_label' => $data['intro_since_label'] ?? '',
+            'intro_since_text' => $data['intro_since_text'] ?? '',
+            'intro_spectrum_label' => $data['intro_spectrum_label'] ?? '',
+            'intro_spectrum_text' => $data['intro_spectrum_text'] ?? '',
+            'intro_image' => $this->resolveImageInput($request, 'intro_image', 'about', $page->get('intro_image', null)),
+            'intro_badge_number' => $data['intro_badge_number'] ?? '',
+            'intro_badge_label' => $data['intro_badge_label'] ?? '',
+            'overview_eyebrow' => $data['overview_eyebrow'] ?? '',
             'headline' => $data['headline'],
             'overview' => $this->splitParagraphs($data['overview'] ?? ''),
+            'history_eyebrow' => $data['history_eyebrow'] ?? '',
+            'history_heading' => $data['history_heading'] ?? '',
             'milestones' => $milestones,
+            'facts_eyebrow' => $data['facts_eyebrow'] ?? '',
             'facts' => $facts,
             'mission_heading' => $data['mission_heading'] ?? '',
             'mission' => $data['mission'] ?? '',
@@ -244,11 +285,133 @@ class ContentController extends Controller
             'md_photo' => $mdPhoto ?? '',
             'md_quote' => $data['md_quote'] ?? '',
             'md_message' => $this->splitParagraphs($data['md_message'] ?? ''),
+            'quicklinks_eyebrow' => $data['quicklinks_eyebrow'] ?? '',
+            'quicklinks_heading' => $data['quicklinks_heading'] ?? '',
+            'quicklinks' => $quicklinks,
+            'stats_eyebrow' => $data['stats_eyebrow'] ?? '',
+            'stats' => $stats,
         ];
 
         $page->update(['content' => $content]);
 
         return redirect()->route('admin.content.about')->with('status', 'About page content saved.');
+    }
+
+    public function editPartners(): View
+    {
+        $page = Page::where('slug', 'partners')->firstOrFail();
+
+        return view('admin.content.partners', [
+            'page' => $page,
+            'content' => $page->content ?? [],
+        ]);
+    }
+
+    public function updatePartners(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'intro_eyebrow' => ['nullable', 'string', 'max:255'],
+            'intro_heading' => ['required', 'string', 'max:255'],
+            'intro_text_1' => ['nullable', 'string'],
+            'intro_text_2' => ['nullable', 'string'],
+            'intro_image' => ['nullable', 'image', 'max:5120'],
+
+            'how_eyebrow' => ['nullable', 'string', 'max:255'],
+            'how_heading' => ['nullable', 'string', 'max:255'],
+
+            'landowner_lead' => ['nullable', 'string'],
+            'landowner_pillar_title' => ['array', 'size:4'],
+            'landowner_pillar_title.*' => ['nullable', 'string', 'max:255'],
+            'landowner_pillar_desc' => ['array', 'size:4'],
+            'landowner_pillar_desc.*' => ['nullable', 'string'],
+            'landowner_step_title' => ['array', 'size:5'],
+            'landowner_step_title.*' => ['nullable', 'string', 'max:255'],
+            'landowner_step_desc' => ['array', 'size:5'],
+            'landowner_step_desc.*' => ['nullable', 'string'],
+
+            'investor_lead' => ['nullable', 'string'],
+            'investor_pillar_title' => ['array', 'size:4'],
+            'investor_pillar_title.*' => ['nullable', 'string', 'max:255'],
+            'investor_pillar_desc' => ['array', 'size:4'],
+            'investor_pillar_desc.*' => ['nullable', 'string'],
+            'investor_step_title' => ['array', 'size:5'],
+            'investor_step_title.*' => ['nullable', 'string', 'max:255'],
+            'investor_step_desc' => ['array', 'size:5'],
+            'investor_step_desc.*' => ['nullable', 'string'],
+
+            'stats_eyebrow' => ['nullable', 'string', 'max:255'],
+            'stats_heading' => ['nullable', 'string', 'max:255'],
+            'stat_value' => ['array'],
+            'stat_value.*' => ['nullable', 'string', 'max:50'],
+            'stat_label' => ['array'],
+            'stat_label.*' => ['nullable', 'string', 'max:255'],
+
+            'contact_eyebrow' => ['nullable', 'string', 'max:255'],
+            'contact_heading' => ['nullable', 'string', 'max:255'],
+            'contact_text' => ['nullable', 'string'],
+
+            'aside_ready_text' => ['nullable', 'string'],
+            'aside_timeline_text' => ['nullable', 'string'],
+            'aside_work_text' => ['nullable', 'string'],
+        ]);
+
+        $page = Page::where('slug', 'partners')->firstOrFail();
+
+        $content = [
+            'intro_eyebrow' => $data['intro_eyebrow'] ?? '',
+            'intro_heading' => $data['intro_heading'],
+            'intro_text_1' => $data['intro_text_1'] ?? '',
+            'intro_text_2' => $data['intro_text_2'] ?? '',
+            'intro_image' => $this->resolveImageInput($request, 'intro_image', 'partners', $page->get('intro_image', null)),
+
+            'how_eyebrow' => $data['how_eyebrow'] ?? '',
+            'how_heading' => $data['how_heading'] ?? '',
+
+            'landowner_lead' => $data['landowner_lead'] ?? '',
+            'landowner_pillars' => $this->zipFixedRows($data['landowner_pillar_title'] ?? [], $data['landowner_pillar_desc'] ?? []),
+            'landowner_steps' => $this->zipFixedRows($data['landowner_step_title'] ?? [], $data['landowner_step_desc'] ?? []),
+
+            'investor_lead' => $data['investor_lead'] ?? '',
+            'investor_pillars' => $this->zipFixedRows($data['investor_pillar_title'] ?? [], $data['investor_pillar_desc'] ?? []),
+            'investor_steps' => $this->zipFixedRows($data['investor_step_title'] ?? [], $data['investor_step_desc'] ?? []),
+
+            'stats_eyebrow' => $data['stats_eyebrow'] ?? '',
+            'stats_heading' => $data['stats_heading'] ?? '',
+            'stats' => $this->zipRepeater($data['stat_value'] ?? [], $data['stat_label'] ?? [], 'value', 'label'),
+
+            'contact_eyebrow' => $data['contact_eyebrow'] ?? '',
+            'contact_heading' => $data['contact_heading'] ?? '',
+            'contact_text' => $data['contact_text'] ?? '',
+
+            'aside_ready_text' => $data['aside_ready_text'] ?? '',
+            'aside_timeline_text' => $data['aside_timeline_text'] ?? '',
+            'aside_work_text' => $data['aside_work_text'] ?? '',
+        ];
+
+        $page->update(['content' => $content]);
+
+        return redirect()->route('admin.content.partners')->with('status', 'Partners page content saved.');
+    }
+
+    /**
+     * Zip two parallel arrays of a FIXED-count field (pillars/steps whose
+     * layout assumes an exact count) into title/desc rows, keeping every
+     * position even if a field is left blank — unlike zipRepeater, an empty
+     * row is never dropped, so the count on save always matches the count
+     * the form posted.
+     */
+    private function zipFixedRows(array $titles, array $descs): array
+    {
+        $rows = [];
+
+        foreach ($titles as $i => $title) {
+            $rows[] = [
+                'title' => trim((string) $title),
+                'desc' => trim((string) ($descs[$i] ?? '')),
+            ];
+        }
+
+        return $rows;
     }
 
     /**

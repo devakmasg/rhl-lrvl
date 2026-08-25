@@ -26,6 +26,11 @@ final class HomeSections
             'eyebrow' => 'Why Choose Us',
             'heading' => 'Built on trust, backed by approvals, delivered on time.',
         ],
+        'md_message' => [
+            'label' => 'MD Message Teaser',
+            'eyebrow' => 'A Message From Our Managing Director',
+            'heading' => null, // this teaser has no heading, only the eyebrow tag and the quote
+        ],
         'stats' => [
             'label' => 'Key Statistics',
             'eyebrow' => 'Key Statistics',
