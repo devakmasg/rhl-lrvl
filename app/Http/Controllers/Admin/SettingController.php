@@ -32,6 +32,7 @@ class SettingController extends Controller
             'hours_saturday' => ['required', 'string', 'max:100'],
             'hours_friday' => ['required', 'string', 'max:100'],
             'map_query' => ['required', 'string', 'max:255'],
+            'footer_blurb' => ['nullable', 'string', 'max:1000'],
             'social_instagram' => ['nullable', 'url', 'max:255'],
             'social_linkedin' => ['nullable', 'url', 'max:255'],
             'social_facebook' => ['nullable', 'url', 'max:255'],

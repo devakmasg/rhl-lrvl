@@ -21,7 +21,7 @@
         @forelse ($directors as $d)
           <tr>
             <td>{{ $d->order ?? '—' }}</td>
-            <td><img src="{{ $d->photo ?: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80' }}" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td>
+            <td><img src="{{ $d->photo_url ?: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80' }}" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td>
             <td><span class="cell-main">{{ $d->name }}</span></td>
             <td>{{ $d->role }}</td>
             <td><span class="cell-sub">{{ \Illuminate\Support\Str::limit($d->bio, 60) }}</span></td>
@@ -60,7 +60,7 @@
         @forelse ($teamMembers as $t)
           <tr>
             <td>{{ $t->order ?? '—' }}</td>
-            <td><img src="{{ $t->photo ?: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80' }}" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td>
+            <td><img src="{{ $t->photo_url ?: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80' }}" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td>
             <td><span class="cell-main">{{ $t->name }}</span></td>
             <td>{{ $t->role }}</td>
             <td><span class="cell-sub">{{ \Illuminate\Support\Str::limit($t->bio, 60) }}</span></td>
@@ -85,12 +85,12 @@
 <div class="modal-overlay" id="addDirectorModal">
   <div class="modal">
     <div class="modal-head"><h3>Add Director</h3><button class="modal-close" data-modal-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    <form method="POST" action="{{ route('admin.directors.store') }}">
+    <form method="POST" action="{{ route('admin.directors.store') }}" enctype="multipart/form-data">
       @csrf
       <div class="modal-body" style="display:flex;flex-direction:column;gap:14px;">
         <div class="field"><label>Name</label><input type="text" name="name" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" required></div>
-        <div class="field"><label>Photo URL</label><input type="url" name="photo" placeholder="https://…"></div>
+        @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo'])
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;"></textarea></div>
       </div>
@@ -104,13 +104,13 @@
 <div class="modal-overlay" id="editDirectorModal{{ $d->id }}">
   <div class="modal">
     <div class="modal-head"><h3>Edit Director</h3><button class="modal-close" data-modal-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    <form method="POST" action="{{ route('admin.directors.update', $d) }}">
+    <form method="POST" action="{{ route('admin.directors.update', $d) }}" enctype="multipart/form-data">
       @csrf
       @method('PUT')
       <div class="modal-body" style="display:flex;flex-direction:column;gap:14px;">
         <div class="field"><label>Name</label><input type="text" name="name" value="{{ $d->name }}" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" value="{{ $d->role }}" required></div>
-        <div class="field"><label>Photo URL</label><input type="url" name="photo" value="{{ $d->photo }}" placeholder="https://…"></div>
+        @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo', 'currentUrl' => $d->photo_url])
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1" value="{{ $d->order }}"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;">{{ $d->bio }}</textarea></div>
       </div>
@@ -124,12 +124,12 @@
 <div class="modal-overlay" id="addTeamModal">
   <div class="modal">
     <div class="modal-head"><h3>Add Team Member</h3><button class="modal-close" data-modal-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    <form method="POST" action="{{ route('admin.team.store') }}">
+    <form method="POST" action="{{ route('admin.team.store') }}" enctype="multipart/form-data">
       @csrf
       <div class="modal-body" style="display:flex;flex-direction:column;gap:14px;">
         <div class="field"><label>Name</label><input type="text" name="name" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" required></div>
-        <div class="field"><label>Photo URL</label><input type="url" name="photo" placeholder="https://…"></div>
+        @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo'])
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;"></textarea></div>
       </div>
@@ -143,13 +143,13 @@
 <div class="modal-overlay" id="editTeamModal{{ $t->id }}">
   <div class="modal">
     <div class="modal-head"><h3>Edit Team Member</h3><button class="modal-close" data-modal-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    <form method="POST" action="{{ route('admin.team.update', $t) }}">
+    <form method="POST" action="{{ route('admin.team.update', $t) }}" enctype="multipart/form-data">
       @csrf
       @method('PUT')
       <div class="modal-body" style="display:flex;flex-direction:column;gap:14px;">
         <div class="field"><label>Name</label><input type="text" name="name" value="{{ $t->name }}" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" value="{{ $t->role }}" required></div>
-        <div class="field"><label>Photo URL</label><input type="url" name="photo" value="{{ $t->photo }}" placeholder="https://…"></div>
+        @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo', 'currentUrl' => $t->photo_url])
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1" value="{{ $t->order }}"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;">{{ $t->bio }}</textarea></div>
       </div>

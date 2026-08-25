@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Investors & Landowners | RHL Properties Ltd')
-@section('description', 'Partner with RHL Properties Ltd — joint-venture terms for landowners and investment opportunities across residential and commercial developments.')
-@section('og_image', asset('assets/images/hero-2-commercial.jpg'))
 @section('canonical', route('partners'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1800&q=80')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Investors &amp; Landowners</span>
-    <h1 data-reveal="load">Two ways to build with us.</h1>
-    <p>Whether you hold land in a prime address or capital looking for a considered return, the terms are the same in spirit: transparent, documented, and delivered on schedule.</p>
-  </div>
-</section>
+@include('partials.page-header')
 
 <section class="partner-intro">
   <div class="wrap partner-intro-grid">
@@ -168,65 +158,63 @@
         <p class="reveal-up">Tell us which side of the partnership you're on and we'll send the relevant pack. Nothing is committed at this stage.</p>
       </div>
 
-      <form class="form" id="partnerForm" data-validate
-            data-success="Thank you — your submission has been received. A partnership manager will be in touch within two to three working days." data-thanks="{{ route('thank-you') }}"
-            novalidate>
+      <form class="form" id="partnerForm" method="POST" action="{{ route('inquiries.partner.store') }}" novalidate>
+        @csrf
         <div class="form-grid">
-          <div class="field">
+          <div class="field @error('name') has-error @enderror">
             <label for="p-name">Full name <span class="req" aria-hidden="true">*</span></label>
-            <input type="text" id="p-name" name="name" data-label="Full name" required autocomplete="name">
-            <span class="field-error" aria-live="polite"></span>
+            <input type="text" id="p-name" name="name" data-label="Full name" required autocomplete="name" value="{{ old('name') }}">
+            <span class="field-error" aria-live="polite">@error('name'){{ $message }}@enderror</span>
           </div>
 
-          <div class="field">
+          <div class="field @error('role') has-error @enderror">
             <label for="p-role">I am a <span class="req" aria-hidden="true">*</span></label>
             <select id="p-role" name="role" data-label="Partner type" required>
               <option value="">Please choose&hellip;</option>
-              <option value="landowner">Landowner</option>
-              <option value="investor">Investor</option>
-              <option value="both">Both</option>
+              <option value="landowner" {{ old('role') === 'landowner' ? 'selected' : '' }}>Landowner</option>
+              <option value="investor" {{ old('role') === 'investor' ? 'selected' : '' }}>Investor</option>
+              <option value="both" {{ old('role') === 'both' ? 'selected' : '' }}>Both</option>
             </select>
-            <span class="field-error" aria-live="polite"></span>
+            <span class="field-error" aria-live="polite">@error('role'){{ $message }}@enderror</span>
           </div>
 
-          <div class="field">
+          <div class="field @error('email') has-error @enderror">
             <label for="p-email">Email <span class="req" aria-hidden="true">*</span></label>
-            <input type="email" id="p-email" name="email" data-label="Email" required autocomplete="email">
-            <span class="field-error" aria-live="polite"></span>
+            <input type="email" id="p-email" name="email" data-label="Email" required autocomplete="email" value="{{ old('email') }}">
+            <span class="field-error" aria-live="polite">@error('email'){{ $message }}@enderror</span>
           </div>
 
-          <div class="field">
+          <div class="field @error('phone') has-error @enderror">
             <label for="p-phone">Phone <span class="req" aria-hidden="true">*</span></label>
             <input type="tel" id="p-phone" name="phone" data-label="Phone" required autocomplete="tel"
-                   data-bd-phone pattern="[0-9+()\-\s]{6,}" data-error-pattern="Use digits, spaces and + ( ) - only.">
-            <span class="field-error" aria-live="polite"></span>
+                   data-bd-phone pattern="[0-9+()\-\s]{6,}" data-error-pattern="Use digits, spaces and + ( ) - only."
+                   value="{{ old('phone') }}" placeholder="+880 1XXX-XXXXXX">
+            <span class="field-error" aria-live="polite">@error('phone'){{ $message }}@enderror</span>
           </div>
 
-          <div class="field">
+          <div class="field @error('area') has-error @enderror">
             <label for="p-area">Area</label>
             <select id="p-area" name="area" data-label="Area">
               <option value="">Not applicable</option>
-              <option value="banani">Banani</option>
-              <option value="gulshan">Gulshan</option>
-              <option value="dhanmondi">Dhanmondi</option>
-              <option value="tejgaon">Tejgaon</option>
-              <option value="other">Elsewhere</option>
+              @foreach (['banani' => 'Banani', 'gulshan' => 'Gulshan', 'dhanmondi' => 'Dhanmondi', 'tejgaon' => 'Tejgaon', 'other' => 'Elsewhere'] as $value => $label)
+                <option value="{{ $value }}" {{ old('area') === $value ? 'selected' : '' }}>{{ $label }}</option>
+              @endforeach
             </select>
-            <span class="field-error" aria-live="polite"></span>
+            <span class="field-error" aria-live="polite">@error('area'){{ $message }}@enderror</span>
           </div>
 
-          <div class="field">
+          <div class="field @error('size') has-error @enderror">
             <label for="p-size">Plot size or budget</label>
             <input type="text" id="p-size" name="size" data-label="Plot size or budget"
-                   placeholder="e.g. 10 katha, or 2 crore">
-            <span class="field-error" aria-live="polite"></span>
+                   placeholder="e.g. 10 katha, or 2 crore" value="{{ old('size') }}">
+            <span class="field-error" aria-live="polite">@error('size'){{ $message }}@enderror</span>
           </div>
 
-          <div class="field field-full">
+          <div class="field field-full @error('message') has-error @enderror">
             <label for="p-message">Details <span class="req" aria-hidden="true">*</span></label>
             <textarea id="p-message" name="message" data-label="Details" required minlength="20"
-                      placeholder="Landowners: plot location, size and ownership status. Investors: your horizon and whether income or growth matters more."></textarea>
-            <span class="field-error" aria-live="polite"></span>
+                      placeholder="Landowners: plot location, size and ownership status. Investors: your horizon and whether income or growth matters more.">{{ old('message') }}</textarea>
+            <span class="field-error" aria-live="polite">@error('message'){{ $message }}@enderror</span>
           </div>
         </div>
 
@@ -235,7 +223,11 @@
           <p class="form-note">Submissions are reviewed in confidence. We never share plot or ownership details outside our own team.</p>
         </div>
 
-        <p class="form-status" role="status" aria-live="polite"></p>
+        @if ($errors->any())
+          <p class="form-status is-bad" role="status" aria-live="polite">
+            {{ $errors->count() === 1 ? 'One field needs attention before this can be sent.' : $errors->count().' fields need attention before this can be sent.' }}
+          </p>
+        @endif
       </form>
     </div>
 

@@ -2,13 +2,13 @@
 
 @section('title', $project->name.' | RHL Properties Ltd')
 @section('description', $project->summary)
-@section('og_image', $project->hero_image)
+@section('og_image', $project->hero_image_url)
 @section('canonical', route('projects.show', $project->slug))
 
 @section('content')
 <div id="projectDetail">
   <section class="pd-hero">
-    <div class="page-header-media" id="pdHeroMedia" data-parallax-header="0.22" style="background-image:url('{{ $project->hero_image }}')"></div>
+    <div class="page-header-media" id="pdHeroMedia" data-parallax-header="0.22" style="background-image:url('{{ $project->hero_image_url }}')"></div>
     <div class="wrap pd-hero-inner">
       <a href="{{ route('projects.index') }}#portfolio" class="pd-back">← All developments</a>
       <span class="pcard-status is-{{ strtolower($project->status) }}" id="pdStatus">{{ $project->status }}</span>
@@ -67,7 +67,7 @@
         </ul>
 
         @if ($project->brochure_path)
-          <a class="pd-brochure" id="pdBrochure" href="{{ asset($project->brochure_path) }}" download="RHL-{{ $project->slug }}-brochure.pdf">
+          <a class="pd-brochure" id="pdBrochure" href="{{ $project->brochure_url }}" download="RHL-{{ $project->slug }}-brochure.pdf">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download Brochure
           </a>
@@ -121,7 +121,7 @@
       <div class="pd-gallery" id="pdGallery">
         @foreach ($project->images as $i => $image)
           <figure class="pd-shot">
-            <img src="{{ $image->image_path }}" alt="{{ $project->name }} — view {{ $i + 1 }}" loading="lazy">
+            <img src="{{ $image->image_url }}" alt="{{ $project->name }} — view {{ $i + 1 }}" loading="lazy">
           </figure>
         @endforeach
       </div>
@@ -134,8 +134,8 @@
       <h2 class="reveal-up">Layouts at a glance.</h2>
       <div class="pd-floorplans" id="pdFloorplans">
         @foreach ($project->floorPlans as $plan)
-          <button type="button" class="pd-floorplan" data-lightbox="{{ $plan->image_path }}" data-caption="{{ $project->name }} — {{ $plan->label }}">
-            <img src="{{ $plan->image_path }}" alt="{{ $project->name }} — {{ $plan->label }}" loading="lazy">
+          <button type="button" class="pd-floorplan" data-lightbox="{{ $plan->image_url }}" data-caption="{{ $project->name }} — {{ $plan->label }}">
+            <img src="{{ $plan->image_url }}" alt="{{ $project->name }} — {{ $plan->label }}" loading="lazy">
             <span>{{ $plan->label }}</span>
           </button>
         @endforeach

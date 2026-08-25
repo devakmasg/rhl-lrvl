@@ -79,10 +79,29 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
           <div><div class="k">Email</div><div class="v"><a href="mailto:{{ $inquiry->email }}">{{ $inquiry->email }}</a></div></div>
         </div>
-        <div class="info-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/></svg>
-          <div><div class="k">Interested Project</div><div class="v">{{ $inquiry->project_name }}</div></div>
-        </div>
+        @if ($inquiry->isPartnerLead())
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            <div><div class="k">Enquiry Type</div><div class="v">Partnership &mdash; {{ ucfirst($inquiry->partner_role) }}</div></div>
+          </div>
+          @if ($inquiry->area)
+            <div class="info-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <div><div class="k">Area</div><div class="v">{{ ucfirst($inquiry->area) }}</div></div>
+            </div>
+          @endif
+          @if ($inquiry->budget)
+            <div class="info-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <div><div class="k">Plot Size / Budget</div><div class="v">{{ $inquiry->budget }}</div></div>
+            </div>
+          @endif
+        @else
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/></svg>
+            <div><div class="k">Interested Project</div><div class="v">{{ $inquiry->project_name ?: '—' }}</div></div>
+          </div>
+        @endif
         <div class="info-row">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <div><div class="k">Received</div><div class="v">{{ $inquiry->created_at->format('d F Y') }}</div></div>

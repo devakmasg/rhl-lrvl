@@ -75,7 +75,7 @@
     <div class="card card-pad">
       <h2 style="font-size:14px;margin-bottom:14px;">Cover Image</h2>
       @if ($news->cover_image)
-        <img src="{{ asset('storage/'.$news->cover_image) }}" alt="" style="width:100%;border-radius:8px;margin-bottom:10px;">
+        <img src="{{ $news->cover_image_url }}" alt="" style="width:100%;border-radius:8px;margin-bottom:10px;">
       @endif
       <label class="upload-zone" id="coverZone" for="coverInput">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>

@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Achievements | RHL Properties Ltd')
-@section('description', 'Milestones, industry recognition and certifications earned by RHL Properties Ltd over 25+ years.')
-@section('og_image', asset('assets/images/hero-4-waterfront.jpg'))
 @section('canonical', route('achievements'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-4-waterfront.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Recognition</span>
-    <h1 data-reveal="load">Achievements.</h1>
-    <p>Milestones, industry recognition and certifications earned over more than 25 years in Dhaka's real estate market.</p>
-  </div>
-</section>
+@include('partials.page-header')
 
 <section class="audience" style="padding-top:110px;">
   <div class="wrap">

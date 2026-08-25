@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Projects | RHL Properties Ltd')
-@section('description', "Browse RHL Properties Ltd's portfolio of ongoing, upcoming and completed residential and commercial developments across Gulshan, Banani, Dhanmondi and Tejgaon, Dhaka.")
-@section('og_image', asset('assets/images/hero-2-commercial.jpg'))
 @section('canonical', route('projects.index'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-2-commercial.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Featured Developments</span>
-    <h1 data-reveal="load">Landmarks in the making</h1>
-    <p>Our portfolio spans residential, commercial and mixed-use developments across the region's most sought-after districts.</p>
-  </div>
-</section>
+@include('partials.page-header')
 
 <section class="portfolio" id="portfolio">
   <div class="wrap">

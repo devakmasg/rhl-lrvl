@@ -70,8 +70,18 @@
     </div>
   </div>
 
+  <div class="card card-pad" style="margin-bottom:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">Footer</h2>
+    <div class="field">
+      <label for="csFooterBlurb">Footer Blurb</label>
+      <textarea id="csFooterBlurb" name="footer_blurb" style="min-height:80px;">{{ old('footer_blurb', $setting->footer_blurb) }}</textarea>
+      <span class="hint">The short paragraph under the company name in the site footer.</span>
+    </div>
+  </div>
+
   <div class="card card-pad">
     <h2 style="font-size:15.5px;margin-bottom:16px;">Social Links</h2>
+    <p class="hint" style="margin-bottom:16px;">Only the links you fill in appear in the footer's "Follow" column.</p>
     <div class="field" style="margin-bottom:16px;">
       <label for="csInstagram">Instagram</label>
       <input type="url" id="csInstagram" name="social_instagram" value="{{ old('social_instagram', $setting->social_instagram) }}" placeholder="https://instagram.com/rhlproperties">

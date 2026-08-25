@@ -51,7 +51,7 @@
       @forelse ($project->images as $image)
         <div class="g-item" draggable="true" data-id="{{ $image->id }}">
           <span class="g-order">{{ $loop->iteration }}</span>
-          <img src="{{ Str::startsWith($image->image_path, ['http://', 'https://']) ? $image->image_path : \Illuminate\Support\Facades\Storage::url($image->image_path) }}" alt="">
+          <img src="{{ $image->image_url }}" alt="">
           <div class="g-actions">
             <form method="POST" action="{{ route('admin.projects.images.feature', [$project, $image]) }}">
               @csrf
@@ -101,7 +101,7 @@
   <div class="gallery-grid">
     @forelse ($project->floorPlans as $plan)
       <div class="g-item" style="cursor:default;">
-        <img src="{{ Str::startsWith($plan->image_path, ['http://', 'https://']) ? $plan->image_path : \Illuminate\Support\Facades\Storage::url($plan->image_path) }}" alt="{{ $plan->label }}">
+        <img src="{{ $plan->image_url }}" alt="{{ $plan->label }}">
         <div class="g-actions">
           <form method="POST" action="{{ route('admin.projects.floor-plans.destroy', [$project, $plan]) }}" onsubmit="return confirm('Remove this floor plan?');">
             @csrf

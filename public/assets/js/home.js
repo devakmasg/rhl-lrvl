@@ -26,18 +26,26 @@
      properties each is allowed to write. */
   try { (function heroSlider(){
     if(!heroEl || typeof Swiper === 'undefined') return;
-    // local files (assets/images/) — no external hotlinking, so nothing here
-    // depends on network access to a third-party CDN at page-load time.
-    const slidesData = [
-      { img: 'assets/images/hero-1-residential.jpg', label: 'Residential Excellence' },
-      { img: 'assets/images/hero-2-commercial.jpg', label: 'Commercial Landmarks' },
-      { img: 'assets/images/hero-3-hospitality.jpg', label: 'Hospitality Destinations' },
-      { img: 'assets/images/hero-4-waterfront.jpg', label: 'Waterfront Living' },
-      { img: 'assets/images/hero-5-business.jpg', label: 'Business Districts' }
-    ];
+    const slidesWrap = document.getElementById('heroSlides');
+    // Slides come from the admin-managed hero_slides table, passed down via
+    // the data-slides attribute on #heroSlides; the hardcoded set below is
+    // only a fallback for a fresh install with no slides uploaded yet.
+    let slidesData = [];
+    try { slidesData = JSON.parse(slidesWrap.dataset.slides || '[]'); } catch (e) { slidesData = []; }
+    if (!slidesData.length) {
+      slidesData = [
+        { img: 'assets/images/hero-1-residential.jpg', label: 'Residential Excellence' },
+        { img: 'assets/images/hero-2-commercial.jpg', label: 'Commercial Landmarks' },
+        { img: 'assets/images/hero-3-hospitality.jpg', label: 'Hospitality Destinations' },
+        { img: 'assets/images/hero-4-waterfront.jpg', label: 'Waterfront Living' },
+        { img: 'assets/images/hero-5-business.jpg', label: 'Business Districts' }
+      ];
+    }
     // tasteful fallback tints so every slide is visibly distinct even if a photo
-    // somehow fails to load — the crossfade is never invisible.
-    const heroColors = ['#332d22', '#2c3230', '#332a28', '#2d3126', '#302a30'];
+    // somehow fails to load — the crossfade is never invisible. Cycles for any
+    // slide count since the admin can upload any number of slides.
+    const heroColorPalette = ['#332d22', '#2c3230', '#332a28', '#2d3126', '#302a30'];
+    const heroColors = slidesData.map((_, i) => heroColorPalette[i % heroColorPalette.length]);
 
     /* ---- one distinct entrance per slide ----
        Each is a different KIND of move — zoom, horizontal pan, focus pull,
@@ -59,7 +67,6 @@
     ];
 
     const heroLayer = document.getElementById('heroLayer');
-    const slidesWrap = document.getElementById('heroSlides');
     const heroContent = document.getElementById('heroContent');
     const labelEl = document.getElementById('heroLabel');
     let parallaxSetters = null; // declared up here, not beside bindParallax: playEntrance()
@@ -412,15 +419,21 @@
   try { (function exploreSlider(){
     const section = document.getElementById('explore');
     if(!section || typeof Swiper === 'undefined') return;
-    const slidesData = [
-      { type: 'image', src: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1800&q=80', cat: 'Residential', title: 'The RHL Residences', loc: 'Gulshan' },
-      { type: 'video', src: 'assets/videos/skyline-commerce-tower.mp4', poster: 'https://images.unsplash.com/photo-1470723710355-95304d8aece4?auto=format&fit=crop&w=1800&q=80', cat: 'Commercial', title: 'Skyline Commerce Tower', loc: 'Tejgaon' },
-      { type: 'image', src: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1800&q=80', cat: 'Residential', title: 'Aurora Waterfront Villas', loc: 'Banani' },
-      { type: 'video', src: 'assets/videos/grand-exchange.mp4', poster: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=80', cat: 'Mixed-Use', title: 'The Grand Exchange', loc: 'Dhanmondi' },
-      { type: 'image', src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1800&q=80', cat: 'Commercial', title: 'Horizon Business Park', loc: 'Tejgaon' }
-    ];
-
     const slidesWrap = document.getElementById('exploreSlides');
+    // Admin-managed (explore_slides table), handed over on a data attribute —
+    // same bridge the hero uses. The array below is only a fresh-install
+    // fallback for when nothing has been added yet.
+    let slidesData = [];
+    try { slidesData = JSON.parse(slidesWrap.dataset.slides || '[]'); } catch (e) { slidesData = []; }
+    if (!slidesData.length) {
+      slidesData = [
+        { type: 'image', src: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1800&q=80', cat: 'Residential', title: 'The RHL Residences', loc: 'Gulshan' },
+        { type: 'video', src: 'assets/videos/skyline-commerce-tower.mp4', poster: 'https://images.unsplash.com/photo-1470723710355-95304d8aece4?auto=format&fit=crop&w=1800&q=80', cat: 'Commercial', title: 'Skyline Commerce Tower', loc: 'Tejgaon' },
+        { type: 'image', src: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1800&q=80', cat: 'Residential', title: 'Aurora Waterfront Villas', loc: 'Banani' },
+        { type: 'video', src: 'assets/videos/grand-exchange.mp4', poster: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=80', cat: 'Mixed-Use', title: 'The Grand Exchange', loc: 'Dhanmondi' },
+        { type: 'image', src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1800&q=80', cat: 'Commercial', title: 'Horizon Business Park', loc: 'Tejgaon' }
+      ];
+    }
     const catEl = document.getElementById('exploreCat');
     const titleEl = document.getElementById('exploreTitle');
     const locEl = document.getElementById('exploreLoc');
@@ -515,8 +528,16 @@
   })(); } catch(err) { console.error('[home.js] exploreSlider failed:', err); }
 
   /* ================= MARQUEE ================= */
-  const items = ["Award-Winning Design","Prime Locations","Sustainable Architecture","Trusted Partnerships","On-Time Delivery","Enduring Value"];
   const track = document.getElementById('marqueeTrack');
+  // Phrases come from the homepage content (marquee_items); the list below is
+  // the fresh-install fallback.
+  let items = ["Award-Winning Design","Prime Locations","Sustainable Architecture","Trusted Partnerships","On-Time Delivery","Enduring Value"];
+  if(track){
+    try {
+      const fromCms = JSON.parse(track.dataset.items || '[]');
+      if(fromCms.length) items = fromCms;
+    } catch (e) { /* keep the fallback */ }
+  }
   if(track){
     let html = '';
     for(let r=0;r<2;r++){ items.forEach(t => { html += `<span>${t}</span><span class="dot">&#10022;</span>`; }); }

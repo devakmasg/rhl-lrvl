@@ -1,8 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Thank You | RHL Properties Ltd')
-@section('description', "Thank you for contacting RHL Properties Ltd — we've received your enquiry and will reply within two working days.")
-@section('og_image', asset('assets/images/hero-1-residential.jpg'))
 @section('canonical', route('thank-you'))
 
 @push('head')
@@ -10,20 +7,13 @@
 @endpush
 
 @section('content')
-<section class="page-header" style="min-height:70vh;display:flex;align-items:center;">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-1-residential.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Message Received</span>
-    <h1 data-reveal="load">Thank you{{ session('inquiry_name') ? ', ' . session('inquiry_name') : '' }}.</h1>
-    <p id="thankYouMessage">
-      @if (session('inquiry_project'))
-        Your enquiry about {{ session('inquiry_project') }} has been received. Our team usually replies within two working days.
-      @else
-        Your enquiry has been received. Our team usually replies within two working days.
-      @endif
-    </p>
-  </div>
-</section>
+@include('partials.page-header', [
+  'headerStyle' => 'min-height:70vh;display:flex;align-items:center;',
+  'heading' => ($banner?->heading ?: 'Thank you').(session('inquiry_name') ? ', '.session('inquiry_name') : '').'.',
+  'intro' => session('inquiry_project')
+    ? 'Your enquiry about '.session('inquiry_project').' has been received. Our team usually replies within two working days.'
+    : 'Your enquiry has been received. Our team usually replies within two working days.',
+])
 
 <section class="connect">
   <span class="intro-tag reveal-up">While You Wait</span>
@@ -37,7 +27,8 @@
     <div class="connect-card reveal-card">
       <h3>Talk to Us Sooner</h3>
       <p>Need a faster answer? Call or WhatsApp our team directly during office hours.</p>
-      <a href="tel:+8801711234567" class="btn">Call +880 1711-234567 &rarr;</a>
+      @php($tyPhone = \App\Models\Setting::first()?->phone ?? '+880 1711-234567')
+      <a href="tel:{{ preg_replace('/\s+/', '', $tyPhone) }}" class="btn">Call {{ $tyPhone }} &rarr;</a>
     </div>
   </div>
 </section>

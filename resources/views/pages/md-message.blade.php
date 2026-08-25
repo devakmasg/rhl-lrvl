@@ -1,24 +1,16 @@
 @extends('layouts.app')
 
-@section('title', "Managing Director's Message | RHL Properties Ltd")
-@section('description', "A message from Md. Rezaul Haque, Managing Director of RHL Properties Ltd, on the company's approach to every development.")
-@section('og_image', asset('assets/images/hero-1-residential.jpg'))
 @section('canonical', route('md-message'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-1-residential.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Leadership</span>
-    <h1 data-reveal="load">A message from our Managing Director.</h1>
-    <p>{{ $page->content['md_name'] }} on approvals, honest schedules, and why the handover date doesn't move.</p>
-  </div>
-</section>
+@include('partials.page-header', [
+  'intro' => $page->get('md_name')." on approvals, honest schedules, and why the handover date doesn't move.",
+])
 
 <section class="md-teaser" style="padding-top:110px;">
   <div class="md-grid">
     <div class="md-portrait reveal-card">
-      <img src="{{ $page->content['md_photo'] }}" alt="{{ $page->content['md_name'] }}, Managing Director, RHL Properties Ltd" loading="lazy" decoding="async">
+      <img src="{{ $page->imageUrl('md_photo') }}" alt="{{ $page->content['md_name'] }}, Managing Director, RHL Properties Ltd" loading="lazy" decoding="async">
     </div>
     <div class="reveal-up">
       <div class="md-name">{{ $page->content['md_name'] }}</div>

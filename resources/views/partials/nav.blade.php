@@ -53,8 +53,9 @@
   <div class="mobile-nav-foot">
     <a href="{{ route('contact') }}" class="btn-solid">Enquire</a>
     <p class="contact-line">
-      <a href="tel:+8801711234567">+880 1711-234567</a><br>
-      <a href="mailto:hello@rhlproperties.com.bd">hello@rhlproperties.com.bd</a>
+      @php($navPhone = $setting->phone ?? '+880 1711-234567')
+      <a href="tel:{{ preg_replace('/\s+/', '', $navPhone) }}">{{ $navPhone }}</a><br>
+      <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>
     </p>
   </div>
 </div>

@@ -4,9 +4,12 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DirectorController;
+use App\Http\Controllers\Admin\ExploreSlideController;
 use App\Http\Controllers\Admin\InquiryController;
+use App\Http\Controllers\Admin\JourneyChapterController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\PageBannerController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -45,8 +48,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('content/home', [ContentController::class, 'editHome'])->name('content.home');
         Route::put('content/home', [ContentController::class, 'updateHome'])->name('content.home.update');
+        Route::post('content/home/hero-slides', [ContentController::class, 'storeHeroSlide'])->name('content.home.hero-slides.store');
+        Route::put('content/home/hero-slides/{heroSlide}', [ContentController::class, 'updateHeroSlide'])->name('content.home.hero-slides.update');
+        Route::post('content/home/hero-slides/{heroSlide}/toggle', [ContentController::class, 'toggleHeroSlide'])->name('content.home.hero-slides.toggle');
+        Route::delete('content/home/hero-slides/{heroSlide}', [ContentController::class, 'destroyHeroSlide'])->name('content.home.hero-slides.destroy');
+        Route::post('content/home/hero-slides/reorder', [ContentController::class, 'reorderHeroSlides'])->name('content.home.hero-slides.reorder');
         Route::get('content/about', [ContentController::class, 'editAbout'])->name('content.about');
         Route::put('content/about', [ContentController::class, 'updateAbout'])->name('content.about.update');
+
+        Route::post('content/home/journey', [JourneyChapterController::class, 'store'])->name('content.home.journey.store');
+        Route::put('content/home/journey/{journeyChapter}', [JourneyChapterController::class, 'update'])->name('content.home.journey.update');
+        Route::delete('content/home/journey/{journeyChapter}', [JourneyChapterController::class, 'destroy'])->name('content.home.journey.destroy');
+        Route::post('content/home/journey/reorder', [JourneyChapterController::class, 'reorder'])->name('content.home.journey.reorder');
+
+        Route::post('content/home/explore', [ExploreSlideController::class, 'store'])->name('content.home.explore.store');
+        Route::put('content/home/explore/{exploreSlide}', [ExploreSlideController::class, 'update'])->name('content.home.explore.update');
+        Route::delete('content/home/explore/{exploreSlide}', [ExploreSlideController::class, 'destroy'])->name('content.home.explore.destroy');
+        Route::post('content/home/explore/reorder', [ExploreSlideController::class, 'reorder'])->name('content.home.explore.reorder');
+
+        Route::get('page-headers', [PageBannerController::class, 'index'])->name('page-banners.index');
+        Route::put('page-headers/{pageBanner}', [PageBannerController::class, 'update'])->name('page-banners.update');
 
         Route::resource('directors', DirectorController::class)->except(['show']);
         Route::resource('team', TeamMemberController::class)->except(['show']);

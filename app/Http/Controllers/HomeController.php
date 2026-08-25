@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Director;
+use App\Models\ExploreSlide;
+use App\Models\HeroSlide;
+use App\Models\JourneyChapter;
 use App\Models\News;
 use App\Models\Page;
 use App\Models\Project;
@@ -15,6 +18,17 @@ class HomeController extends Controller
     public function index()
     {
         $page = Page::where('slug', 'home')->firstOrFail();
+
+        // The mission/vision teaser and the MD pull-quote on this page show the
+        // same copy as the About page, so they read that row rather than
+        // keeping a second copy that can drift out of sync.
+        $aboutPage = Page::where('slug', 'about')->first();
+
+        $heroSlides = HeroSlide::where('is_active', true)->orderBy('sort_order')->get();
+
+        $journeyChapters = JourneyChapter::where('is_active', true)->orderBy('sort_order')->get();
+
+        $exploreSlides = ExploreSlide::with('project')->where('is_active', true)->orderBy('sort_order')->get();
 
         $featuredProjects = Project::where('published', true)
             ->where('featured', true)
@@ -48,8 +62,9 @@ class HomeController extends Controller
         $setting = Setting::first();
 
         return view('pages.home', compact(
-            'page', 'featuredProjects', 'ongoingProjects', 'completedProjects',
-            'testimonials', 'latestNews', 'leadership', 'md', 'services', 'setting'
+            'page', 'aboutPage', 'heroSlides', 'journeyChapters', 'exploreSlides', 'featuredProjects', 'ongoingProjects',
+            'completedProjects', 'testimonials', 'latestNews', 'leadership', 'md',
+            'services', 'setting'
         ));
     }
 }

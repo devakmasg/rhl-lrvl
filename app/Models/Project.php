@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ResolvesImageUrl;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class Project extends Model
 {
+    use ResolvesImageUrl;
+
     protected function casts(): array
     {
         return [
@@ -20,6 +23,16 @@ class Project extends Model
             'published' => 'boolean',
             'featured' => 'boolean',
         ];
+    }
+
+    public function getHeroImageUrlAttribute(): ?string
+    {
+        return $this->resolveImageUrl($this->hero_image);
+    }
+
+    public function getBrochureUrlAttribute(): ?string
+    {
+        return $this->resolveImageUrl($this->brochure_path);
     }
 
     public function images(): HasMany

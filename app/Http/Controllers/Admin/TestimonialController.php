@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\HandlesImageUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
 use Illuminate\Http\RedirectResponse;
@@ -10,6 +11,8 @@ use Illuminate\View\View;
 
 class TestimonialController extends Controller
 {
+    use HandlesImageUploads;
+
     public function index(): View
     {
         return view('admin.testimonials.index', [
@@ -24,7 +27,10 @@ class TestimonialController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        Testimonial::create($this->validated($request));
+        $data = $this->validated($request);
+        $data['avatar'] = $this->resolveImageInput($request, 'avatar', 'testimonials');
+
+        Testimonial::create($data);
 
         return redirect()->route('admin.testimonials.index')->with('status', 'Testimonial added.');
     }
@@ -36,13 +42,17 @@ class TestimonialController extends Controller
 
     public function update(Request $request, Testimonial $testimonial): RedirectResponse
     {
-        $testimonial->update($this->validated($request));
+        $data = $this->validated($request);
+        $data['avatar'] = $this->resolveImageInput($request, 'avatar', 'testimonials', $testimonial->avatar);
+
+        $testimonial->update($data);
 
         return redirect()->route('admin.testimonials.index')->with('status', 'Testimonial updated.');
     }
 
     public function destroy(Testimonial $testimonial): RedirectResponse
     {
+        $this->deleteUploadedFile($testimonial->avatar);
         $testimonial->delete();
 
         return redirect()->route('admin.testimonials.index')->with('status', 'Testimonial deleted.');
@@ -50,11 +60,16 @@ class TestimonialController extends Controller
 
     private function validated(Request $request): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
-            'avatar' => ['nullable', 'string', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'max:5120'],
             'quote' => ['required', 'string'],
         ]);
+
+        // 'avatar' is set from the upload by the caller, never from the raw input.
+        unset($data['avatar']);
+
+        return $data;
     }
 }

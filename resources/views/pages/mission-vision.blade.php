@@ -1,31 +1,21 @@
 @extends('layouts.app')
 
-@section('title', "Mission & Vision | RHL Properties Ltd")
-@section('description', 'RHL Properties Ltd — our mission, vision and the core values behind every development in Dhaka.')
-@section('og_image', asset('assets/images/hero-2-commercial.jpg'))
 @section('canonical', route('mission-vision'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-2-commercial.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Mission &amp; Vision</span>
-    <h1 data-reveal="load">What we're building toward.</h1>
-    <p>The principles that decide which land we buy, which contractors we sign, and which dates we promise.</p>
-  </div>
-</section>
+@include('partials.page-header')
 
 <section class="mv-teaser" style="padding-top:110px;">
   <div class="mv-grid">
     <div class="mv-card reveal-card">
       <span class="intro-tag">Our Mission</span>
-      <h3>Landmark developments, delivered with integrity.</h3>
-      <p>{{ $page->content['mission'] }}</p>
+      <h3>{{ $page->get('mission_heading') }}</h3>
+      <p>{{ $page->get('mission') }}</p>
     </div>
     <div class="mv-card reveal-card">
       <span class="intro-tag">Our Vision</span>
-      <h3>Shaping Dhaka's skyline for the next generation.</h3>
-      <p>{{ $page->content['vision'] }}</p>
+      <h3>{{ $page->get('vision_heading') }}</h3>
+      <p>{{ $page->get('vision') }}</p>
     </div>
   </div>
 </section>

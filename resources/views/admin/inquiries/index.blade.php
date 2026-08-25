@@ -62,7 +62,14 @@
               <div>{{ $inquiry->phone }}</div>
               <div class="cell-sub">{{ $inquiry->email }}</div>
             </td>
-            <td>{{ $inquiry->project_name }}</td>
+            <td>
+              @if ($inquiry->isPartnerLead())
+                <div class="cell-main">Partnership &mdash; {{ ucfirst($inquiry->partner_role) }}</div>
+                <div class="cell-sub">{{ collect([$inquiry->area ? ucfirst($inquiry->area) : null, $inquiry->budget])->filter()->implode(' &middot; ') ?: '—' }}</div>
+              @else
+                {{ $inquiry->project_name ?: '—' }}
+              @endif
+            </td>
             <td><span class="badge badge-{{ $inquiry->status }}">{{ ucfirst(str_replace('-', ' ', $inquiry->status)) }}</span></td>
             <td>{{ $inquiry->created_at->format('d M Y') }}</td>
             <td class="cell-actions">

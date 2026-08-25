@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'About | RHL Properties Ltd')
-@section('description', 'RHL Properties Ltd — a Bangladeshi real estate developer since 1998, building residential, commercial and hospitality projects across Gulshan, Banani, Dhanmondi and Tejgaon.')
-@section('og_image', asset('assets/images/hero-1-residential.jpg'))
 @section('canonical', route('about'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-1-residential.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">About RHL Properties</span>
-    <h1 data-reveal="load">A legacy built on trust, developments built to last.</h1>
-    <p>RHL Properties Ltd shapes skylines and communities across residential, commercial and hospitality real estate — guided by design integrity and long-term value.</p>
-  </div>
-</section>
+@include('partials.page-header')
 
 <section class="intro">
   <div class="wrap intro-grid">

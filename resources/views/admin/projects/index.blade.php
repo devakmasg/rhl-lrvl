@@ -62,7 +62,7 @@
             <td>
               <div style="display:flex;align-items:center;gap:12px;">
                 @if ($project->hero_image)
-                  <img src="{{ Str::startsWith($project->hero_image, ['http://', 'https://']) ? $project->hero_image : \Illuminate\Support\Facades\Storage::url($project->hero_image) }}" alt="" style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none;">
+                  <img src="{{ $project->hero_image_url }}" alt="" style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none;">
                 @else
                   <div style="width:44px;height:44px;border-radius:8px;background:var(--surface-muted);flex:none;"></div>
                 @endif

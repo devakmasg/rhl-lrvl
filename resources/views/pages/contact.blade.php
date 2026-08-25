@@ -1,19 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Contact | RHL Properties Ltd')
-@section('description', "Contact RHL Properties Ltd — call, WhatsApp or send an enquiry to our Gulshan-1, Dhaka head office. Office hours, map and quick-contact details inside.")
-@section('og_image', asset('assets/images/hero-5-business.jpg'))
 @section('canonical', route('contact'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-5-business.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Let's Build Together</span>
-    <h1 data-reveal="load">Whether you're searching for a home, an address for your business, or a partner for your land — we'd love to talk.</h1>
-    <p>Reach us at <a href="tel:{{ $setting->phone ?? '+8801711234567' }}" style="color:var(--gold-light)">{{ $setting->phone ?? '+880 1711-234567' }}</a> or <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}" style="color:var(--gold-light)">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>.</p>
-  </div>
-</section>
+@include('partials.page-header', [
+  'introHtml' => 'Reach us at <a href="tel:'.e(preg_replace('/\s+/', '', $setting->phone ?? '+8801711234567')).'" style="color:var(--gold-light)">'.e($setting->phone ?? '+880 1711-234567').'</a>'
+    .' or <a href="mailto:'.e($setting->email ?? 'hello@rhlproperties.com.bd').'" style="color:var(--gold-light)">'.e($setting->email ?? 'hello@rhlproperties.com.bd').'</a>.',
+])
 
 <section class="contact" id="enquire">
   <div class="wrap contact-grid">

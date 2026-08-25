@@ -62,7 +62,8 @@ class InquiryController extends Controller
         }
 
         $inquiry = Inquiry::create([
-            'reference' => 'INQ-'.(1050 + Inquiry::count()),
+            'reference' => $this->nextReference(),
+            'type' => 'general',
             'name' => $validated['name'],
             'phone' => $validated['phone'],
             'email' => $validated['email'],
@@ -72,13 +73,74 @@ class InquiryController extends Controller
             'status' => 'new',
         ]);
 
-        $adminEmail = Setting::first()?->email ?? 'admin@rhlproperties.com.bd';
-        Mail::to($adminEmail)->send(new NewInquiryReceived($inquiry));
+        $this->notifyAdmin($inquiry);
 
         return redirect()
             ->route('thank-you')
             ->with('inquiry_name', $inquiry->name)
             ->with('inquiry_project', $inquiry->project_name);
+    }
+
+    /**
+     * Landowner / investor submissions from the partners page. Same inbox as
+     * a project enquiry, but the extra qualifying fields are kept in their own
+     * columns rather than flattened into the message.
+     */
+    public function storePartner(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'in:landowner,investor,both'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => [
+                'required',
+                'string',
+                'max:30',
+                function ($attribute, $value, $fail) {
+                    if (! $this->isValidBdPhone((string) $value)) {
+                        $fail('Enter a valid Bangladeshi mobile number, e.g. +880 1XXX-XXXXXX.');
+                    }
+                },
+            ],
+            'area' => ['nullable', 'string', 'max:100'],
+            'size' => ['nullable', 'string', 'max:255'],
+            'message' => ['required', 'string', 'min:20'],
+        ]);
+
+        $inquiry = Inquiry::create([
+            'reference' => $this->nextReference(),
+            'type' => 'partner',
+            'name' => $validated['name'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+            'partner_role' => $validated['role'],
+            'area' => $validated['area'] ?? null,
+            'budget' => $validated['size'] ?? null,
+            'message' => $validated['message'],
+            'status' => 'new',
+        ]);
+
+        $this->notifyAdmin($inquiry);
+
+        return redirect()
+            ->route('thank-you')
+            ->with('inquiry_name', $inquiry->name);
+    }
+
+    /**
+     * Sequential, human-readable reference. Derived from the highest id rather
+     * than a row count — a count goes back down when an inquiry is deleted,
+     * which would collide with an existing reference on the unique index.
+     */
+    private function nextReference(): string
+    {
+        return 'INQ-'.(1051 + (int) Inquiry::max('id'));
+    }
+
+    private function notifyAdmin(Inquiry $inquiry): void
+    {
+        $adminEmail = Setting::first()?->email ?? 'admin@rhlproperties.com.bd';
+        Mail::to($adminEmail)->send(new NewInquiryReceived($inquiry));
     }
 
     public function thankYou()

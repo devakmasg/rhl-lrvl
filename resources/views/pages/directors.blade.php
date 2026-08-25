@@ -1,26 +1,16 @@
 @extends('layouts.app')
 
-@section('title', "Board of Directors | RHL Properties Ltd")
-@section('description', 'Meet the Board of Directors of RHL Properties Ltd, overseeing strategy, governance and capital discipline.')
-@section('og_image', asset('assets/images/hero-5-business.jpg'))
 @section('canonical', route('directors'))
 
 @section('content')
-<section class="page-header">
-  <div class="page-header-media" data-parallax-header="0.22" style="background-image:url('{{ asset('assets/images/hero-5-business.jpg') }}')"></div>
-  <div class="wrap">
-    <span class="intro-tag">Leadership</span>
-    <h1 data-reveal="load">Board of Directors.</h1>
-    <p>The board overseeing strategy, governance and capital discipline across every RHL development.</p>
-  </div>
-</section>
+@include('partials.page-header')
 
 <section class="people">
   <div class="wrap">
     <div class="people-grid">
       @foreach ($directors as $director)
         <div class="person-card reveal-card">
-          <div class="mgmt-photo"><img src="{{ $director->photo }}" alt="{{ $director->name }}" loading="lazy"></div>
+          <div class="mgmt-photo"><img src="{{ $director->photo_url }}" alt="{{ $director->name }}" loading="lazy"></div>
           <h3>{{ $director->name }}</h3>
           <span class="role">{{ $director->role }}</span>
           <p>{{ $director->bio }}</p>

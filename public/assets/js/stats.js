@@ -35,7 +35,10 @@
   /* ================= STATS PARALLAX BG ================= */
   const statsBg = document.getElementById('statsBg');
   if(statsBg){
-    safeBg(statsBg, 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1800&q=80');
+    // data-bg is set from the CMS where the page offers it; the URL below is
+    // the fallback for pages that don't, and for a fresh install.
+    const bg = statsBg.dataset.bg || 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1800&q=80';
+    safeBg(statsBg, bg);
     statsBg.style.background = statsBg.style.background || 'linear-gradient(135deg,#2a2822,#8a7143)';
     statsBg.style.backgroundSize = 'cover';
     statsBg.style.backgroundPosition = 'center';

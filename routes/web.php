@@ -30,4 +30,5 @@ Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
+Route::post('/partner-inquiries', [InquiryController::class, 'storePartner'])->name('inquiries.partner.store');
 Route::get('/thank-you', [InquiryController::class, 'thankYou'])->name('thank-you');

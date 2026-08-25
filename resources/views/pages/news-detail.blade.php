@@ -2,12 +2,12 @@
 
 @section('title', $news->title.' | RHL Properties Ltd')
 @section('description', $news->excerpt)
-@section('og_image', $news->cover_image ?? asset('assets/images/hero-2-commercial.jpg'))
+@section('og_image', $news->cover_image_url ?? asset('assets/images/hero-2-commercial.jpg'))
 @section('canonical', route('news.show', $news->slug))
 
 @section('content')
 <section class="page-header">
-  <div class="page-header-media" id="ndHeroMedia" data-parallax-header="0.22" style="background-image:url('{{ $news->cover_image ?? asset('assets/images/hero-2-commercial.jpg') }}')"></div>
+  <div class="page-header-media" id="ndHeroMedia" data-parallax-header="0.22" style="background-image:url('{{ $news->cover_image_url ?? asset('assets/images/hero-2-commercial.jpg') }}')"></div>
   <div class="wrap">
     <span class="intro-tag" id="ndCategory">{{ $news->category }}</span>
     <h1 data-reveal="load" id="ndTitle">{{ $news->title }}</h1>
@@ -48,7 +48,7 @@
     <div class="news-grid" id="ndRelated">
       @foreach ($related as $article)
         <a class="news-card reveal-card" href="{{ route('news.show', $article->slug) }}">
-          <div class="news-media"><img src="{{ $article->cover_image ?? asset('assets/images/hero-2-commercial.jpg') }}" alt="{{ $article->title }}" loading="lazy" decoding="async"></div>
+          <div class="news-media"><img src="{{ $article->cover_image_url ?? asset('assets/images/hero-2-commercial.jpg') }}" alt="{{ $article->title }}" loading="lazy" decoding="async"></div>
           <span class="news-date">{{ $article->date->format('d F Y') }}</span>
           <h3>{{ $article->title }}</h3>
         </a>
