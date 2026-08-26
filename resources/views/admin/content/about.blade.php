@@ -121,6 +121,18 @@
     <h2 style="font-size:15.5px;margin-bottom:16px;">Mission &amp; Vision</h2>
     <div class="field-row" style="margin-bottom:16px;">
       <div class="field">
+        <label for="missionEyebrow">Mission Label</label>
+        <input type="text" id="missionEyebrow" name="mission_eyebrow" value="{{ old('mission_eyebrow', $content['mission_eyebrow'] ?? '') }}" placeholder="Our Mission">
+        <span class="hint">The small label above the mission card.</span>
+      </div>
+      <div class="field">
+        <label for="visionEyebrow">Vision Label</label>
+        <input type="text" id="visionEyebrow" name="vision_eyebrow" value="{{ old('vision_eyebrow', $content['vision_eyebrow'] ?? '') }}" placeholder="Our Vision">
+        <span class="hint">The small label above the vision card.</span>
+      </div>
+    </div>
+    <div class="field-row" style="margin-bottom:16px;">
+      <div class="field">
         <label for="missionHeading">Mission Heading</label>
         <input type="text" id="missionHeading" name="mission_heading" value="{{ old('mission_heading', $content['mission_heading'] ?? '') }}">
       </div>
@@ -139,7 +151,7 @@
         <textarea id="visionText" name="vision" style="min-height:90px;">{{ old('vision', $content['vision'] ?? '') }}</textarea>
       </div>
     </div>
-    <p class="hint" style="margin-bottom:16px;">These four fields drive both the Mission &amp; Vision page and the teaser on the homepage.</p>
+    <p class="hint" style="margin-bottom:16px;">These six fields drive both the Mission &amp; Vision page and the teaser on the homepage &mdash; edit them once here.</p>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
       <label style="font-size:12.5px;font-weight:600;color:var(--charcoal-soft);">Core Values</label>
       <button type="button" class="btn btn-outline btn-sm" id="addValue">+ Add Value</button>

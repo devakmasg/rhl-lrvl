@@ -8,12 +8,12 @@
 <section class="mv-teaser" style="padding-top:110px;">
   <div class="mv-grid">
     <div class="mv-card reveal-card">
-      <span class="intro-tag">{{ $sections->eyebrow('mission') }}</span>
+      <span class="intro-tag">{{ $page->get('mission_eyebrow') }}</span>
       <h3>{{ $page->get('mission_heading') }}</h3>
       <p>{{ $page->get('mission') }}</p>
     </div>
     <div class="mv-card reveal-card">
-      <span class="intro-tag">{{ $sections->eyebrow('vision') }}</span>
+      <span class="intro-tag">{{ $page->get('vision_eyebrow') }}</span>
       <h3>{{ $page->get('vision_heading') }}</h3>
       <p>{{ $page->get('vision') }}</p>
     </div>

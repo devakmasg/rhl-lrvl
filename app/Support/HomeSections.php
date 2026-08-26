@@ -33,18 +33,6 @@ final class HomeSections
             'heading' => null,
             'note' => 'This teaser shows the pull quote, not a heading.',
         ],
-        'mission_teaser' => [
-            'label' => 'Mission Card (Homepage)',
-            'eyebrow' => 'Our Mission',
-            'heading' => null,
-            'note' => 'Heading and text come from the About page.',
-        ],
-        'vision_teaser' => [
-            'label' => 'Vision Card (Homepage)',
-            'eyebrow' => 'Our Vision',
-            'heading' => null,
-            'note' => 'Heading and text come from the About page.',
-        ],
         'stats' => [
             'label' => 'Key Statistics',
             'eyebrow' => 'Key Statistics',

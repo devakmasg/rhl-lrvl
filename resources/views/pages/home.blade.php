@@ -92,13 +92,13 @@
 <section class="mv-teaser" id="missionVision">
   <div class="mv-grid">
     <div class="mv-card reveal-card">
-      <span class="intro-tag">{{ $page->section('mission_teaser', 'eyebrow') }}</span>
+      <span class="intro-tag">{{ $aboutPage?->get('mission_eyebrow') }}</span>
       <h3>{{ $aboutPage?->get('mission_heading') }}</h3>
       <p>{{ $aboutPage?->get('mission') }}</p>
       <a href="{{ route('mission-vision') }}" class="link-arrow">{{ $page->link('mission_vision') }} &rarr;</a>
     </div>
     <div class="mv-card reveal-card">
-      <span class="intro-tag">{{ $page->section('vision_teaser', 'eyebrow') }}</span>
+      <span class="intro-tag">{{ $aboutPage?->get('vision_eyebrow') }}</span>
       <h3>{{ $aboutPage?->get('vision_heading') }}</h3>
       <p>{{ $aboutPage?->get('vision') }}</p>
       <a href="{{ route('mission-vision') }}" class="link-arrow">{{ $page->link('mission_vision') }} &rarr;</a>
