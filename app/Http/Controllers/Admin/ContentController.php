@@ -9,7 +9,8 @@ use App\Models\HeroSlide;
 use App\Models\JourneyChapter;
 use App\Models\Page;
 use App\Models\Project;
-use App\Support\HomeSections;
+use App\Support\PageLinks;
+use App\Support\PageSections;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,8 @@ class ContentController extends Controller
             'journeyChapters' => JourneyChapter::orderBy('sort_order')->get(),
             'exploreSlides' => ExploreSlide::with('project')->orderBy('sort_order')->get(),
             'projects' => Project::orderBy('name')->get(['id', 'name', 'location']),
-            'sectionDefs' => HomeSections::all(),
+            'sectionDefs' => PageSections::all('home'),
+            'linkDefs' => PageLinks::all('home'),
         ]);
     }
 
@@ -58,6 +60,8 @@ class ContentController extends Controller
             'section_eyebrow.*' => ['nullable', 'string', 'max:255'],
             'section_heading' => ['array'],
             'section_heading.*' => ['nullable', 'string', 'max:255'],
+            'link_label' => ['array'],
+            'link_label.*' => ['nullable', 'string', 'max:120'],
             'marquee_items' => ['nullable', 'string', 'max:2000'],
             'intro_image' => ['nullable', 'image', 'max:5120'],
             'intro_badge_number' => ['nullable', 'string', 'max:20'],
@@ -73,11 +77,17 @@ class ContentController extends Controller
         // Section headings arrive keyed by section slug, so only keys we know
         // about are kept — a stray field can't write into page content.
         $sections = [];
-        foreach (HomeSections::all() as $key => $definition) {
+        foreach (PageSections::all('home') as $key => $definition) {
             $sections[$key] = [
                 'eyebrow' => trim((string) ($data['section_eyebrow'][$key] ?? '')),
                 'heading' => trim((string) ($data['section_heading'][$key] ?? '')),
             ];
+        }
+
+        // Same guard for the arrow-link wording.
+        $links = [];
+        foreach (PageLinks::all('home') as $key => $definition) {
+            $links[$key] = trim((string) ($data['link_label'][$key] ?? ''));
         }
 
         $content = [
@@ -93,6 +103,7 @@ class ContentController extends Controller
             'why_cards' => $whyCards,
             'stats' => $stats,
             'sections' => $sections,
+            'links' => $links,
             'marquee_items' => $this->splitLines($data['marquee_items'] ?? ''),
             'intro_image' => $this->resolveImageInput($request, 'intro_image', 'home', $page->get('intro_image', null)),
             'intro_badge_number' => $data['intro_badge_number'] ?? '',
@@ -421,35 +432,6 @@ class ContentController extends Controller
         }
 
         return $rows;
-    }
-
-    /**
-     * The closing CTA cards, which carry four parallel inputs rather than the
-     * two zipRepeater handles. A row with no title is dropped.
-     *
-     * @return list<array{title: string, text: string, btn_label: string, btn_url: string}>
-     */
-    private function zipConnectCards(array $data): array
-    {
-        $titles = $data['connect_title'] ?? [];
-        $cards = [];
-
-        foreach ($titles as $i => $title) {
-            $title = trim((string) $title);
-
-            if ($title === '') {
-                continue;
-            }
-
-            $cards[] = [
-                'title' => $title,
-                'text' => trim((string) ($data['connect_text'][$i] ?? '')),
-                'btn_label' => trim((string) ($data['connect_btn_label'][$i] ?? '')),
-                'btn_url' => trim((string) ($data['connect_btn_url'][$i] ?? '')),
-            ];
-        }
-
-        return $cards;
     }
 
     /**

@@ -19,7 +19,8 @@ final class HomeSections
         'story' => [
             'label' => 'Our Story',
             'eyebrow' => 'Our Story',
-            'heading' => null, // heading comes from intro_headline
+            'heading' => null,
+            'note' => 'Uses the "Our Story" headline above.',
         ],
         'why' => [
             'label' => 'Why Choose Us',
@@ -29,7 +30,20 @@ final class HomeSections
         'md_message' => [
             'label' => 'MD Message Teaser',
             'eyebrow' => 'A Message From Our Managing Director',
-            'heading' => null, // this teaser has no heading, only the eyebrow tag and the quote
+            'heading' => null,
+            'note' => 'This teaser shows the pull quote, not a heading.',
+        ],
+        'mission_teaser' => [
+            'label' => 'Mission Card (Homepage)',
+            'eyebrow' => 'Our Mission',
+            'heading' => null,
+            'note' => 'Heading and text come from the About page.',
+        ],
+        'vision_teaser' => [
+            'label' => 'Vision Card (Homepage)',
+            'eyebrow' => 'Our Vision',
+            'heading' => null,
+            'note' => 'Heading and text come from the About page.',
         ],
         'stats' => [
             'label' => 'Key Statistics',
@@ -45,6 +59,18 @@ final class HomeSections
             'label' => 'Portfolio Split',
             'eyebrow' => 'Our Portfolio',
             'heading' => 'Ongoing and completed, at a glance.',
+        ],
+        'portfolio_ongoing' => [
+            'label' => 'Portfolio — Left Column',
+            'eyebrow' => null,
+            'heading' => 'Ongoing',
+            'note' => 'This column has no eyebrow.',
+        ],
+        'portfolio_completed' => [
+            'label' => 'Portfolio — Right Column',
+            'eyebrow' => null,
+            'heading' => 'Completed',
+            'note' => 'This column has no eyebrow.',
         ],
         'services' => [
             'label' => 'What We Do',
@@ -80,11 +106,6 @@ final class HomeSections
             'label' => 'Map / Head Office',
             'eyebrow' => 'Visit Our Head Office',
             'heading' => "We're based in the heart of Gulshan.",
-        ],
-        'connect' => [
-            'label' => 'Closing CTA',
-            'eyebrow' => 'Explore RHL Properties',
-            'heading' => "Two decades of landmark developments — see where we've been, and where you fit in.",
         ],
     ];
 

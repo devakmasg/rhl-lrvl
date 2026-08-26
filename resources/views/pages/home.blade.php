@@ -54,7 +54,7 @@
         <div class="reveal-up"><strong>{{ $page->get('intro_since_label') ?: 'Since 1998' }}</strong>{{ $page->get('intro_since_text') }}</div>
         <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') ?: 'Full Spectrum' }}</strong>{{ $page->get('intro_spectrum_text') }}</div>
       </div>
-      <a href="{{ route('about') }}" class="link-arrow reveal-up">Read our full story &rarr;</a>
+      <a href="{{ route('about') }}" class="link-arrow reveal-up">{{ $page->link('story') }} &rarr;</a>
     </div>
     <div class="intro-media reveal-up">
       <img data-parallax="0.15" decoding="async" loading="lazy"
@@ -92,16 +92,16 @@
 <section class="mv-teaser" id="missionVision">
   <div class="mv-grid">
     <div class="mv-card reveal-card">
-      <span class="intro-tag">Our Mission</span>
+      <span class="intro-tag">{{ $page->section('mission_teaser', 'eyebrow') }}</span>
       <h3>{{ $aboutPage?->get('mission_heading') }}</h3>
       <p>{{ $aboutPage?->get('mission') }}</p>
-      <a href="{{ route('mission-vision') }}" class="link-arrow">Read our mission &amp; vision &rarr;</a>
+      <a href="{{ route('mission-vision') }}" class="link-arrow">{{ $page->link('mission_vision') }} &rarr;</a>
     </div>
     <div class="mv-card reveal-card">
-      <span class="intro-tag">Our Vision</span>
+      <span class="intro-tag">{{ $page->section('vision_teaser', 'eyebrow') }}</span>
       <h3>{{ $aboutPage?->get('vision_heading') }}</h3>
       <p>{{ $aboutPage?->get('vision') }}</p>
-      <a href="{{ route('mission-vision') }}" class="link-arrow">Read our mission &amp; vision &rarr;</a>
+      <a href="{{ route('mission-vision') }}" class="link-arrow">{{ $page->link('mission_vision') }} &rarr;</a>
     </div>
   </div>
 </section>
@@ -154,7 +154,7 @@
               <span class="cat">{{ $project->type }}</span>
               <h3>{{ $project->name }}</h3>
               <span class="loc">{{ $project->location }}</span>
-              <a href="{{ route('projects.show', $project->slug) }}" class="feature-btn">View Project &rarr;</a>
+              <a href="{{ route('projects.show', $project->slug) }}" class="feature-btn">{{ $page->link('featured_project') }} &rarr;</a>
             </div>
           </div>
         @endforeach
@@ -173,8 +173,8 @@
     <div class="split-grid">
       <div class="split-col reveal-card">
         <div class="split-col-head">
-          <h3>Ongoing</h3>
-          <a href="{{ route('projects.index', ['status' => 'ongoing']) }}#portfolio" class="link-arrow">View all &rarr;</a>
+          <h3>{{ $page->section('portfolio_ongoing') }}</h3>
+          <a href="{{ route('projects.index', ['status' => 'ongoing']) }}#portfolio" class="link-arrow">{{ $page->link('portfolio_ongoing') }} &rarr;</a>
         </div>
         <div class="split-list">
           @foreach ($ongoingProjects as $project)
@@ -187,8 +187,8 @@
       </div>
       <div class="split-col reveal-card">
         <div class="split-col-head">
-          <h3>Completed</h3>
-          <a href="{{ route('projects.index', ['status' => 'completed']) }}#portfolio" class="link-arrow">View all &rarr;</a>
+          <h3>{{ $page->section('portfolio_completed') }}</h3>
+          <a href="{{ route('projects.index', ['status' => 'completed']) }}#portfolio" class="link-arrow">{{ $page->link('portfolio_completed') }} &rarr;</a>
         </div>
         <div class="split-list">
           @foreach ($completedProjects as $project)
@@ -209,7 +209,7 @@
       <span class="intro-tag reveal-up">{{ $page->section('services', 'eyebrow') }}</span>
       <h2 class="reveal-up" style="font-size:clamp(28px,3.8vw,46px);font-weight:400;">{{ $page->section('services') }}</h2>
     </div>
-    <a href="{{ route('services') }}" class="link-arrow">All services &rarr;</a>
+    <a href="{{ route('services') }}" class="link-arrow">{{ $page->link('services') }} &rarr;</a>
   </div>
   <div class="svc-grid">
     @foreach ($services as $i => $service)
@@ -265,7 +265,7 @@
       <p class="md-quote">{{ $aboutPage?->get('md_quote') }}</p>
       <div class="md-name">{{ $md->name }}</div>
       <div class="md-role">{{ $md->role }}, {{ \App\Support\Brand::name() }}</div>
-      <a href="{{ route('md-message') }}" class="link-arrow">Read the full message &rarr;</a>
+      <a href="{{ route('md-message') }}" class="link-arrow">{{ $page->link('md_message') }} &rarr;</a>
     </div>
   </div>
 </section>
@@ -277,7 +277,7 @@
       <span class="intro-tag reveal-up">{{ $page->section('leadership', 'eyebrow') }}</span>
       <h2 class="reveal-up" style="font-size:clamp(28px,3.8vw,46px);font-weight:400;">{{ $page->section('leadership') }}</h2>
     </div>
-    <a href="{{ route('directors') }}" class="link-arrow">Meet the board &rarr;</a>
+    <a href="{{ route('directors') }}" class="link-arrow">{{ $page->link('leadership') }} &rarr;</a>
   </div>
   <div class="mgmt-row">
     @foreach ($leadership as $person)
@@ -353,7 +353,7 @@
       <span class="intro-tag reveal-up">{{ $page->section('news', 'eyebrow') }}</span>
       <h2 class="reveal-up" style="font-size:clamp(28px,3.8vw,46px);font-weight:400;">{{ $page->section('news') }}</h2>
     </div>
-    <a href="{{ route('news.index') }}" class="link-arrow">All news &rarr;</a>
+    <a href="{{ route('news.index') }}" class="link-arrow">{{ $page->link('news') }} &rarr;</a>
   </div>
   <div class="news-grid">
     @foreach ($latestNews as $article)
@@ -378,7 +378,7 @@
       <p>{{ $setting->address }}</p>
       <p><a href="tel:{{ $setting->phone }}">{{ $setting->phone }}</a></p>
       <p><a href="mailto:{{ $setting->email }}">{{ $setting->email }}</a></p>
-      <a href="{{ route('contact') }}" class="link-arrow">Get directions &amp; contact us &rarr;</a>
+      <a href="{{ route('contact') }}" class="link-arrow">{{ $page->link('map') }} &rarr;</a>
     </div>
   </div>
 </section>

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
     'site_name', 'site_short_name', 'brand_mark', 'brand_mark_sub',
     'address', 'phone', 'whatsapp', 'email', 'hours_weekday', 'hours_saturday',
     'hours_friday', 'map_query', 'footer_blurb', 'meta_description',
+    'footer_contact_heading', 'footer_follow_heading', 'footer_rights', 'footer_credit',
+    'nav_cta_label',
     'social_instagram', 'social_linkedin', 'social_facebook',
 ])]
 class Setting extends Model

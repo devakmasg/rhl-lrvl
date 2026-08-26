@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ContentController;
+use App\Http\Controllers\Admin\CtaBlockController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DirectorController;
 use App\Http\Controllers\Admin\ExploreSlideController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Http\Controllers\Admin\JourneyChapterController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageBannerController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -70,6 +72,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('page-headers', [PageBannerController::class, 'index'])->name('page-banners.index');
         Route::put('page-headers/{pageBanner}', [PageBannerController::class, 'update'])->name('page-banners.update');
+
+        Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
+        Route::put('menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
+
+        Route::get('page-ctas', [CtaBlockController::class, 'index'])->name('cta-blocks.index');
+        Route::put('page-ctas/{ctaBlock}', [CtaBlockController::class, 'update'])->name('cta-blocks.update');
 
         Route::resource('directors', DirectorController::class)->except(['show']);
         Route::resource('team', TeamMemberController::class)->except(['show']);

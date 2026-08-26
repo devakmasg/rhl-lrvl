@@ -110,6 +110,38 @@
       <textarea id="csFooterBlurb" name="footer_blurb" style="min-height:80px;">{{ old('footer_blurb', $setting->footer_blurb) }}</textarea>
       <span class="hint">The short paragraph under the company name in the site footer.</span>
     </div>
+    <div class="field-row" style="margin-top:16px;">
+      <div class="field">
+        <label for="csFooterContact">Contact Column Heading</label>
+        <input type="text" id="csFooterContact" name="footer_contact_heading" value="{{ old('footer_contact_heading', $setting->footer_contact_heading) }}" placeholder="Contact">
+      </div>
+      <div class="field">
+        <label for="csFooterFollow">Follow Column Heading</label>
+        <input type="text" id="csFooterFollow" name="footer_follow_heading" value="{{ old('footer_follow_heading', $setting->footer_follow_heading) }}" placeholder="Follow">
+        <span class="hint">The link-column heading is set in <a href="{{ route('admin.menus.index') }}">Menus</a>.</span>
+      </div>
+    </div>
+    <div class="field-row" style="margin-top:16px;">
+      <div class="field">
+        <label for="csFooterRights">Rights Line</label>
+        <input type="text" id="csFooterRights" name="footer_rights" value="{{ old('footer_rights', $setting->footer_rights) }}" placeholder="All Rights Reserved.">
+        <span class="hint">Follows the year and company name in the bottom bar.</span>
+      </div>
+      <div class="field">
+        <label for="csFooterCredit">Credit Line</label>
+        <input type="text" id="csFooterCredit" name="footer_credit" value="{{ old('footer_credit', $setting->footer_credit) }}">
+        <span class="hint">Bottom-right of the footer. Leave blank to hide it.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-pad" style="margin-bottom:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">Header</h2>
+    <div class="field" style="max-width:280px;">
+      <label for="csNavCta">Enquiry Button Label</label>
+      <input type="text" id="csNavCta" name="nav_cta_label" value="{{ old('nav_cta_label', $setting->nav_cta_label) }}" placeholder="Enquire">
+      <span class="hint">The gold button at the right of the header. Menu links are edited in <a href="{{ route('admin.menus.index') }}">Menus</a>.</span>
+    </div>
   </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">

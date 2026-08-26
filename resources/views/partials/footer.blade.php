@@ -8,6 +8,11 @@
   $address = $setting->address ?? 'House 24, Road 11, Gulshan-1, Dhaka 1212, Bangladesh';
   $whatsapp = $setting?->whatsapp_digits ?: '8801711234567';
   $socials = $setting?->socialLinks() ?: [];
+
+  // The Explore column is a menu (admin → Menus); the other two headings sit
+  // above contact details and social links, so they live in Settings.
+  $exploreMenu = \App\Models\Menu::forKey('footer_explore');
+  $exploreLinks = \App\Models\Menu::tree('footer_explore');
 @endphp
 <footer>
   <div class="footer-top">
@@ -16,24 +21,24 @@
       <p>{{ $setting->footer_blurb ?? 'A diversified real estate and investment group building landmark residential, commercial and hospitality developments since 1998.' }}</p>
     </div>
     <div>
-      <h4>Contact</h4>
+      <h4>{{ $setting->footer_contact_heading ?? 'Contact' }}</h4>
       <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}">{{ $phone }}</a>
       <a href="mailto:{{ $email }}">{{ $email }}</a>
       <p>{!! nl2br(e($address)) !!}</p>
     </div>
-    <div>
-      <h4>Explore</h4>
-      <a href="{{ route('about') }}">About</a>
-      <a href="{{ route('projects.index') }}">Projects</a>
-      <a href="{{ route('services') }}">Services</a>
-      <a href="{{ route('partners') }}">Partners</a>
-      <a href="{{ route('partners') }}">Investors &amp; Landowners</a>
-      <a href="{{ route('testimonials') }}">Testimonials</a>
-      <a href="{{ route('contact') }}">Contact</a>
-    </div>
+    @if ($exploreLinks->isNotEmpty())
+      <div>
+        <h4>{{ $exploreMenu?->heading ?? 'Explore' }}</h4>
+        @foreach ($exploreLinks as $link)
+          @if ($link->url())
+            <a href="{{ $link->url() }}">{{ $link->label }}</a>
+          @endif
+        @endforeach
+      </div>
+    @endif
     @if ($socials)
       <div>
-        <h4>Follow</h4>
+        <h4>{{ $setting->footer_follow_heading ?? 'Follow' }}</h4>
         @foreach ($socials as $label => $url)
           <a href="{{ $url }}" target="_blank" rel="noopener">{{ $label }}</a>
         @endforeach
@@ -41,8 +46,10 @@
     @endif
   </div>
   <div class="footer-bottom">
-    <span>&copy; {{ date('Y') }} {{ \App\Support\Brand::name() }}. All Rights Reserved.</span>
-    <span>Concept design template</span>
+    <span>&copy; {{ date('Y') }} {{ \App\Support\Brand::name() }}. {{ $setting->footer_rights ?? 'All Rights Reserved.' }}</span>
+    @if ($setting?->footer_credit)
+      <span>{{ $setting->footer_credit }}</span>
+    @endif
   </div>
 </footer>
 

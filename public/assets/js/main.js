@@ -112,15 +112,18 @@
      panel instead. The outer mobileNav's panel-click handler already closes
      the whole panel on any <a> tap — this only needs to handle the toggle
      button itself, which is not an <a> and so does not trigger that. */
-  (function mobileNavAbout(){
-    const group = document.querySelector('.mnav-group');
-    const toggle = group && group.querySelector('.mnav-toggle');
-    if(!group || !toggle) return;
+  (function mobileNavGroups(){
+    /* Every group, not just the first: the menu is admin-managed now, so the
+       number of dropdowns is whatever the editor has configured. */
+    document.querySelectorAll('.mnav-group').forEach((group) => {
+      const toggle = group.querySelector('.mnav-toggle');
+      if(!toggle) return;
 
-    toggle.addEventListener('click', () => {
-      const open = toggle.getAttribute('aria-expanded') !== 'true';
-      toggle.setAttribute('aria-expanded', String(open));
-      group.classList.toggle('is-open', open);
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        group.classList.toggle('is-open', open);
+      });
     });
   })();
 })();
