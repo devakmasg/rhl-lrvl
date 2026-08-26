@@ -180,22 +180,22 @@
 
     <aside class="contact-aside">
       <div class="detail-block reveal-up">
-        <h3>Partnership desk</h3>
+        <h3>{{ $sections->heading('aside_desk') }}</h3>
         <a href="tel:{{ preg_replace('/\s+/', '', $setting->phone ?? '+8801711234567') }}">{{ $setting->phone ?? '+880 1711-234567' }}</a>
         <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>
       </div>
       <div class="detail-block reveal-up">
-        <h3>What to have ready</h3>
+        <h3>{{ $sections->heading('aside_ready') }}</h3>
         <p class="muted">{{ $page->get('aside_ready_text') }}</p>
       </div>
       <div class="detail-block reveal-up">
-        <h3>Typical timeline</h3>
+        <h3>{{ $sections->heading('aside_timeline') }}</h3>
         <p class="muted">{{ $page->get('aside_timeline_text') }}</p>
       </div>
       <div class="detail-block reveal-up">
-        <h3>See the work first</h3>
+        <h3>{{ $sections->heading('aside_work') }}</h3>
         <p class="muted">{{ $page->get('aside_work_text') }}</p>
-        <a href="{{ route('projects.index') }}#portfolio" class="link-arrow">Browse the portfolio &rarr;</a>
+        <a href="{{ route('projects.index') }}#portfolio" class="link-arrow">{{ $sections->linkLabel('aside_work') }} &rarr;</a>
       </div>
     </aside>
   </div>

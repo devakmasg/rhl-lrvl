@@ -6,9 +6,10 @@
 <div class="page-head">
   <div>
     <h1>Testimonials</h1>
-    <p>Client quotes rotated on the homepage and testimonials.html.</p>
+    <p>Rotated on the Testimonials page; the first ten also appear on the homepage.</p>
   </div>
   <div class="page-head-actions">
+    @include('admin.partials.view-page', ['route' => 'testimonials'])
     <button class="btn btn-primary" type="button" data-modal-open="addTestiModal">+ Add Testimonial</button>
   </div>
 </div>

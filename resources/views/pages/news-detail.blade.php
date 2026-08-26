@@ -37,14 +37,14 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
       </a>
     </div>
-    <p style="margin-top:30px"><a href="{{ route('news.index') }}" class="link-arrow">← Back to all news</a></p>
+    <p style="margin-top:30px"><a href="{{ route('news.index') }}" class="link-arrow">← {{ $sections->linkLabel('back') }}</a></p>
   </div>
 </section>
 
 <section class="nd-related-section">
   <div class="wrap">
-    <span class="intro-tag reveal-up">Related</span>
-    <h2 class="reveal-up">More from {{ \App\Support\Brand::shortName() }}.</h2>
+    <span class="intro-tag reveal-up">{{ $sections->eyebrow('related') }}</span>
+    <h2 class="reveal-up">{{ $sections->heading('related') }}</h2>
     <div class="news-grid" id="ndRelated">
       @foreach ($related as $article)
         <a class="news-card reveal-card" href="{{ route('news.show', $article->slug) }}">

@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Models\CtaBlock;
 use App\Models\PageBanner;
+use App\Models\PageSection;
 use App\Models\Setting;
+use App\Support\SectionBag;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -83,6 +85,21 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('cta', $key ? CtaBlock::forKey($key) : null);
         });
+
+        /**
+         * Section headings for the pages that keep them in page_sections
+         * rather than in a page content row. Always bound — even with no rows
+         * the bag answers every call, so a view never has to guard.
+         */
+        View::composer('pages.*', function ($view) {
+            if (array_key_exists('sections', $view->getData())) {
+                return;
+            }
+
+            $key = Schema::hasTable('page_sections') ? $this->sectionKeyForCurrentRoute() : null;
+
+            $view->with('sections', $key ? PageSection::bagFor($key) : new SectionBag);
+        });
     }
 
     /**
@@ -102,6 +119,20 @@ class AppServiceProvider extends ServiceProvider
             'projects.index' => 'projects',
             'news.index' => 'news',
             default => str_contains($name, '.') ? null : $name,
+        };
+    }
+
+    /**
+     * Same mapping for page_sections, which — unlike banners — also covers the
+     * two detail templates. One template serves every project and every
+     * article, so its headings belong to the template, not to a record.
+     */
+    private function sectionKeyForCurrentRoute(): ?string
+    {
+        return match (Route::currentRouteName()) {
+            'projects.show' => 'project_detail',
+            'news.show' => 'news_detail',
+            default => $this->bannerKeyForCurrentRoute(),
         };
     }
 }

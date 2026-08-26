@@ -6,9 +6,10 @@
 <div class="page-head">
   <div>
     <h1>Board of Directors</h1>
-    <p>Directors shown on directors.html and the homepage leadership strip.</p>
+    <p>Shown on the Board of Directors page and the homepage leadership strip. The one marked Managing Director also appears on the MD&rsquo;s Message page.</p>
   </div>
   <div class="page-head-actions">
+    @include('admin.partials.view-page', ['route' => 'directors'])
     <button class="btn btn-primary" type="button" data-modal-open="addDirectorModal">+ Add Director</button>
   </div>
 </div>
@@ -45,9 +46,10 @@
 <div class="page-head">
   <div>
     <h2 style="font-family:var(--serif);font-size:19px;">Management Team</h2>
-    <p>Team members shown on management.html.</p>
+    <p>Shown on the Management Team page and the homepage leadership strip.</p>
   </div>
   <div class="page-head-actions">
+    @include('admin.partials.view-page', ['route' => 'management'])
     <button class="btn btn-primary" type="button" data-modal-open="addTeamModal">+ Add Team Member</button>
   </div>
 </div>

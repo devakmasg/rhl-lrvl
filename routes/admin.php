@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\CtaBlockController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageBannerController;
+use App\Http\Controllers\Admin\PageSectionController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -72,6 +74,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('page-headers', [PageBannerController::class, 'index'])->name('page-banners.index');
         Route::put('page-headers/{pageBanner}', [PageBannerController::class, 'update'])->name('page-banners.update');
+
+        Route::get('page-sections', [PageSectionController::class, 'index'])->name('page-sections.index');
+        Route::put('page-sections/{pageKey}', [PageSectionController::class, 'update'])->name('page-sections.update');
+
+        Route::get('achievements', [AchievementController::class, 'index'])->name('achievements.index');
+        Route::post('achievements', [AchievementController::class, 'store'])->name('achievements.store');
+        Route::put('achievements/{achievement}', [AchievementController::class, 'update'])->name('achievements.update');
+        Route::delete('achievements/{achievement}', [AchievementController::class, 'destroy'])->name('achievements.destroy');
 
         Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
         Route::put('menus/{menu}', [MenuController::class, 'update'])->name('menus.update');

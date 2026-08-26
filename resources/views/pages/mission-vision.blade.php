@@ -8,12 +8,12 @@
 <section class="mv-teaser" style="padding-top:110px;">
   <div class="mv-grid">
     <div class="mv-card reveal-card">
-      <span class="intro-tag">Our Mission</span>
+      <span class="intro-tag">{{ $sections->eyebrow('mission') }}</span>
       <h3>{{ $page->get('mission_heading') }}</h3>
       <p>{{ $page->get('mission') }}</p>
     </div>
     <div class="mv-card reveal-card">
-      <span class="intro-tag">Our Vision</span>
+      <span class="intro-tag">{{ $sections->eyebrow('vision') }}</span>
       <h3>{{ $page->get('vision_heading') }}</h3>
       <p>{{ $page->get('vision') }}</p>
     </div>
@@ -23,8 +23,8 @@
 <section class="audience" style="padding-top:0;">
   <div class="wrap">
     <div class="audience-head">
-      <span class="intro-tag reveal-up">Core Values</span>
-      <h2 class="reveal-up">What every handover is measured against.</h2>
+      <span class="intro-tag reveal-up">{{ $sections->eyebrow('values') }}</span>
+      <h2 class="reveal-up">{{ $sections->heading('values') }}</h2>
     </div>
     <div class="pillars">
       @foreach ($page->list('core_values') as $i => $value)

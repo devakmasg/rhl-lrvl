@@ -32,9 +32,10 @@
 <div class="page-head">
   <div>
     <h1>Homepage</h1>
-    <p>Hero, intro, why-choose-us and key statistics on index.html.</p>
+    <p>Hero, intro, why-choose-us and key statistics. Mission, vision and the MD&rsquo;s quote come from the About page; the closing cards from Page CTAs.</p>
   </div>
   <div class="page-head-actions">
+    @include('admin.partials.view-page', ['route' => 'home'])
     <button class="btn btn-primary" type="submit" form="homeContentForm">Save Changes</button>
   </div>
 </div>
@@ -302,13 +303,17 @@
           <tr>
             <td><span class="cell-main">{{ $def['label'] }}</span></td>
             <td>
-              <input type="text" name="section_eyebrow[{{ $key }}]"
-                     value="{{ old('section_eyebrow.'.$key, $content['sections'][$key]['eyebrow'] ?? $def['eyebrow']) }}"
-                     placeholder="{{ $def['eyebrow'] }}">
+              @if ($def['eyebrow'] === null)
+                <span class="cell-sub">{{ $def['note'] ?? 'This section has no eyebrow.' }}</span>
+              @else
+                <input type="text" name="section_eyebrow[{{ $key }}]"
+                       value="{{ old('section_eyebrow.'.$key, $content['sections'][$key]['eyebrow'] ?? $def['eyebrow']) }}"
+                       placeholder="{{ $def['eyebrow'] }}">
+              @endif
             </td>
             <td>
               @if ($def['heading'] === null)
-                <span class="cell-sub">{{ $key === 'story' ? 'Uses the "Our Story" headline above.' : 'This section has no separate heading.' }}</span>
+                <span class="cell-sub">{{ $def['note'] ?? 'This section has no separate heading.' }}</span>
               @else
                 <input type="text" name="section_heading[{{ $key }}]"
                        value="{{ old('section_heading.'.$key, $content['sections'][$key]['heading'] ?? $def['heading']) }}"
@@ -320,6 +325,38 @@
       </tbody>
     </table>
   </div>
+
+  {{-- Collapsed by default: these are the arrow links between sections, and
+       are edited far less often than the copy above. --}}
+  <details class="card card-pad" style="margin-top:20px;">
+    <summary style="cursor:pointer;font-size:15.5px;font-weight:600;">Link Labels</summary>
+    <div class="card-head-sub" style="margin:6px 0 16px;">The wording on the arrow links that lead from each section to another page. Where each link goes is fixed &mdash; only the words change. Leave blank to use the default.</div>
+    <table class="table" style="width:100%;">
+      <thead>
+        <tr>
+          <th style="width:320px;">Link</th>
+          <th>Label</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach ($linkDefs as $key => $def)
+          <tr>
+            <td>
+              <span class="cell-main">{{ $def['label'] }}</span>
+              @if (! empty($def['note']))
+                <span class="cell-sub">{{ $def['note'] }}</span>
+              @endif
+            </td>
+            <td>
+              <input type="text" name="link_label[{{ $key }}]"
+                     value="{{ old('link_label.'.$key, $content['links'][$key] ?? $def['text']) }}"
+                     placeholder="{{ $def['text'] }}">
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </details>
 </form>
 @endsection
 

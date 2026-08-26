@@ -16,7 +16,7 @@
 <div class="page-head">
   <div>
     <h1>{{ $news->exists ? 'Edit Article' : 'New Article' }}</h1>
-    <p>Feeds news.html and each article's news-detail.html page.</p>
+    <p>Feeds the News listing and this article&rsquo;s own page.</p>
   </div>
   <div class="page-head-actions">
     <a href="{{ route('admin.news.index') }}" class="btn btn-outline">Cancel</a>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Achievement;
 use App\Models\Director;
 use App\Models\Page;
 use App\Models\Service;
@@ -55,7 +56,10 @@ class PageController extends Controller
 
     public function achievements()
     {
-        return view('pages.achievements');
+        return view('pages.achievements', [
+            'awards' => Achievement::live()->kind(Achievement::AWARD)->get(),
+            'certifications' => Achievement::live()->kind(Achievement::CERTIFICATION)->get(),
+        ]);
     }
 
     public function services()

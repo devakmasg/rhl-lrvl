@@ -6,9 +6,10 @@
 <div class="page-head">
   <div>
     <h1>News &amp; Updates</h1>
-    <p>Articles shown on news.html and each project's timeline.</p>
+    <p>Shown on the News page, the latest three on the homepage, and each project&rsquo;s timeline.</p>
   </div>
   <div class="page-head-actions">
+    @include('admin.partials.view-page', ['route' => 'news.index'])
     <a href="{{ route('admin.news.create') }}" class="btn btn-primary">+ New Article</a>
   </div>
 </div>

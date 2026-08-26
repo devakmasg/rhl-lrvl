@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Contact Settings')
+@section('title', 'Site Settings')
 
 @section('content')
 <div class="page-head">
   <div>
-    <h1>Contact Settings</h1>
-    <p>Head office details used across the footer, contact.html and the homepage map.</p>
+    <h1>Site Settings</h1>
+    <p>The company name, contact details, footer and header wording used across every page of the site.</p>
   </div>
   <div class="page-head-actions">
     <button class="btn btn-primary" type="submit" form="settingsForm">Save Changes</button>
@@ -99,7 +99,7 @@
     <div class="field">
       <label for="csMapQuery">Map Search Query</label>
       <input type="text" id="csMapQuery" name="map_query" value="{{ old('map_query', $setting->map_query) }}">
-      <span class="hint">Used to build the Google Maps embed on the homepage and contact.html.</span>
+      <span class="hint">Used to build the Google Maps embed on the homepage and the Contact page.</span>
     </div>
   </div>
 

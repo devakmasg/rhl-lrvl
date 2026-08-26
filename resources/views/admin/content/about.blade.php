@@ -20,9 +20,10 @@
   <div class="page-head">
     <div>
       <h1>About Page</h1>
-      <p>Feeds about.html, mission-vision.html and md-message.html.</p>
+      <p>Feeds the About page, and also the Mission &amp; Vision page, the Managing Director&rsquo;s Message, and their teasers on the homepage.</p>
     </div>
     <div class="page-head-actions">
+      @include('admin.partials.view-page', ['route' => 'about'])
       <button class="btn btn-primary" type="submit">Save Changes</button>
     </div>
   </div>

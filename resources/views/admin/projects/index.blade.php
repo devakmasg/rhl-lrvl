@@ -6,9 +6,10 @@
 <div class="page-head">
   <div>
     <h1>Projects</h1>
-    <p>{{ $projects->total() }} development{{ $projects->total() === 1 ? '' : 's' }} across residential and commercial real estate.</p>
+    <p>{{ $projects->total() }} development{{ $projects->total() === 1 ? '' : 's' }}. Featured ones lead the homepage slider; the newest three of each status fill its portfolio columns.</p>
   </div>
   <div class="page-head-actions">
+    @include('admin.partials.view-page', ['route' => 'projects.index'])
     <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">+ New Project</a>
   </div>
 </div>

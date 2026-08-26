@@ -6,9 +6,10 @@
 <div class="page-head">
   <div>
     <h1>Services</h1>
-    <p>The five service lines shown on the homepage and services page.</p>
+    <p>Shown in full on the Services page, and as the &ldquo;What We Do&rdquo; grid on the homepage.</p>
   </div>
   <div class="page-head-actions">
+    @include('admin.partials.view-page', ['route' => 'services'])
     <button class="btn btn-primary" type="button" data-modal-open="addServiceModal">+ Add Service</button>
   </div>
 </div>

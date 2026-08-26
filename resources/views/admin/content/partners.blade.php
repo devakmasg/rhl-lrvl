@@ -28,6 +28,7 @@
       <p>Feeds the Investors &amp; Landowners page — everything except the header banner (see Page Headers) and the submission form.</p>
     </div>
     <div class="page-head-actions">
+      @include('admin.partials.view-page', ['route' => 'partners'])
       <button class="btn btn-primary" type="submit">Save Changes</button>
     </div>
   </div>

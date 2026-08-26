@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Support\Brand;
+use App\Support\Tokens;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
@@ -17,21 +17,8 @@ use Illuminate\Support\Str;
 #[Fillable(['page_key', 'label', 'eyebrow', 'heading', 'section_id', 'cards'])]
 class CtaBlock extends Model
 {
-    /**
-     * Placeholders the admin may use in card copy, a button label, or a
-     * button URL.
-     *
-     * These exist because some of this copy was never static: it named the
-     * managing director or the office phone number. Freezing today's value
-     * into the text would mean the card silently goes stale when someone
-     * renames the MD in Directors — exactly the drift this phase removes.
-     */
-    public const TOKENS = [
-        '{company}' => 'Short company name, e.g. RHL Properties',
-        '{company_full}' => 'Full legal name, e.g. RHL Properties Ltd',
-        '{md_name}' => "The Managing Director's name",
-        '{phone}' => 'Office phone number from Settings',
-    ];
+    /** Placeholders usable in card copy, a button label, or a button URL. */
+    public const TOKENS = Tokens::AVAILABLE;
 
     protected function casts(): array
     {
@@ -89,18 +76,7 @@ class CtaBlock extends Model
     /** Replace every {token} with its current value. */
     public static function expand(?string $text): string
     {
-        $text = (string) $text;
-
-        if (! str_contains($text, '{')) {
-            return $text;
-        }
-
-        return strtr($text, [
-            '{company}' => Brand::shortName(),
-            '{company_full}' => Brand::name(),
-            '{md_name}' => Director::managingDirector()?->name ?: 'the Managing Director',
-            '{phone}' => Setting::first()?->phone ?: '',
-        ]);
+        return Tokens::expand($text);
     }
 
     /**

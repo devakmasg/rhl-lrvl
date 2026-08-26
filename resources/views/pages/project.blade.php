@@ -36,7 +36,7 @@
 
       <aside class="pd-side">
         <div class="pd-progress" id="pdProgress" @if(is_null($project->progress)) hidden @endif>
-          <h3>Construction progress</h3>
+          <h3>{{ $sections->heading('progress') }}</h3>
           <div class="pd-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ $project->progress }}" aria-label="Construction progress">
             <i id="pdProgressBar" style="width:{{ $project->progress }}%"></i>
           </div>
@@ -52,14 +52,14 @@
           </div>
         </div>
 
-        <h3>Amenities</h3>
+        <h3>{{ $sections->heading('amenities') }}</h3>
         <ul class="pd-amenities" id="pdAmenities">
           @foreach ($project->amenities as $amenity)
             <li>{{ $amenity->text }}</li>
           @endforeach
         </ul>
 
-        <h3>Features</h3>
+        <h3>{{ $sections->heading('features') }}</h3>
         <ul class="pd-features" id="pdFeatures">
           @foreach (($project->features ?? []) as $feature)
             <li>{{ $feature }}</li>
@@ -80,8 +80,8 @@
   @if ($project->units->isNotEmpty())
     <section class="pd-units-section" id="pdUnitsSection">
       <div class="wrap">
-        <span class="intro-tag reveal-up">Unit Information</span>
-        <h2 class="reveal-up">What's on offer.</h2>
+        <span class="intro-tag reveal-up">{{ $sections->eyebrow('units') }}</span>
+        <h2 class="reveal-up">{{ $sections->heading('units') }}</h2>
         <div class="pd-units-wrap">
           <table class="pd-units-table" id="pdUnitsTable">
             <thead>
@@ -116,8 +116,8 @@
 
   <section class="pd-gallery-section">
     <div class="wrap">
-      <span class="intro-tag reveal-up">Gallery</span>
-      <h2 class="reveal-up">A closer look.</h2>
+      <span class="intro-tag reveal-up">{{ $sections->eyebrow('gallery') }}</span>
+      <h2 class="reveal-up">{{ $sections->heading('gallery') }}</h2>
       <div class="pd-gallery" id="pdGallery">
         @foreach ($project->images as $i => $image)
           <figure class="pd-shot">
@@ -130,8 +130,8 @@
 
   <section class="pd-floorplans-section">
     <div class="wrap">
-      <span class="intro-tag reveal-up">Floor Plans</span>
-      <h2 class="reveal-up">Layouts at a glance.</h2>
+      <span class="intro-tag reveal-up">{{ $sections->eyebrow('floorplans') }}</span>
+      <h2 class="reveal-up">{{ $sections->heading('floorplans') }}</h2>
       <div class="pd-floorplans" id="pdFloorplans">
         @foreach ($project->floorPlans as $plan)
           <button type="button" class="pd-floorplan" data-lightbox="{{ $plan->image_url }}" data-caption="{{ $project->name }} — {{ $plan->label }}">
@@ -145,8 +145,8 @@
 
   <section class="pd-map-section">
     <div class="wrap">
-      <span class="intro-tag reveal-up">Location</span>
-      <h2 class="reveal-up">Find us on the map.</h2>
+      <span class="intro-tag reveal-up">{{ $sections->eyebrow('location') }}</span>
+      <h2 class="reveal-up">{{ $sections->heading('location') }}</h2>
       <div class="pd-map-embed">
         <iframe id="pdMapEmbed" src="https://www.google.com/maps?q={{ urlencode($mapQuery) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Development location"></iframe>
       </div>
@@ -156,8 +156,8 @@
   <section class="pd-enquire-section" id="pdEnquireForm">
     <div class="wrap pd-enquire-inner">
       <div class="pd-enquire-head">
-        <span class="intro-tag reveal-up">Enquire</span>
-        <h2 class="reveal-up">Ask us about this development.</h2>
+        <span class="intro-tag reveal-up">{{ $sections->eyebrow('enquire') }}</span>
+        <h2 class="reveal-up">{{ $sections->heading('enquire') }}</h2>
         <p class="reveal-up">Tell us a little about what you're looking for and our sales team will follow up within two working days.</p>
       </div>
       <form class="form" id="pdEnquiryForm" action="{{ route('inquiries.store') }}" method="POST">
@@ -217,8 +217,8 @@
   <section class="portfolio pd-related-section">
     <div class="wrap">
       <div class="portfolio-head">
-        <span class="intro-tag reveal-up">Related</span>
-        <h2 class="reveal-up">Others you may want to see.</h2>
+        <span class="intro-tag reveal-up">{{ $sections->eyebrow('related') }}</span>
+        <h2 class="reveal-up">{{ $sections->heading('related') }}</h2>
       </div>
       <div class="portfolio-grid" id="pdRelated">
         @foreach ($related as $relatedProject)

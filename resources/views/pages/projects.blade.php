@@ -8,8 +8,8 @@
 <section class="portfolio" id="portfolio">
   <div class="wrap">
     <div class="portfolio-head">
-      <span class="intro-tag reveal-up">The Portfolio</span>
-      <h2 class="reveal-up">Every development, filtered your way.</h2>
+      <span class="intro-tag reveal-up">{{ $sections->eyebrow('portfolio') }}</span>
+      <h2 class="reveal-up">{{ $sections->heading('portfolio') }}</h2>
     </div>
 
     <form class="filters" id="projectFilters" role="search" aria-label="Filter developments" method="GET" action="{{ route('projects.index') }}#portfolio">
@@ -75,8 +75,8 @@
     </div>
 
     <p class="portfolio-empty" id="portfolioEmpty" @if($projects->isNotEmpty()) hidden @endif>
-      No developments match these filters.
-      <a class="link-arrow" id="emptyClear" href="{{ route('projects.index') }}#portfolio">Clear filters →</a>
+      {{ $sections->body('empty') }}
+      <a class="link-arrow" id="emptyClear" href="{{ route('projects.index') }}#portfolio">{{ $sections->linkLabel('empty') }} →</a>
     </p>
   </div>
 </section>
