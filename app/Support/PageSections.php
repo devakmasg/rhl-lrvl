@@ -14,9 +14,9 @@ namespace App\Support;
  * ask for its own page's defaults without naming the registry — see
  * Page::section(). Adding a page here is all a new page editor needs.
  *
- * Sections whose heading is already its own content field — the homepage hero,
- * and "Our Story" whose heading is intro_headline — are deliberately absent,
- * as is the closing CTA, which lives in the cta_blocks table.
+ * Sections whose eyebrow and heading are already their own content fields —
+ * the homepage hero, and "Our Story" (intro_eyebrow / intro_heading) — are
+ * absent, as is the closing CTA, which lives in the cta_blocks table.
  */
 final class PageSections
 {

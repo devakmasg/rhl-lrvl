@@ -20,7 +20,7 @@
   <div class="page-head">
     <div>
       <h1>About Page</h1>
-      <p>Feeds the About page, and also the Mission &amp; Vision page, the Managing Director&rsquo;s Message, and their teasers on the homepage.</p>
+      <p>Feeds the About page, and also the Mission &amp; Vision page, the Managing Director&rsquo;s Message, and the intro block and teasers on the homepage.</p>
     </div>
     <div class="page-head-actions">
       @include('admin.partials.view-page', ['route' => 'about'])
@@ -29,7 +29,8 @@
   </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">
-    <h2 style="font-size:15.5px;margin-bottom:16px;">"Who We Are" Intro</h2>
+    <h2 style="font-size:15.5px;margin-bottom:4px;">Intro Section</h2>
+    <div class="card-head-sub" style="margin-bottom:16px;">The first block below the page banner. This same block also opens the homepage, so what you set here shows on both.</div>
     <div class="field-row" style="margin-bottom:16px;">
       <div class="field">
         <label for="introEyebrow">Eyebrow</label>

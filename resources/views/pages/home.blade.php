@@ -45,31 +45,13 @@
   </div>
 </section>
 
-<section class="intro" id="story">
-  <div class="wrap intro-grid">
-    <div>
-      <span class="intro-tag reveal-up">{{ $page->section('story', 'eyebrow') }}</span>
-      <h2 class="reveal-up">{!! \App\Support\Copy::emphasise($page->get('intro_headline')) !!}</h2>
-      <div class="intro-foot">
-        <div class="reveal-up"><strong>{{ $page->get('intro_since_label') ?: 'Since 1998' }}</strong>{{ $page->get('intro_since_text') }}</div>
-        <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') ?: 'Full Spectrum' }}</strong>{{ $page->get('intro_spectrum_text') }}</div>
-      </div>
-      <a href="{{ route('about') }}" class="link-arrow reveal-up">{{ $page->link('story') }} &rarr;</a>
-    </div>
-    <div class="intro-media reveal-up">
-      <img data-parallax="0.15" decoding="async" loading="lazy"
-           src="{{ $page->imageUrl('intro_image') ?: asset('assets/images/hero-1-residential.jpg') }}"
-           alt="{{ \App\Support\Brand::name() }} signature development">
-      @php
-        $badgeNumber = $page->get('intro_badge_number') ?: '25+';
-        $badgeLabel = $page->get('intro_badge_label') ?: 'Years of Excellence';
-      @endphp
-      @if ($badgeNumber || $badgeLabel)
-        <div class="badge"><div class="n">{{ $badgeNumber }}</div><div class="l">{{ $badgeLabel }}</div></div>
-      @endif
-    </div>
-  </div>
-</section>
+{{-- Reads the about row: this block is the same content as the About page's
+     intro, edited once there. Only the arrow link below it is homepage-only. --}}
+@include('partials.intro-section', [
+  'page' => $aboutPage,
+  'id' => 'story',
+  'link' => ['url' => route('about'), 'label' => $page->link('story')],
+])
 
 <section class="why" id="whyChooseUs">
   <div class="wrap">

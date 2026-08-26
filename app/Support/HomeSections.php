@@ -10,18 +10,13 @@ namespace App\Support;
  * fallback used when a key is missing from page content (a fresh install, or
  * a section added after the row was last saved).
  *
- * Sections whose heading is already its own content field — the hero, and
- * "Our Story" whose heading is intro_headline — are deliberately absent.
+ * Sections whose eyebrow and heading are already their own content fields —
+ * the hero, and "Our Story" (intro_eyebrow / intro_heading) — are absent,
+ * because those are edited beside the copy they label.
  */
 final class HomeSections
 {
     public const DEFAULTS = [
-        'story' => [
-            'label' => 'Our Story',
-            'eyebrow' => 'Our Story',
-            'heading' => null,
-            'note' => 'Uses the "Our Story" headline above.',
-        ],
         'why' => [
             'label' => 'Why Choose Us',
             'eyebrow' => 'Why Choose Us',

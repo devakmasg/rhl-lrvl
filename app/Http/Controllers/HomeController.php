@@ -19,9 +19,9 @@ class HomeController extends Controller
     {
         $page = Page::where('slug', 'home')->firstOrFail();
 
-        // The mission/vision teaser and the MD pull-quote on this page show the
-        // same copy as the About page, so they read that row rather than
-        // keeping a second copy that can drift out of sync.
+        // The "Our Story" intro, the mission/vision teaser and the MD pull-quote
+        // on this page all show the same copy as the About page, so they read
+        // that row rather than keeping a second copy that can drift out of sync.
         $aboutPage = Page::where('slug', 'about')->first();
 
         $heroSlides = HeroSlide::where('is_active', true)->orderBy('sort_order')->get();

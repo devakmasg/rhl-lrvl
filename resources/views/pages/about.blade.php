@@ -5,28 +5,7 @@
 @section('content')
 @include('partials.page-header')
 
-<section class="intro">
-  <div class="wrap intro-grid">
-    <div>
-      <span class="intro-tag reveal-up">{{ $page->get('intro_eyebrow') }}</span>
-      <h2 class="reveal-up">{!! \App\Support\Copy::emphasise($page->get('intro_heading')) !!}</h2>
-      <div class="intro-foot">
-        <div class="reveal-up"><strong>{{ $page->get('intro_since_label') }}</strong>{{ $page->get('intro_since_text') }}</div>
-        <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') }}</strong>{{ $page->get('intro_spectrum_text') }}</div>
-      </div>
-    </div>
-    <div class="intro-media reveal-up">
-      <img data-parallax="0.15" decoding="async" loading="lazy" src="{{ $page->imageUrl('intro_image') }}" alt="{{ \App\Support\Brand::name() }} signature development">
-      @php
-        $badgeNumber = $page->get('intro_badge_number');
-        $badgeLabel = $page->get('intro_badge_label');
-      @endphp
-      @if ($badgeNumber || $badgeLabel)
-        <div class="badge"><div class="n">{{ $badgeNumber }}</div><div class="l">{{ $badgeLabel }}</div></div>
-      @endif
-    </div>
-  </div>
-</section>
+@include('partials.intro-section')
 
 <section class="prose">
   <div class="wrap">

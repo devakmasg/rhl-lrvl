@@ -17,9 +17,8 @@ class PageSeeder extends Seeder
                 'hero_eyebrow' => 'A Diversified Real Estate & Investment Group',
                 'hero_label' => 'Residential Excellence',
                 'hero_sub' => 'RHL Properties Ltd shapes skylines and communities across residential, commercial and hospitality real estate — guided by design integrity and long-term value.',
-                'intro_headline' => 'A legacy built on *trust*, developments built to *last*.',
-                'intro_since_text' => "Over two decades delivering landmark residential and commercial developments across Dhaka's most sought-after neighbourhoods.",
-                'intro_spectrum_text' => 'From land acquisition and RAJUK-approved design to construction, handover and long-term asset management.',
+                // The intro block below the hero reads the about row — see
+                // HomeController::index(). Nothing for it is stored here.
                 'why_cards' => [
                     ['title' => 'RAJUK-Approved Developments', 'desc' => 'Every project clears RAJUK approval before groundbreaking, so ownership and building rights are never in question.'],
                     ['title' => 'On-Time Handover', 'desc' => 'A construction record measured in completed handovers, not projected ones — several delivered ahead of schedule.'],

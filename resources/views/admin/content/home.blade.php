@@ -32,7 +32,7 @@
 <div class="page-head">
   <div>
     <h1>Homepage</h1>
-    <p>Hero, intro, why-choose-us and key statistics. Mission, vision and the MD&rsquo;s quote come from the About page; the closing cards from Page CTAs.</p>
+    <p>Hero, why-choose-us and key statistics. The intro block, mission, vision and the MD&rsquo;s quote all come from the About page; the closing cards from Page CTAs.</p>
   </div>
   <div class="page-head-actions">
     @include('admin.partials.view-page', ['route' => 'home'])
@@ -217,39 +217,11 @@
   </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">
-    <h2 style="font-size:15.5px;margin-bottom:16px;">Our Story (Intro Section)</h2>
-    <div class="field" style="margin-bottom:16px;">
-      <label for="introHeadline">Headline</label>
-      <input type="text" id="introHeadline" name="intro_headline" value="{{ old('intro_headline', $content['intro_headline'] ?? '') }}" required>
-      <span class="hint">Wrap any word in *asterisks* to italicise it &mdash; e.g. built on *trust*.</span>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label for="introSinceLabel">First Label</label>
-        <input type="text" id="introSinceLabel" name="intro_since_label" value="{{ old('intro_since_label', $content['intro_since_label'] ?? 'Since 1998') }}" style="margin-bottom:10px;">
-        <label for="introSince">First Blurb</label>
-        <textarea id="introSince" name="intro_since_text" style="min-height:70px;">{{ old('intro_since_text', $content['intro_since_text'] ?? '') }}</textarea>
-      </div>
-      <div class="field">
-        <label for="introSpectrumLabel">Second Label</label>
-        <input type="text" id="introSpectrumLabel" name="intro_spectrum_label" value="{{ old('intro_spectrum_label', $content['intro_spectrum_label'] ?? 'Full Spectrum') }}" style="margin-bottom:10px;">
-        <label for="introSpectrum">Second Blurb</label>
-        <textarea id="introSpectrum" name="intro_spectrum_text" style="min-height:70px;">{{ old('intro_spectrum_text', $content['intro_spectrum_text'] ?? '') }}</textarea>
-      </div>
-    </div>
-    <div class="field-row" style="margin-top:16px;">
-      @include('admin.partials.image-field', [
-        'name' => 'intro_image',
-        'label' => 'Section Photo',
-        'currentUrl' => $page->imageUrl('intro_image'),
-      ])
-      <div class="field">
-        <label for="introBadgeNumber">Badge Number</label>
-        <input type="text" id="introBadgeNumber" name="intro_badge_number" value="{{ old('intro_badge_number', $content['intro_badge_number'] ?? '25+') }}">
-        <label for="introBadgeLabel" style="margin-top:12px;">Badge Label</label>
-        <input type="text" id="introBadgeLabel" name="intro_badge_label" value="{{ old('intro_badge_label', $content['intro_badge_label'] ?? 'Years of Excellence') }}">
-        <span class="hint">The gold badge overlapping the photo.</span>
-      </div>
+    <h2 style="font-size:15.5px;margin-bottom:4px;">Intro Section</h2>
+    <div class="card-head-sub">
+      The first block below the hero. It shows the same copy as the About page&rsquo;s intro, so it is
+      edited once, on the <a href="{{ route('admin.content.about') }}">About page</a>.
+      Only the arrow link below it is set here &mdash; see Link Labels.
     </div>
   </div>
 
