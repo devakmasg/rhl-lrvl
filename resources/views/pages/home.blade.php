@@ -88,22 +88,8 @@
   </div>
 </section>
 
-<section class="stats">
-  <div class="stats-bg" id="statsBg" data-parallax-bg="0.25" data-bg="{{ $page->imageUrl('stats_background') }}"></div>
-  <div class="stats-inner wrap">
-    <span class="intro-tag reveal-up" style="color:var(--gold-light)">{{ $page->section('stats', 'eyebrow') }}</span>
-    <h2 class="reveal-up" style="max-width:640px;margin-bottom:50px;">{{ $page->section('stats') }}</h2>
-    <div class="stats-grid">
-      @foreach ($page->list('stats') as $stat)
-        @php
-          preg_match('/^([\d.]+)(.*)$/', $stat['value'], $m);
-          $decimals = str_contains($m[1] ?? '', '.') ? strlen(explode('.', $m[1])[1]) : 0;
-        @endphp
-        <div class="stat reveal-card"><div class="num" data-target="{{ $m[1] ?? $stat['value'] }}" data-decimals="{{ $decimals }}" data-suffix="{{ $m[2] ?? '' }}">0</div><div class="label">{{ $stat['label'] }}</div></div>
-      @endforeach
-    </div>
-  </div>
-</section>
+{{-- Reads the about row: the same band appears on the About page, edited once there. --}}
+@include('partials.stats-section', ['page' => $aboutPage])
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track" id="marqueeTrack" data-items="{{ json_encode(array_values($page->get('marquee_items', []) ?: [])) }}"></div>

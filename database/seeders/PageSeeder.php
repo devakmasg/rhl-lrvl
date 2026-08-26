@@ -25,14 +25,7 @@ class PageSeeder extends Seeder
                     ['title' => 'Prime Dhaka Locations', 'desc' => 'Gulshan, Banani, Dhanmondi and Tejgaon — land selected for long-term value, not just today\'s asking price.'],
                     ['title' => 'Transparent Process', 'desc' => 'Clear payment schedules, registered documentation and a dedicated point of contact from booking to handover.'],
                 ],
-                'stats' => [
-                    ['value' => '6.4M+', 'label' => 'Sq. Ft. Developed'],
-                    ['value' => '52+', 'label' => 'Landmark Projects'],
-                    ['value' => '25', 'label' => 'Years of Excellence'],
-                    ['value' => '8200+', 'label' => 'Satisfied Clients'],
-                    ['value' => '12', 'label' => 'Cities Present'],
-                    ['value' => '30+', 'label' => 'Industry Awards'],
-                ],
+                // The statistics band reads the about row — see HomeController::index().
             ],
         ]);
 
@@ -101,7 +94,9 @@ class PageSeeder extends Seeder
                     ['title' => 'Management Team', 'desc' => 'The people running construction, sales, finance and delivery day to day.'],
                     ['title' => 'Achievements', 'desc' => 'Milestones, industry recognition and certifications earned over 25+ years.'],
                 ],
-                'stats_eyebrow' => 'By The Numbers',
+                // Shown on the About page and, via HomeController::index(), the homepage.
+                'stats_eyebrow' => 'Key Statistics',
+                'stats_heading' => 'Our impact, in numbers.',
                 'stats' => [
                     ['value' => '6.4M+', 'label' => 'Sq. Ft. Developed'],
                     ['value' => '52+', 'label' => 'Landmark Projects'],

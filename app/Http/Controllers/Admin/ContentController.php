@@ -47,10 +47,6 @@ class ContentController extends Controller
             'why_title.*' => ['nullable', 'string', 'max:255'],
             'why_desc' => ['array'],
             'why_desc.*' => ['nullable', 'string'],
-            'stat_value' => ['array'],
-            'stat_value.*' => ['nullable', 'string', 'max:50'],
-            'stat_label' => ['array'],
-            'stat_label.*' => ['nullable', 'string', 'max:255'],
             'section_eyebrow' => ['array'],
             'section_eyebrow.*' => ['nullable', 'string', 'max:255'],
             'section_heading' => ['array'],
@@ -58,13 +54,11 @@ class ContentController extends Controller
             'link_label' => ['array'],
             'link_label.*' => ['nullable', 'string', 'max:120'],
             'marquee_items' => ['nullable', 'string', 'max:2000'],
-            'stats_background' => ['nullable', 'image', 'max:5120'],
         ]);
 
         $page = Page::where('slug', 'home')->firstOrFail();
 
         $whyCards = $this->zipRepeater($data['why_title'] ?? [], $data['why_desc'] ?? [], 'title', 'desc');
-        $stats = $this->zipRepeater($data['stat_value'] ?? [], $data['stat_label'] ?? [], 'value', 'label');
 
         // Section headings arrive keyed by section slug, so only keys we know
         // about are kept — a stray field can't write into page content.
@@ -88,11 +82,9 @@ class ContentController extends Controller
             'hero_label' => $data['hero_label'] ?? '',
             'hero_sub' => $data['hero_sub'] ?? '',
             'why_cards' => $whyCards,
-            'stats' => $stats,
             'sections' => $sections,
             'links' => $links,
             'marquee_items' => $this->splitLines($data['marquee_items'] ?? ''),
-            'stats_background' => $this->resolveImageInput($request, 'stats_background', 'home', $page->get('stats_background', null)),
         ];
 
         // Query-builder update() bypasses Eloquent's array cast, so update
@@ -229,6 +221,8 @@ class ContentController extends Controller
             'quicklink_desc' => ['array', 'size:5'],
             'quicklink_desc.*' => ['nullable', 'string'],
             'stats_eyebrow' => ['nullable', 'string', 'max:255'],
+            'stats_heading' => ['nullable', 'string', 'max:255'],
+            'stats_background' => ['nullable', 'image', 'max:5120'],
             'stat_value' => ['array'],
             'stat_value.*' => ['nullable', 'string', 'max:50'],
             'stat_label' => ['array'],
@@ -274,6 +268,8 @@ class ContentController extends Controller
             'quicklinks_heading' => $data['quicklinks_heading'] ?? '',
             'quicklinks' => $quicklinks,
             'stats_eyebrow' => $data['stats_eyebrow'] ?? '',
+            'stats_heading' => $data['stats_heading'] ?? '',
+            'stats_background' => $this->resolveImageInput($request, 'stats_background', 'about', $page->get('stats_background', null)),
             'stats' => $stats,
         ];
 

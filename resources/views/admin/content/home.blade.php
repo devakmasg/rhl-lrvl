@@ -234,18 +234,10 @@
   </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-      <h2 style="font-size:15.5px;">Key Statistics</h2>
-      <button type="button" class="btn btn-outline btn-sm" id="addStat">+ Add Stat</button>
-    </div>
-    <div id="statsList"></div>
-    <div style="margin-top:18px;max-width:420px;">
-      @include('admin.partials.image-field', [
-        'name' => 'stats_background',
-        'label' => 'Band Background Photo',
-        'currentUrl' => $page->imageUrl('stats_background'),
-        'hint' => 'Sits behind the statistics, darkened automatically.',
-      ])
+    <h2 style="font-size:15.5px;margin-bottom:4px;">Statistics Band</h2>
+    <div class="card-head-sub">
+      The dark band of counting numbers. It shows the same figures as the About page, so it is
+      edited once, on the <a href="{{ route('admin.content.about') }}">About page</a>.
     </div>
   </div>
 
@@ -358,11 +350,6 @@
     (v) => `<div class="field" style="max-width:220px;"><input type="text" name="why_title[]" placeholder="Card title" value="${esc(v.title)}"></div>
             <div class="field"><input type="text" name="why_desc[]" placeholder="Card description" value="${esc(v.desc)}"></div>`,
     @json(old('why_title') ? collect(old('why_title'))->map(fn($t, $i) => ['title' => $t, 'desc' => old('why_desc')[$i] ?? ''])->values() : ($content['why_cards'] ?? [])));
-
-  makeRepeater(document.getElementById('statsList'), document.getElementById('addStat'),
-    (v) => `<div class="field" style="max-width:130px;"><input type="text" name="stat_value[]" placeholder="Value, e.g. 6.4M+" value="${esc(v.value)}"></div>
-            <div class="field"><input type="text" name="stat_label[]" placeholder="Label" value="${esc(v.label)}"></div>`,
-    @json(old('stat_value') ? collect(old('stat_value'))->map(fn($t, $i) => ['value' => $t, 'label' => old('stat_label')[$i] ?? ''])->values() : ($content['stats'] ?? [])));
 
 
   (function(){

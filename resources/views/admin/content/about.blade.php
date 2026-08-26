@@ -198,10 +198,26 @@
   </div>
 
   <div class="card card-pad" style="margin-top:20px;">
-    <h2 style="font-size:15.5px;margin-bottom:16px;">"By The Numbers" Stats</h2>
-    <div class="field" style="margin-bottom:16px;max-width:280px;">
-      <label for="statsEyebrow">Eyebrow</label>
-      <input type="text" id="statsEyebrow" name="stats_eyebrow" value="{{ old('stats_eyebrow', $content['stats_eyebrow'] ?? '') }}">
+    <h2 style="font-size:15.5px;margin-bottom:4px;">Statistics Band</h2>
+    <div class="card-head-sub" style="margin-bottom:16px;">The dark band of counting numbers. It also appears on the homepage, so what you set here shows on both.</div>
+    <div class="field-row" style="margin-bottom:16px;">
+      <div class="field">
+        <label for="statsEyebrow">Eyebrow</label>
+        <input type="text" id="statsEyebrow" name="stats_eyebrow" value="{{ old('stats_eyebrow', $content['stats_eyebrow'] ?? '') }}">
+      </div>
+      <div class="field">
+        <label for="statsHeading">Heading</label>
+        <input type="text" id="statsHeading" name="stats_heading" value="{{ old('stats_heading', $content['stats_heading'] ?? '') }}">
+        <span class="hint">Leave blank to show the numbers with no heading.</span>
+      </div>
+    </div>
+    <div style="margin-bottom:18px;max-width:420px;">
+      @include('admin.partials.image-field', [
+        'name' => 'stats_background',
+        'label' => 'Band Background Photo',
+        'currentUrl' => $page->imageUrl('stats_background'),
+        'hint' => 'Sits behind the statistics, darkened automatically.',
+      ])
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
       <label style="font-size:12.5px;font-weight:600;color:var(--charcoal-soft);">Stats</label>

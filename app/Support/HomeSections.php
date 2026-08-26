@@ -11,8 +11,9 @@ namespace App\Support;
  * a section added after the row was last saved).
  *
  * Sections whose eyebrow and heading are already their own content fields —
- * the hero, and "Our Story" (intro_eyebrow / intro_heading) — are absent,
- * because those are edited beside the copy they label.
+ * the hero, the intro block and the statistics band — are absent, because
+ * those are edited beside the copy they label. The last two are shared with
+ * the About page and live on the about row; see PageController::about().
  */
 final class HomeSections
 {
@@ -27,11 +28,6 @@ final class HomeSections
             'eyebrow' => 'A Message From Our Managing Director',
             'heading' => null,
             'note' => 'This teaser shows the pull quote, not a heading.',
-        ],
-        'stats' => [
-            'label' => 'Key Statistics',
-            'eyebrow' => 'Key Statistics',
-            'heading' => 'Our impact, in numbers.',
         ],
         'featured' => [
             'label' => 'Featured Developments',
