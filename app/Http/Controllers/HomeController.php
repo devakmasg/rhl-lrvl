@@ -30,9 +30,12 @@ class HomeController extends Controller
 
         $exploreSlides = ExploreSlide::with('project')->where('is_active', true)->orderBy('sort_order')->get();
 
+        // Capped like the lists below it. Nothing in the admin limits how many
+        // projects can be flagged featured, and every slide costs an image.
         $featuredProjects = Project::where('published', true)
             ->where('featured', true)
             ->latest()
+            ->take(8)
             ->get();
 
         $ongoingProjects = Project::where('published', true)
@@ -47,7 +50,9 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        $testimonials = Testimonial::all();
+        // The dedicated testimonials page shows every one; the homepage slider
+        // only needs enough to be worth swiping.
+        $testimonials = Testimonial::take(10)->get();
 
         $latestNews = News::where('published', true)
             ->orderByDesc('date')
@@ -57,7 +62,7 @@ class HomeController extends Controller
         $leadership = Director::orderBy('order')->take(2)->get()
             ->concat(\App\Models\TeamMember::orderBy('order')->take(2)->get());
 
-        $md = Director::where('role', 'Managing Director')->first();
+        $md = Director::managingDirector();
         $services = Service::orderBy('order')->get();
         $setting = Setting::first();
 

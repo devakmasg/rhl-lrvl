@@ -7,9 +7,8 @@
   // Admin-managed per-page SEO. A page that still sets @section('title')
   // wins, so dynamic pages (a project, a news article) keep their own.
   $banner = $banner ?? null;
-  $defaultTitle = $banner?->seo_title ?: 'RHL Properties Ltd';
-  $defaultDescription = $banner?->seo_description
-    ?: 'RHL Properties Ltd — a diversified real estate & investment group across residential, commercial and hospitality developments.';
+  $defaultTitle = $banner?->seo_title ?: \App\Support\Brand::name();
+  $defaultDescription = $banner?->seo_description ?: \App\Support\Brand::metaDescription();
   $defaultOgImage = $banner?->og_image_url ?: asset('assets/images/hero-1-residential.jpg');
 @endphp
 <title>@yield('title', $defaultTitle)</title>
@@ -18,7 +17,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2040%2040'%3E%3Ccircle%20cx='20'%20cy='20'%20r='20'%20fill='%23111110'/%3E%3Cpath%20d='M11%2026L20%2012l9%2014'%20stroke='%23b08d57'%20stroke-width='2.4'%20fill='none'%20stroke-linejoin='round'/%3E%3Ccircle%20cx='20'%20cy='20'%20r='2.8'%20fill='%23b08d57'/%3E%3C/svg%3E">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="RHL Properties Ltd">
+<meta property="og:site_name" content="{{ \App\Support\Brand::name() }}">
 <meta property="og:title" content="@yield('title', $defaultTitle)">
 <meta property="og:description" content="@yield('description', $defaultDescription)">
 <meta property="og:image" content="@yield('og_image', $defaultOgImage)">

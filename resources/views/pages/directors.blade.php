@@ -20,20 +20,5 @@
   </div>
 </section>
 
-<section class="connect">
-  <span class="intro-tag reveal-up">Continue Exploring</span>
-  <h2 class="reveal-up">Meet the team running delivery day to day.</h2>
-  <div class="connect-grid">
-    <div class="connect-card reveal-card">
-      <h3>Management Team</h3>
-      <p>Construction, sales and asset management leads across every current development.</p>
-      <a href="{{ route('management') }}" class="btn">Meet the team &rarr;</a>
-    </div>
-    <div class="connect-card reveal-card">
-      <h3>Managing Director's Message</h3>
-      <p>Read {{ optional($directors->firstWhere('role', 'Managing Director'))->name ?? "the Managing Director's" }} message on the company's approach to every handover.</p>
-      <a href="{{ route('md-message') }}" class="btn">Read the message &rarr;</a>
-    </div>
-  </div>
-</section>
+@include('partials.connect')
 @endsection

@@ -27,7 +27,7 @@
       <h2 class="reveal-up">What every handover is measured against.</h2>
     </div>
     <div class="pillars">
-      @foreach ($page->content['core_values'] as $i => $value)
+      @foreach ($page->list('core_values') as $i => $value)
         <div class="pillar reveal-card">
           <span class="pillar-idx">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
           <h3>{{ $value['title'] }}</h3>
@@ -38,20 +38,5 @@
   </div>
 </section>
 
-<section class="connect">
-  <span class="intro-tag reveal-up">Continue Exploring</span>
-  <h2 class="reveal-up">See who's behind these commitments.</h2>
-  <div class="connect-grid">
-    <div class="connect-card reveal-card">
-      <h3>Managing Director's Message</h3>
-      <p>Read {{ $page->content['md_name'] }}'s message on how RHL Properties approaches every project.</p>
-      <a href="{{ route('md-message') }}" class="btn">Read the message &rarr;</a>
-    </div>
-    <div class="connect-card reveal-card">
-      <h3>Board &amp; Management</h3>
-      <p>Meet the board of directors and the management team delivering these values daily.</p>
-      <a href="{{ route('directors') }}" class="btn">Meet the board &rarr;</a>
-    </div>
-  </div>
-</section>
+@include('partials.connect')
 @endsection

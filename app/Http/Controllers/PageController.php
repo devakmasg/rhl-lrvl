@@ -18,18 +18,25 @@ class PageController extends Controller
         return view('pages.about', compact('page'));
     }
 
+    /**
+     * Mission, vision and the MD's writing all live on the "about" row, so
+     * these two pages read it rather than keeping a second copy. Who the MD
+     * *is* comes from the Director record — see Director::managingDirector().
+     */
     public function missionVision()
     {
         $page = Page::where('slug', 'about')->firstOrFail();
+        $md = Director::managingDirector();
 
-        return view('pages.mission-vision', compact('page'));
+        return view('pages.mission-vision', compact('page', 'md'));
     }
 
     public function mdMessage()
     {
         $page = Page::where('slug', 'about')->firstOrFail();
+        $md = Director::managingDirector();
 
-        return view('pages.md-message', compact('page'));
+        return view('pages.md-message', compact('page', 'md'));
     }
 
     public function directors()

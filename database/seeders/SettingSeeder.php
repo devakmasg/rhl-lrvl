@@ -10,6 +10,11 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         Setting::create([
+            'site_name' => 'RHL Properties Ltd',
+            'site_short_name' => 'RHL Properties',
+            'brand_mark' => 'RHL',
+            'brand_mark_sub' => 'PROPERTIES LTD',
+            'meta_description' => 'RHL Properties Ltd — a diversified real estate & investment group across residential, commercial and hospitality developments.',
             'address' => 'House 24, Road 11, Gulshan-1, Dhaka 1212, Bangladesh',
             'phone' => '+880 1812-345678',
             'whatsapp' => '+880 1812-345678',

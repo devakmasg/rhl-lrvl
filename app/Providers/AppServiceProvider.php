@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\CtaBlock;
 use App\Models\PageBanner;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,24 @@ class AppServiceProvider extends ServiceProvider
             $key = $this->bannerKeyForCurrentRoute();
 
             $view->with('banner', $key ? PageBanner::forKey($key) : null);
+        });
+
+        /**
+         * The closing CTA band, keyed off the route the same way the header
+         * is. Bound on the partial itself so a page only has to @include it.
+         */
+        View::composer('partials.connect', function ($view) {
+            if (! Schema::hasTable('cta_blocks')) {
+                return;
+            }
+
+            if (array_key_exists('cta', $view->getData())) {
+                return;
+            }
+
+            $key = $this->bannerKeyForCurrentRoute();
+
+            $view->with('cta', $key ? CtaBlock::forKey($key) : null);
         });
     }
 

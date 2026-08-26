@@ -27,11 +27,11 @@
       <div class="hero-scrim"></div>
     </div>
     <div class="hero-content" id="heroContent">
-      <div class="hero-eyebrow"><span>{{ $page->content['hero_eyebrow'] }}</span></div>
-      <div class="hero-label" id="heroLabel">{{ $page->content['hero_label'] }}</div>
-      <h1 data-reveal="load" data-split="chars">{{ $page->content['hero_headline'] }}</h1>
+      <div class="hero-eyebrow"><span>{{ $page->get('hero_eyebrow') }}</span></div>
+      <div class="hero-label" id="heroLabel">{{ $page->get('hero_label') }}</div>
+      <h1 data-reveal="load" data-split="chars">{{ $page->get('hero_headline') }}</h1>
       <div class="hero-foot">
-        <p class="hero-sub">{{ $page->content['hero_sub'] }}</p>
+        <p class="hero-sub">{{ $page->get('hero_sub') }}</p>
         <div class="hero-nav">
           <div class="hero-dots" id="heroDots"></div>
           <div class="hero-arrows" role="group" aria-label="Hero slides">
@@ -49,17 +49,17 @@
   <div class="wrap intro-grid">
     <div>
       <span class="intro-tag reveal-up">{{ $page->section('story', 'eyebrow') }}</span>
-      <h2 class="reveal-up">{!! str_replace(['trust', 'last'], ['<em>trust</em>', '<em>last</em>'], e($page->content['intro_headline'])) !!}</h2>
+      <h2 class="reveal-up">{!! \App\Support\Copy::emphasise($page->get('intro_headline')) !!}</h2>
       <div class="intro-foot">
-        <div class="reveal-up"><strong>{{ $page->get('intro_since_label') ?: 'Since 1998' }}</strong>{{ $page->content['intro_since_text'] }}</div>
-        <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') ?: 'Full Spectrum' }}</strong>{{ $page->content['intro_spectrum_text'] }}</div>
+        <div class="reveal-up"><strong>{{ $page->get('intro_since_label') ?: 'Since 1998' }}</strong>{{ $page->get('intro_since_text') }}</div>
+        <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') ?: 'Full Spectrum' }}</strong>{{ $page->get('intro_spectrum_text') }}</div>
       </div>
       <a href="{{ route('about') }}" class="link-arrow reveal-up">Read our full story &rarr;</a>
     </div>
     <div class="intro-media reveal-up">
       <img data-parallax="0.15" decoding="async" loading="lazy"
-           src="{{ $page->imageUrl('intro_image') ?: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80' }}"
-           alt="RHL Properties Ltd signature development">
+           src="{{ $page->imageUrl('intro_image') ?: asset('assets/images/hero-1-residential.jpg') }}"
+           alt="{{ \App\Support\Brand::name() }} signature development">
       @php
         $badgeNumber = $page->get('intro_badge_number') ?: '25+';
         $badgeLabel = $page->get('intro_badge_label') ?: 'Years of Excellence';
@@ -78,7 +78,7 @@
       <h2 class="reveal-up">{{ $page->section('why') }}</h2>
     </div>
     <div class="why-grid">
-      @foreach ($page->content['why_cards'] as $i => $card)
+      @foreach ($page->list('why_cards') as $i => $card)
         <div class="why-card reveal-card">
           <span class="why-idx">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
           <h3>{{ $card['title'] }}</h3>
@@ -112,7 +112,7 @@
     <span class="intro-tag reveal-up" style="color:var(--gold-light)">{{ $page->section('stats', 'eyebrow') }}</span>
     <h2 class="reveal-up" style="max-width:640px;margin-bottom:50px;">{{ $page->section('stats') }}</h2>
     <div class="stats-grid">
-      @foreach ($page->content['stats'] as $stat)
+      @foreach ($page->list('stats') as $stat)
         @php
           preg_match('/^([\d.]+)(.*)$/', $stat['value'], $m);
           $decimals = str_contains($m[1] ?? '', '.') ? strlen(explode('.', $m[1])[1]) : 0;
@@ -258,13 +258,13 @@
 <section class="md-teaser" id="mdMessage">
   <div class="md-grid">
     <div class="md-portrait reveal-card">
-      <img src="{{ $md->photo_url }}" alt="Managing Director, RHL Properties Ltd" loading="lazy" decoding="async">
+      <img src="{{ $md->photo_url }}" alt="{{ $md->name }}, {{ $md->role }}, {{ \App\Support\Brand::name() }}" loading="lazy" decoding="async">
     </div>
     <div class="reveal-up">
       <span class="intro-tag">{{ $page->section('md_message', 'eyebrow') }}</span>
       <p class="md-quote">{{ $aboutPage?->get('md_quote') }}</p>
       <div class="md-name">{{ $md->name }}</div>
-      <div class="md-role">{{ $md->role }}, RHL Properties Ltd</div>
+      <div class="md-role">{{ $md->role }}, {{ \App\Support\Brand::name() }}</div>
       <a href="{{ route('md-message') }}" class="link-arrow">Read the full message &rarr;</a>
     </div>
   </div>
@@ -358,7 +358,7 @@
   <div class="news-grid">
     @foreach ($latestNews as $article)
       <a class="news-card reveal-card" href="{{ route('news.show', $article->slug) }}">
-        <div class="news-media"><img src="{{ $article->cover_image_url ?? 'https://images.unsplash.com/photo-1470723710355-95304d8aece4?auto=format&fit=crop&w=800&q=80' }}" alt="{{ $article->title }}" loading="lazy" decoding="async"></div>
+        <div class="news-media"><img src="{{ $article->cover_image_url ?? asset('assets/images/hero-2-commercial.jpg') }}" alt="{{ $article->title }}" loading="lazy" decoding="async"></div>
         <span class="news-date">{{ $article->date->format('d F Y') }}</span>
         <h3>{{ $article->title }}</h3>
       </a>
@@ -370,7 +370,7 @@
 <section class="map-band" id="locateUs">
   <div class="map-grid">
     <div class="map-embed reveal-card">
-      <iframe src="https://www.google.com/maps?q={{ urlencode($setting->map_query) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="RHL Properties Ltd head office location"></iframe>
+      <iframe src="https://www.google.com/maps?q={{ urlencode($setting->map_query) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ \App\Support\Brand::name() }} head office location"></iframe>
     </div>
     <div class="map-info reveal-up">
       <span class="intro-tag">{{ $page->section('map', 'eyebrow') }}</span>
@@ -384,27 +384,7 @@
 </section>
 @endif
 
-<section class="connect">
-  <span class="intro-tag reveal-up">{{ $page->section('connect', 'eyebrow') }}</span>
-  <h2 class="reveal-up">{{ $page->section('connect') }}</h2>
-  @php
-    $connectCards = $page->get('connect_cards') ?: [
-      ['title' => 'Get in Touch', 'text' => 'Speak with our team about current availability, partnership opportunities or a project you have in mind.', 'btn_label' => 'Contact us', 'btn_url' => route('contact')],
-      ['title' => 'Featured Developments', 'text' => 'Browse our residential, commercial and mixed-use projects across the region.', 'btn_label' => 'View projects', 'btn_url' => route('projects.index')],
-    ];
-  @endphp
-  <div class="connect-grid">
-    @foreach ($connectCards as $card)
-      <div class="connect-card reveal-card">
-        <h3>{{ $card['title'] }}</h3>
-        <p>{{ $card['text'] }}</p>
-        @if (!empty($card['btn_label']))
-          <a href="{{ $card['btn_url'] ?: route('contact') }}" class="btn">{{ $card['btn_label'] }} &rarr;</a>
-        @endif
-      </div>
-    @endforeach
-  </div>
-</section>
+@include('partials.connect')
 @endsection
 
 @push('scripts')

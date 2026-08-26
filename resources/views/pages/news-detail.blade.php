@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $news->title.' | RHL Properties Ltd')
+@section('title', $news->title.' | '.\App\Support\Brand::name())
 @section('description', $news->excerpt)
 @section('og_image', $news->cover_image_url ?? asset('assets/images/hero-2-commercial.jpg'))
 @section('canonical', route('news.show', $news->slug))
@@ -44,7 +44,7 @@
 <section class="nd-related-section">
   <div class="wrap">
     <span class="intro-tag reveal-up">Related</span>
-    <h2 class="reveal-up">More from RHL Properties.</h2>
+    <h2 class="reveal-up">More from {{ \App\Support\Brand::shortName() }}.</h2>
     <div class="news-grid" id="ndRelated">
       @foreach ($related as $article)
         <a class="news-card reveal-card" href="{{ route('news.show', $article->slug) }}">

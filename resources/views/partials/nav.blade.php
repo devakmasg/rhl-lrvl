@@ -3,7 +3,7 @@
 <header class="site on-dark" id="siteHeader">
   <a href="{{ route('home') }}" class="brand">
     <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1"/><path d="M11 26L20 12l9 14" stroke="#b08d57" stroke-width="1.4"/><circle cx="20" cy="20" r="2.4" fill="#b08d57"/></svg>
-    <span class="word">RHL<small>PROPERTIES LTD</small></span>
+    <span class="word">{{ \App\Support\Brand::mark() }}<small>{{ \App\Support\Brand::markSub() }}</small></span>
   </a>
   <div class="nav-right">
     <nav class="nav-links">

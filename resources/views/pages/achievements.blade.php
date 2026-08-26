@@ -63,20 +63,5 @@
   </div>
 </section>
 
-<section class="connect">
-  <span class="intro-tag reveal-up">Continue Exploring</span>
-  <h2 class="reveal-up">See the projects behind these awards.</h2>
-  <div class="connect-grid">
-    <div class="connect-card reveal-card">
-      <h3>Our Projects</h3>
-      <p>Browse the residential, commercial and mixed-use developments behind these results.</p>
-      <a href="{{ route('projects.index') }}" class="btn">View projects &rarr;</a>
-    </div>
-    <div class="connect-card reveal-card">
-      <h3>Company Overview</h3>
-      <p>Read the full story of RHL Properties, from 1998 to today.</p>
-      <a href="{{ route('about') }}" class="btn">About us &rarr;</a>
-    </div>
-  </div>
-</section>
+@include('partials.connect')
 @endsection

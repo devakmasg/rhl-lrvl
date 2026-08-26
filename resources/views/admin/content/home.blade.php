@@ -220,6 +220,7 @@
     <div class="field" style="margin-bottom:16px;">
       <label for="introHeadline">Headline</label>
       <input type="text" id="introHeadline" name="intro_headline" value="{{ old('intro_headline', $content['intro_headline'] ?? '') }}" required>
+      <span class="hint">Wrap any word in *asterisks* to italicise it &mdash; e.g. built on *trust*.</span>
     </div>
     <div class="field-row">
       <div class="field">
@@ -276,15 +277,6 @@
   </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-      <h2 style="font-size:15.5px;">Closing Cards</h2>
-      <button type="button" class="btn btn-outline btn-sm" id="addConnect">+ Add Card</button>
-    </div>
-    <div class="card-head-sub" style="margin-bottom:14px;">The two call-to-action cards at the very bottom of the homepage.</div>
-    <div id="connectList"></div>
-  </div>
-
-  <div class="card card-pad" style="margin-bottom:20px;">
     <h2 style="font-size:15.5px;margin-bottom:4px;">Scrolling Marquee</h2>
     <div class="card-head-sub" style="margin-bottom:16px;">The gold ticker of short phrases between the statistics and featured developments.</div>
     <div class="field">
@@ -332,21 +324,6 @@
 @endsection
 
 @push('scripts')
-@php
-  // Built here rather than inline: Blade's @json() argument parser cannot cope
-  // with a nested array literal spanning several lines.
-  $connectSeed = old('connect_title')
-    ? collect(old('connect_title'))->map(fn ($t, $i) => [
-        'title' => $t,
-        'text' => old('connect_text')[$i] ?? '',
-        'btn_label' => old('connect_btn_label')[$i] ?? '',
-        'btn_url' => old('connect_btn_url')[$i] ?? '',
-      ])->values()->all()
-    : ($content['connect_cards'] ?? [
-        ['title' => 'Get in Touch', 'text' => 'Speak with our team about current availability, partnership opportunities or a project you have in mind.', 'btn_label' => 'Contact us', 'btn_url' => '/contact'],
-        ['title' => 'Featured Developments', 'text' => 'Browse our residential, commercial and mixed-use projects across the region.', 'btn_label' => 'View projects', 'btn_url' => '/projects'],
-      ]);
-@endphp
 <script>
   function makeRepeater(listEl, addBtn, buildRow, seed){
     function addRow(values){
@@ -378,12 +355,6 @@
             <div class="field"><input type="text" name="stat_label[]" placeholder="Label" value="${esc(v.label)}"></div>`,
     @json(old('stat_value') ? collect(old('stat_value'))->map(fn($t, $i) => ['value' => $t, 'label' => old('stat_label')[$i] ?? ''])->values() : ($content['stats'] ?? [])));
 
-  makeRepeater(document.getElementById('connectList'), document.getElementById('addConnect'),
-    (v) => `<div class="field" style="max-width:190px;"><input type="text" name="connect_title[]" placeholder="Card title" value="${esc(v.title)}"></div>
-            <div class="field"><input type="text" name="connect_text[]" placeholder="Card text" value="${esc(v.text)}"></div>
-            <div class="field" style="max-width:150px;"><input type="text" name="connect_btn_label[]" placeholder="Button label" value="${esc(v.btn_label)}"></div>
-            <div class="field" style="max-width:150px;"><input type="text" name="connect_btn_url[]" placeholder="/contact" value="${esc(v.btn_url)}"></div>`,
-    @json($connectSeed));
 
   (function(){
     const zone = document.getElementById('heroZone');

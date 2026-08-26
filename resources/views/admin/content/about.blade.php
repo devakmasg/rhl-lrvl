@@ -37,7 +37,7 @@
       <div class="field">
         <label for="introHeading">Heading</label>
         <input type="text" id="introHeading" name="intro_heading" value="{{ old('intro_heading', $content['intro_heading'] ?? '') }}">
-        <span class="hint">The words "trust" and "last" are italicised automatically.</span>
+        <span class="hint">Wrap any word in *asterisks* to italicise it &mdash; e.g. built on *trust*.</span>
       </div>
     </div>
     <div class="field-row" style="margin-bottom:16px;">
@@ -148,17 +148,11 @@
 
   <div class="card card-pad">
     <h2 style="font-size:15.5px;margin-bottom:16px;">Managing Director's Message</h2>
-    <div class="field-row" style="margin-bottom:16px;">
-      <div class="field">
-        <label for="mdName">Name</label>
-        <input type="text" id="mdName" name="md_name" value="{{ old('md_name', $content['md_name'] ?? '') }}">
-      </div>
-      @include('admin.partials.image-field', [
-        'name' => 'md_photo',
-        'label' => 'Portrait',
-        'currentUrl' => $page->imageUrl('md_photo'),
-      ])
-    </div>
+    <p class="hint" style="margin-bottom:16px;">
+      The words below appear on the homepage teaser and the Managing Director's Message page.
+      The MD's name, role and portrait are not edited here &mdash; they come from their entry in
+      <a href="{{ route('admin.directors.index') }}">Directors &amp; Team</a>, so the same person shows everywhere.
+    </p>
     <div class="field" style="margin-bottom:16px;">
       <label for="mdQuote">Pull Quote</label>
       <textarea id="mdQuote" name="md_quote" style="min-height:60px;">{{ old('md_quote', $content['md_quote'] ?? '') }}</textarea>

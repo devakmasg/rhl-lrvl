@@ -17,7 +17,7 @@ class PageSeeder extends Seeder
                 'hero_eyebrow' => 'A Diversified Real Estate & Investment Group',
                 'hero_label' => 'Residential Excellence',
                 'hero_sub' => 'RHL Properties Ltd shapes skylines and communities across residential, commercial and hospitality real estate — guided by design integrity and long-term value.',
-                'intro_headline' => 'A legacy built on trust, developments built to last.',
+                'intro_headline' => 'A legacy built on *trust*, developments built to *last*.',
                 'intro_since_text' => "Over two decades delivering landmark residential and commercial developments across Dhaka's most sought-after neighbourhoods.",
                 'intro_spectrum_text' => 'From land acquisition and RAJUK-approved design to construction, handover and long-term asset management.',
                 'why_cards' => [
@@ -42,7 +42,7 @@ class PageSeeder extends Seeder
             'title' => 'About',
             'content' => [
                 'intro_eyebrow' => 'Who We Are',
-                'intro_heading' => 'A legacy built on trust, developments built to last.',
+                'intro_heading' => 'A legacy built on *trust*, developments built to *last*.',
                 'intro_since_label' => 'Since 1998',
                 'intro_since_text' => "Over two decades delivering landmark residential and commercial developments across Dhaka's most sought-after neighbourhoods.",
                 'intro_spectrum_label' => 'Full Spectrum',
@@ -84,8 +84,8 @@ class PageSeeder extends Seeder
                     ['title' => 'Transparency', 'desc' => 'Payment schedules, floor plans and construction updates disclosed in full, in writing.'],
                     ['title' => 'Timeliness', 'desc' => 'A handover date is a commitment, not an estimate — several of ours have beaten it.'],
                 ],
-                'md_name' => 'Md. Rezaul Haque',
-                'md_photo' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80',
+                // Name, role and portrait come from the flagged Director row —
+                // see DirectorSeeder. This page holds only the MD's writing.
                 'md_quote' => "Every RHL address is a promise we intend to keep — approved land, honest schedules and a handover date we don't move.",
                 'md_message' => [
                     "When my father founded RHL Properties in 1998, Dhaka's real estate market ran mostly on verbal promises — a handshake on a payment schedule, a groundbreaking before the paperwork caught up. He built the company on the opposite habit: secure the RAJUK approval first, put the payment schedule in writing, and only then open booking. Twenty-seven years on, that habit is still how we operate.",

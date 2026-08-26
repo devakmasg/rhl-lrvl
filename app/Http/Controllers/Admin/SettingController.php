@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Support\Brand;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -24,6 +25,11 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $data = $request->validate([
+            'site_name' => ['required', 'string', 'max:120'],
+            'site_short_name' => ['nullable', 'string', 'max:120'],
+            'brand_mark' => ['required', 'string', 'max:40'],
+            'brand_mark_sub' => ['nullable', 'string', 'max:60'],
+            'meta_description' => ['nullable', 'string', 'max:300'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:50'],
             'whatsapp' => ['required', 'string', 'max:50'],
@@ -41,6 +47,10 @@ class SettingController extends Controller
         $setting = Setting::first();
         $setting->update($data);
 
-        return redirect()->route('admin.settings.edit')->with('status', 'Contact settings saved.');
+        // Brand memoises the row for the request; drop it so the redirect
+        // and any view rendered after this point read the saved values.
+        Brand::flush();
+
+        return redirect()->route('admin.settings.edit')->with('status', 'Settings saved.');
     }
 }

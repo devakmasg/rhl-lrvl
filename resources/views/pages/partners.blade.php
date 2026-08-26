@@ -14,7 +14,7 @@
       <p class="reveal-up">{{ $page->get('intro_text_2') }}</p>
     </div>
     <div class="partner-figure reveal-up">
-      <img src="{{ $page->imageUrl('intro_image') }}" alt="A completed RHL Properties commercial development" loading="lazy" decoding="async">
+      <img src="{{ $page->imageUrl('intro_image') }}" alt="A completed {{ \App\Support\Brand::shortName() }} commercial development" loading="lazy" decoding="async">
     </div>
   </div>
 </section>

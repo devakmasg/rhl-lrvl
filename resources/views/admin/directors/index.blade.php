@@ -91,6 +91,13 @@
         <div class="field"><label>Name</label><input type="text" name="name" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" required></div>
         @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo'])
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" name="is_managing_director" value="1" style="width:auto;margin:0;">
+            This is the Managing Director
+          </label>
+          <span class="hint">Their name, role and photo appear on the homepage teaser and the Managing Director's Message page. Only one director can be marked.</span>
+        </div>
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;"></textarea></div>
       </div>
@@ -111,6 +118,13 @@
         <div class="field"><label>Name</label><input type="text" name="name" value="{{ $d->name }}" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" value="{{ $d->role }}" required></div>
         @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo', 'currentUrl' => $d->photo_url])
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" name="is_managing_director" value="1" {{ $d->is_managing_director ? 'checked' : '' }} style="width:auto;margin:0;">
+            This is the Managing Director
+          </label>
+          <span class="hint">Their name, role and photo appear on the homepage teaser and the Managing Director's Message page. Marking this director unmarks any other.</span>
+        </div>
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1" value="{{ $d->order }}"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;">{{ $d->bio }}</textarea></div>
       </div>

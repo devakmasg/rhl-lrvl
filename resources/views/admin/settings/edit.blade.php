@@ -18,6 +18,39 @@
   @method('PUT')
 
   <div class="card card-pad" style="margin-bottom:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">Company Name</h2>
+    <p class="hint" style="margin-bottom:16px;">Used everywhere the company is named &mdash; the header wordmark, the footer, page titles and social share cards. Change it here and it changes across the whole site.</p>
+    <div class="field-row">
+      <div class="field">
+        <label for="csSiteName">Full Legal Name</label>
+        <input type="text" id="csSiteName" name="site_name" value="{{ old('site_name', $setting->site_name) }}" placeholder="RHL Properties Ltd">
+        <span class="hint">Page titles, the footer and image alt text.</span>
+        <span class="field-error">{{ $errors->first('site_name') }}</span>
+      </div>
+      <div class="field">
+        <label for="csSiteShort">Short Name</label>
+        <input type="text" id="csSiteShort" name="site_short_name" value="{{ old('site_short_name', $setting->site_short_name) }}" placeholder="RHL Properties">
+        <span class="hint">Used mid-sentence, e.g. &ldquo;More from RHL Properties.&rdquo; Leave blank to use the full name.</span>
+        <span class="field-error">{{ $errors->first('site_short_name') }}</span>
+      </div>
+    </div>
+    <div class="field-row" style="margin-top:16px;">
+      <div class="field">
+        <label for="csBrandMark">Header Wordmark</label>
+        <input type="text" id="csBrandMark" name="brand_mark" value="{{ old('brand_mark', $setting->brand_mark) }}" placeholder="RHL">
+        <span class="hint">The large text beside the logo in the site header.</span>
+        <span class="field-error">{{ $errors->first('brand_mark') }}</span>
+      </div>
+      <div class="field">
+        <label for="csBrandMarkSub">Wordmark Subtitle</label>
+        <input type="text" id="csBrandMarkSub" name="brand_mark_sub" value="{{ old('brand_mark_sub', $setting->brand_mark_sub) }}" placeholder="PROPERTIES LTD">
+        <span class="hint">The small spaced-out line beneath it.</span>
+        <span class="field-error">{{ $errors->first('brand_mark_sub') }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-pad" style="margin-bottom:20px;">
     <h2 style="font-size:15.5px;margin-bottom:16px;">Head Office</h2>
     <div class="field" style="margin-bottom:16px;">
       <label for="csAddress">Address</label>
@@ -76,6 +109,16 @@
       <label for="csFooterBlurb">Footer Blurb</label>
       <textarea id="csFooterBlurb" name="footer_blurb" style="min-height:80px;">{{ old('footer_blurb', $setting->footer_blurb) }}</textarea>
       <span class="hint">The short paragraph under the company name in the site footer.</span>
+    </div>
+  </div>
+
+  <div class="card card-pad" style="margin-bottom:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">Search &amp; Social</h2>
+    <div class="field">
+      <label for="csMetaDescription">Default Description</label>
+      <textarea id="csMetaDescription" name="meta_description" style="min-height:80px;">{{ old('meta_description', $setting->meta_description) }}</textarea>
+      <span class="hint">Shown by Google and on shared links for any page that has no description of its own in Page Headers.</span>
+      <span class="field-error">{{ $errors->first('meta_description') }}</span>
     </div>
   </div>
 

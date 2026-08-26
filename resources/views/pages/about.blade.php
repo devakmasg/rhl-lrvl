@@ -9,14 +9,14 @@
   <div class="wrap intro-grid">
     <div>
       <span class="intro-tag reveal-up">{{ $page->get('intro_eyebrow') }}</span>
-      <h2 class="reveal-up">{!! str_replace(['trust', 'last'], ['<em>trust</em>', '<em>last</em>'], e($page->get('intro_heading'))) !!}</h2>
+      <h2 class="reveal-up">{!! \App\Support\Copy::emphasise($page->get('intro_heading')) !!}</h2>
       <div class="intro-foot">
         <div class="reveal-up"><strong>{{ $page->get('intro_since_label') }}</strong>{{ $page->get('intro_since_text') }}</div>
         <div class="reveal-up"><strong>{{ $page->get('intro_spectrum_label') }}</strong>{{ $page->get('intro_spectrum_text') }}</div>
       </div>
     </div>
     <div class="intro-media reveal-up">
-      <img data-parallax="0.15" decoding="async" loading="lazy" src="{{ $page->imageUrl('intro_image') }}" alt="RHL Properties Ltd signature development">
+      <img data-parallax="0.15" decoding="async" loading="lazy" src="{{ $page->imageUrl('intro_image') }}" alt="{{ \App\Support\Brand::name() }} signature development">
       @php
         $badgeNumber = $page->get('intro_badge_number');
         $badgeLabel = $page->get('intro_badge_label');
@@ -32,8 +32,8 @@
   <div class="wrap">
     <div class="prose-inner">
       <span class="intro-tag reveal-up">{{ $page->get('overview_eyebrow') }}</span>
-      <h2 class="reveal-up">{{ $page->content['headline'] }}</h2>
-      @foreach ($page->content['overview'] as $paragraph)
+      <h2 class="reveal-up">{{ $page->get('headline') }}</h2>
+      @foreach ($page->list('overview') as $paragraph)
         <p class="reveal-up">{{ $paragraph }}</p>
       @endforeach
     </div>
@@ -47,7 +47,7 @@
       <h2 class="reveal-up">{{ $page->get('history_heading') }}</h2>
     </div>
     <div class="process">
-      @foreach ($page->content['milestones'] as $milestone)
+      @foreach ($page->list('milestones') as $milestone)
         <div class="step reveal-card">
           <div class="step-num">{{ $milestone['year'] }}</div>
           <div><p>{{ $milestone['text'] }}</p></div>
@@ -61,7 +61,7 @@
   <div class="wrap">
     <span class="intro-tag reveal-up" style="padding-top:44px;display:block;">{{ $page->get('facts_eyebrow') }}</span>
     <dl class="pd-facts" style="padding-top:24px;">
-      @foreach ($page->content['facts'] as $fact)
+      @foreach ($page->list('facts') as $fact)
         <div class="fact reveal-card"><dt>{{ $fact['k'] }}</dt><dd>{{ $fact['v'] }}</dd></div>
       @endforeach
     </dl>

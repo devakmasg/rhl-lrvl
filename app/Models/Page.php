@@ -29,6 +29,21 @@ class Page extends Model
     }
 
     /**
+     * A key holding a repeatable list — cards, stats, paragraphs.
+     *
+     * Always an array, so a @foreach over a key that was never saved renders
+     * nothing instead of raising "foreach() argument must be of type array".
+     * That matters because content is a JSON blob: adding a field to an admin
+     * form leaves every existing row without it until someone hits Save.
+     */
+    public function list(string $key): array
+    {
+        $value = data_get($this->content, $key);
+
+        return is_array($value) ? $value : [];
+    }
+
+    /**
      * Same, for a key holding an image path — resolved to a usable URL the
      * way the model image columns are.
      */

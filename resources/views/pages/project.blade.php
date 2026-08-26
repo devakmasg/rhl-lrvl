@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $project->name.' | RHL Properties Ltd')
+@section('title', $project->name.' | '.\App\Support\Brand::name())
 @section('description', $project->summary)
 @section('og_image', $project->hero_image_url)
 @section('canonical', route('projects.show', $project->slug))

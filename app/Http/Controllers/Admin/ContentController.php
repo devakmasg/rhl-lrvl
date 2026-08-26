@@ -63,14 +63,6 @@ class ContentController extends Controller
             'intro_badge_number' => ['nullable', 'string', 'max:20'],
             'intro_badge_label' => ['nullable', 'string', 'max:100'],
             'stats_background' => ['nullable', 'image', 'max:5120'],
-            'connect_title' => ['array'],
-            'connect_title.*' => ['nullable', 'string', 'max:255'],
-            'connect_text' => ['array'],
-            'connect_text.*' => ['nullable', 'string', 'max:1000'],
-            'connect_btn_label' => ['array'],
-            'connect_btn_label.*' => ['nullable', 'string', 'max:255'],
-            'connect_btn_url' => ['array'],
-            'connect_btn_url.*' => ['nullable', 'string', 'max:2048'],
         ]);
 
         $page = Page::where('slug', 'home')->firstOrFail();
@@ -106,7 +98,6 @@ class ContentController extends Controller
             'intro_badge_number' => $data['intro_badge_number'] ?? '',
             'intro_badge_label' => $data['intro_badge_label'] ?? '',
             'stats_background' => $this->resolveImageInput($request, 'stats_background', 'home', $page->get('stats_background', null)),
-            'connect_cards' => $this->zipConnectCards($data),
         ];
 
         // Query-builder update() bypasses Eloquent's array cast, so update
@@ -232,8 +223,6 @@ class ContentController extends Controller
             'value_title.*' => ['nullable', 'string', 'max:255'],
             'value_desc' => ['array'],
             'value_desc.*' => ['nullable', 'string'],
-            'md_name' => ['nullable', 'string', 'max:255'],
-            'md_photo' => ['nullable', 'image', 'max:5120'],
             'md_quote' => ['nullable', 'string'],
             'md_message' => ['nullable', 'string'],
             'quicklinks_eyebrow' => ['nullable', 'string', 'max:255'],
@@ -250,7 +239,6 @@ class ContentController extends Controller
         ]);
 
         $page = Page::where('slug', 'about')->firstOrFail();
-        $mdPhoto = $this->resolveImageInput($request, 'md_photo', 'people', $page->get('md_photo', null));
 
         $milestones = $this->zipRepeater($data['milestone_year'] ?? [], $data['milestone_text'] ?? [], 'year', 'text');
         $facts = $this->zipRepeater($data['fact_k'] ?? [], $data['fact_v'] ?? [], 'k', 'v');
@@ -281,8 +269,6 @@ class ContentController extends Controller
             'vision_heading' => $data['vision_heading'] ?? '',
             'vision' => $data['vision'] ?? '',
             'core_values' => $coreValues,
-            'md_name' => $data['md_name'] ?? '',
-            'md_photo' => $mdPhoto ?? '',
             'md_quote' => $data['md_quote'] ?? '',
             'md_message' => $this->splitParagraphs($data['md_message'] ?? ''),
             'quicklinks_eyebrow' => $data['quicklinks_eyebrow'] ?? '',

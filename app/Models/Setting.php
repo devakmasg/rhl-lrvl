@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
 #[Fillable([
+    'site_name', 'site_short_name', 'brand_mark', 'brand_mark_sub',
     'address', 'phone', 'whatsapp', 'email', 'hours_weekday', 'hours_saturday',
-    'hours_friday', 'map_query', 'footer_blurb', 'social_instagram',
-    'social_linkedin', 'social_facebook',
+    'hours_friday', 'map_query', 'footer_blurb', 'meta_description',
+    'social_instagram', 'social_linkedin', 'social_facebook',
 ])]
 class Setting extends Model
 {

@@ -57,26 +57,13 @@
     <span class="intro-tag reveal-up">Find Us</span>
     <h2 class="reveal-up">Our head office in Gulshan.</h2>
     <div class="pd-map-embed">
-      <iframe src="https://www.google.com/maps?q={{ urlencode($setting->map_query) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="RHL Properties Ltd head office location"></iframe>
+      <iframe src="https://www.google.com/maps?q={{ urlencode($setting->map_query) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ \App\Support\Brand::name() }} head office location"></iframe>
     </div>
   </div>
 </section>
 @endif
 
-<section class="connect" id="connect">
-  <div class="connect-grid">
-    <div class="connect-card reveal-card">
-      <h3>Buyers &amp; Investors</h3>
-      <p>Explore residences and commercial spaces across our portfolio, and speak with our sales team about current availability.</p>
-      <a href="{{ route('partners') }}#investors" class="btn">Investing with us &rarr;</a>
-    </div>
-    <div class="connect-card reveal-card">
-      <h3>Landowners &amp; Partners</h3>
-      <p>Partner with RHL Properties on your land or co-development opportunity — we handle design, delivery and everything between.</p>
-      <a href="{{ route('partners') }}#landowners" class="btn">Partnering on land &rarr;</a>
-    </div>
-  </div>
-</section>
+@include('partials.connect')
 @endsection
 
 @push('scripts')
