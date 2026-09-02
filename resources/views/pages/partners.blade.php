@@ -203,7 +203,7 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/stats.js') }}"></script>
-<script src="{{ asset('assets/js/partners.js') }}"></script>
-<script src="{{ asset('assets/js/forms.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/stats.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/partners.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/forms.js') }}"></script>
 @endpush

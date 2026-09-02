@@ -356,7 +356,7 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/stats.js') }}"></script>
-<script src="{{ asset('assets/js/testimonials.js') }}"></script>
-<script src="{{ asset('assets/js/home.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/stats.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/testimonials.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/home.js') }}"></script>
 @endpush

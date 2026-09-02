@@ -59,6 +59,7 @@
       // copy is admin-editable, in the same order as the seeded content.
       $quicklinkMeta = [
         ['route' => 'mission-vision', 'link' => 'Read more'],
+        ['route' => 'chairman-message', 'link' => 'Read more'],
         ['route' => 'md-message', 'link' => 'Read more'],
         ['route' => 'directors', 'link' => 'Meet the board'],
         ['route' => 'management', 'link' => 'Meet the team'],
@@ -68,6 +69,8 @@
     <div class="quicklinks-grid">
       @foreach ($page->get('quicklinks', []) as $i => $quicklink)
         @continue(!isset($quicklinkMeta[$i]))
+        {{-- A card an admin emptied drops out rather than rendering a blank box. --}}
+        @continue(empty($quicklink['title']) && empty($quicklink['desc']))
         <a class="quicklink-card reveal-card" href="{{ route($quicklinkMeta[$i]['route']) }}">
           <h3>{{ $quicklink['title'] }}</h3>
           <p>{{ $quicklink['desc'] }}</p>
@@ -82,5 +85,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/stats.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/stats.js') }}"></script>
 @endpush

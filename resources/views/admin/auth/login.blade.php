@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('assets/admin/css/admin.css') }}">
+<link rel="stylesheet" href="{{ \App\Support\Asset::v('assets/admin/css/admin.css') }}">
 </head>
 <body class="admin">
 
@@ -52,6 +52,6 @@
     </div>
   </div>
 
-  <script src="{{ asset('assets/admin/js/admin.js') }}"></script>
+  <script src="{{ \App\Support\Asset::v('assets/admin/js/admin.js') }}"></script>
 </body>
 </html>

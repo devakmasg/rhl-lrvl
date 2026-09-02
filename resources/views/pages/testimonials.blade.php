@@ -32,5 +32,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/testimonials.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/testimonials.js') }}"></script>
 @endpush

@@ -237,5 +237,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/lightbox.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/lightbox.js') }}"></script>
 @endpush

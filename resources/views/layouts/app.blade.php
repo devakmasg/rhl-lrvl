@@ -32,7 +32,7 @@
 @stack('preload')
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 @stack('head')
-<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+<link rel="stylesheet" href="{{ \App\Support\Asset::v('assets/css/style.css') }}">
 <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
@@ -49,10 +49,12 @@
     @yield('content')
   </main>
 
+  @include('partials.partners')
+
   @include('partials.footer')
 
-  <script src="{{ asset('assets/js/main.js') }}"></script>
-  <script src="{{ asset('assets/js/scroll-animations.js') }}"></script>
+  <script src="{{ \App\Support\Asset::v('assets/js/main.js') }}"></script>
+  <script src="{{ \App\Support\Asset::v('assets/js/scroll-animations.js') }}"></script>
   @stack('scripts')
 </body>
 </html>

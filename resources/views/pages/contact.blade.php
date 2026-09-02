@@ -67,7 +67,7 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/forms.js') }}"></script>
+<script src="{{ \App\Support\Asset::v('assets/js/forms.js') }}"></script>
 <script>
   // contact?project=<id> pre-selects that project, so any external
   // "Ask about this project" link lands with the right context already set.
