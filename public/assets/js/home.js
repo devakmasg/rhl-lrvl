@@ -198,16 +198,9 @@
       }
     }
 
-    /* The header sits on photography inside the hero and on white below it.
-       Driven from the hero's real geometry on each ScrollTrigger update
-       rather than from a boundary trigger's isActive, which misreported the
-       state on a page loaded at scroll 0. One rect read per scroll frame. */
-    if(header && typeof ScrollTrigger !== 'undefined'){
-      gsap.registerPlugin(ScrollTrigger); // the block above may have been skipped
-      const syncHeader = () => header.classList.toggle('on-dark', heroEl.getBoundingClientRect().bottom > 80);
-      ScrollTrigger.create({ start: 0, end: 'max', onUpdate: syncHeader, onRefresh: syncHeader });
-      syncHeader();
-    }
+    /* The header's dark/light state used to be driven from here off the
+       hero's geometry. It now lives in main.js against '.hero, .page-header'
+       so that every page gets it, not just this one. */
   })(); } catch(err) { console.error('[home.js] heroSlider failed:', err); }
 
   /* ================= FEATURED DEVELOPMENTS SLIDER =================

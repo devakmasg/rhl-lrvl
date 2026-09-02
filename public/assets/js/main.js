@@ -41,6 +41,28 @@
     atScrollDepth(40, (past) => header.classList.toggle('scrolled', past));
   }
 
+  /* The header sits on photography while the page's top band is still behind
+     it, and on the cream bar below that. Every page has such a band — .hero on
+     home, .page-header or .pd-hero elsewhere — so this belongs here. It used to live
+     in home.js, which meant every other page kept .on-dark forever and its
+     links stayed white against the scrolled cream bar. A page with no band at
+     all drops the class outright rather than inheriting the markup default. */
+  if(header){
+    const darkBand = document.querySelector('[data-nav-dark], .hero, .page-header, .pd-hero');
+    if(darkBand){
+      const syncDark = () => header.classList.toggle('on-dark', darkBand.getBoundingClientRect().bottom > 80);
+      if(hasScrollTrigger){
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.create({ start: 0, end: 'max', onUpdate: syncDark, onRefresh: syncDark });
+      } else {
+        window.addEventListener('scroll', () => requestAnimationFrame(syncDark), { passive: true });
+      }
+      syncDark();
+    } else {
+      header.classList.remove('on-dark');
+    }
+  }
+
   if(toTop){
     atScrollDepth(() => window.innerHeight * 1.2, (past) => toTop.classList.toggle('show', past));
     // Hand the trip back to Lenis when it is running, so the return journey

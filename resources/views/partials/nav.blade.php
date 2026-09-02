@@ -5,11 +5,25 @@
 @php
   $navLinks = \App\Models\Menu::tree('primary');
   $navCta = $setting?->nav_cta_label ?: 'Enquire';
+
+  // Logo uploaded in admin → Settings. With none set the inline SVG below is
+  // drawn instead, so an install that never touches the setting is unchanged.
+  // Both variants are rendered and swapped in CSS rather than picked here,
+  // because which one is right depends on the header's scroll state.
+  $brandLogo = \App\Support\Brand::logo();
+  $brandLogoDark = \App\Support\Brand::logoOnDark();
 @endphp
 <header class="site on-dark" id="siteHeader">
   <a href="{{ route('home') }}" class="brand">
-    <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1"/><path d="M11 26L20 12l9 14" stroke="#b08d57" stroke-width="1.4"/><circle cx="20" cy="20" r="2.4" fill="#b08d57"/></svg>
-    <span class="word">{{ \App\Support\Brand::mark() }}<small>{{ \App\Support\Brand::markSub() }}</small></span>
+    @if ($brandLogo)
+      <img class="brand-logo" src="{{ $brandLogo }}" alt="{{ \App\Support\Brand::name() }}" width="160" height="34">
+      <img class="brand-logo brand-logo-dark" src="{{ $brandLogoDark }}" alt="" aria-hidden="true" width="160" height="34">
+    @else
+      <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1"/><path d="M11 26L20 12l9 14" stroke="#b08d57" stroke-width="1.4"/><circle cx="20" cy="20" r="2.4" fill="#b08d57"/></svg>
+    @endif
+    @if (\App\Support\Brand::showWordmark())
+      <span class="word">{{ \App\Support\Brand::mark() }}<small>{{ \App\Support\Brand::markSub() }}</small></span>
+    @endif
   </a>
   <div class="nav-right">
     <nav class="nav-links">
@@ -38,7 +52,12 @@
   </div>
 </header>
 
-<div class="mobile-nav" id="mobileNav">
+{{-- data-lenis-prevent: main.js calls lenis.stop() while the panel is open so
+     the page behind cannot move, and a stopped Lenis swallows wheel and touch
+     everywhere. This attribute exempts the panel, so its own overflow-y can
+     scroll natively when the links plus an expanded submenu run past the
+     bottom of a short phone screen. --}}
+<div class="mobile-nav" id="mobileNav" data-lenis-prevent>
   <nav aria-label="Primary">
     @foreach ($navLinks as $link)
       @continue (! $link->url())

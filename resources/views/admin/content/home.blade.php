@@ -48,9 +48,10 @@
 
   <form method="POST" action="{{ route('admin.content.home.hero-slides.store') }}" enctype="multipart/form-data">
     @csrf
-    <div class="upload-zone" id="heroZone">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="26" height="26" style="margin:0 auto 8px;opacity:.6;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
-      Drag images here, or click to browse — multiple files supported
+    <div class="upload-zone" id="heroZone" role="button" tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+      <strong>Drag hero images here</strong>
+      <small>or click to browse. Several at once is fine — landscape JPG or WebP, 1920&times;1080 or larger.</small>
       <input type="file" id="heroInput" name="images[]" accept="image/*" multiple hidden>
     </div>
   </form>
@@ -357,8 +358,17 @@
     const input = document.getElementById('heroInput');
     if (zone) {
       zone.addEventListener('click', () => input.click());
+      // The zone is a div, so it gets no keyboard activation for free.
+      zone.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); }
+      });
       zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('is-drag'); });
-      zone.addEventListener('dragleave', () => zone.classList.remove('is-drag'));
+      // dragleave also fires when the pointer crosses onto a child element, so
+      // check where it actually went — otherwise the highlight flickers as the
+      // cursor passes over the icon and the two lines of text.
+      zone.addEventListener('dragleave', (e) => {
+        if (!zone.contains(e.relatedTarget)) zone.classList.remove('is-drag');
+      });
       zone.addEventListener('drop', (e) => {
         e.preventDefault(); zone.classList.remove('is-drag');
         input.files = e.dataTransfer.files;

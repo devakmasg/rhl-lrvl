@@ -6,9 +6,6 @@
 <style>
   .form-grid{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start;}
   @media (max-width:1080px){.form-grid{grid-template-columns:1fr;}}
-  .upload-zone{border:1.5px dashed var(--line);border-radius:10px;padding:22px;text-align:center;color:var(--stone);font-size:12.5px;cursor:pointer;}
-  .upload-zone:hover{border-color:var(--gold);background:#faf5ea;}
-  .upload-zone svg{width:26px;height:26px;margin:0 auto 8px;opacity:.6;}
 </style>
 @endpush
 

@@ -20,16 +20,6 @@
   .units-table th{text-align:left;font-size:11px;color:var(--stone);text-transform:uppercase;letter-spacing:.05em;padding:0 8px 8px;}
   .units-table td{padding:0 8px 8px;}
   .units-table input{width:100%;}
-  .upload-zone{
-    border:1.5px dashed var(--line);border-radius:10px;padding:22px;text-align:center;
-    color:var(--stone);font-size:12.5px;cursor:pointer;transition:border-color .15s ease,background .15s ease;
-  }
-  .upload-zone:hover,.upload-zone.is-drag{border-color:var(--gold);background:#faf5ea;}
-  .upload-zone svg{width:26px;height:26px;margin:0 auto 8px;opacity:.6;}
-  .file-chip-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
-  .file-chip{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;}
-  .file-chip svg{width:15px;height:15px;flex:none;color:var(--gold);}
-  .file-chip span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .sticky-side{position:sticky;top:calc(var(--topbar-h) + 20px);}
 </style>
 

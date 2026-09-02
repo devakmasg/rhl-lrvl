@@ -20,9 +20,6 @@
     position:absolute;left:0;right:0;bottom:0;padding:6px 8px;background:linear-gradient(transparent,rgba(21,20,15,.75));
     color:#fff;font-size:10.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   }
-  .upload-zone{border:1.5px dashed var(--line);border-radius:10px;padding:26px;text-align:center;color:var(--stone);font-size:12.5px;cursor:pointer;}
-  .upload-zone:hover,.upload-zone.is-drag{border-color:var(--gold);background:#faf5ea;}
-  .upload-zone svg{width:28px;height:28px;margin:0 auto 8px;opacity:.6;}
 </style>
 @endpush
 
