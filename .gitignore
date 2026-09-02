@@ -25,3 +25,8 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# deploy artifacts (generated, never committed)
+/deploy/update-*.zip
+/deploy/.stage/
+/deploy/install-*.php
