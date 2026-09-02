@@ -19,6 +19,7 @@ final class Tokens
         '{company}' => 'Short company name, e.g. RHL Properties',
         '{company_full}' => 'Full legal name, e.g. RHL Properties Ltd',
         '{md_name}' => "The Managing Director's name",
+        '{chairman_name}' => "The Chairman's name",
         '{phone}' => 'Office phone number from Settings',
     ];
 
@@ -35,6 +36,7 @@ final class Tokens
             '{company}' => Brand::shortName(),
             '{company_full}' => Brand::name(),
             '{md_name}' => Director::managingDirector()?->name ?: 'the Managing Director',
+            '{chairman_name}' => Director::chairman()?->name ?: 'our Chairman',
             '{phone}' => Setting::first()?->phone ?: '',
         ]);
     }

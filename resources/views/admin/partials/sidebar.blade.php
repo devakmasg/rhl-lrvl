@@ -26,6 +26,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
       About &amp; Mission
     </a>
+    <a class="sb-link @if(request()->routeIs('admin.content.landowners')) active @endif" href="{{ route('admin.content.landowners') }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M10 20v-6h4v6"/></svg>
+      Landowners Page
+    </a>
     <a class="sb-link @if(request()->routeIs('admin.content.partners')) active @endif" href="{{ route('admin.content.partners') }}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Partners Page
@@ -66,10 +70,14 @@
     </a>
     <a class="sb-link @if(request()->routeIs(['admin.directors.*', 'admin.team.*'])) active @endif" href="{{ route('admin.directors.index') }}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      Directors &amp; Team
+      Leaders &amp; Team
     </a>
 
     <div class="sb-group-label">Site-wide</div>
+    <a class="sb-link @if(request()->routeIs('admin.partners.*')) active @endif" href="{{ route('admin.partners.index') }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17"/><path d="M12 3c2.5 3 2.5 15 0 18-2.5-3-2.5-15 0-18Z"/></svg>
+      Trusted Partners
+    </a>
     <a class="sb-link @if(request()->routeIs('admin.menus.*')) active @endif" href="{{ route('admin.menus.index') }}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       Menus

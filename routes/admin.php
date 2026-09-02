@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageBannerController;
 use App\Http\Controllers\Admin\PageSectionController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -59,6 +60,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('content/home/hero-slides/reorder', [ContentController::class, 'reorderHeroSlides'])->name('content.home.hero-slides.reorder');
         Route::get('content/about', [ContentController::class, 'editAbout'])->name('content.about');
         Route::put('content/about', [ContentController::class, 'updateAbout'])->name('content.about.update');
+        Route::get('content/landowners', [ContentController::class, 'editLandowners'])->name('content.landowners');
+        Route::put('content/landowners', [ContentController::class, 'updateLandowners'])->name('content.landowners.update');
         Route::get('content/partners', [ContentController::class, 'editPartners'])->name('content.partners');
         Route::put('content/partners', [ContentController::class, 'updatePartners'])->name('content.partners.update');
 
@@ -82,6 +85,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('achievements', [AchievementController::class, 'store'])->name('achievements.store');
         Route::put('achievements/{achievement}', [AchievementController::class, 'update'])->name('achievements.update');
         Route::delete('achievements/{achievement}', [AchievementController::class, 'destroy'])->name('achievements.destroy');
+
+        Route::get('trusted-partners', [PartnerController::class, 'index'])->name('partners.index');
+        Route::put('trusted-partners/section', [PartnerController::class, 'updateStrip'])->name('partners.strip.update');
+        Route::post('trusted-partners', [PartnerController::class, 'store'])->name('partners.store');
+        Route::put('trusted-partners/{partner}', [PartnerController::class, 'update'])->name('partners.update');
+        Route::delete('trusted-partners/{partner}', [PartnerController::class, 'destroy'])->name('partners.destroy');
 
         Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
         Route::put('menus/{menu}', [MenuController::class, 'update'])->name('menus.update');

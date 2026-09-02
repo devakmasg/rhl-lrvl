@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 56" role="img" aria-label="BLUECREST">
+  <g fill="none" stroke="#3f3b34" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" transform="translate(2,4)">
+    <path d="M6 38l10-14 8 9 8-15 10 20"/>
+    <path d="M6 42h36" stroke-width="1.4"/>
+    <circle cx="32" cy="18" r="3" fill="#b08d57" stroke="none"/>
+  </g>
+  <text x="62" y="35" font-family="Georgia, 'Times New Roman', serif" font-size="19" letter-spacing="1.2" fill="#3f3b34">BLUECREST</text>
+</svg>

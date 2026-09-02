@@ -179,6 +179,24 @@
   </div>
 
   <div class="card card-pad" style="margin-top:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:16px;">Chairman's Message</h2>
+    <p class="hint" style="margin-bottom:16px;">
+      The words below appear on the Chairman's Message page.
+      The Chairman's name, role and portrait are not edited here &mdash; they come from the director ticked as Chairman in
+      <a href="{{ route('admin.directors.index') }}">Directors &amp; Team</a>. Until someone is ticked, the page shows the message without a portrait or signature.
+    </p>
+    <div class="field" style="margin-bottom:16px;">
+      <label for="chairmanQuote">Pull Quote</label>
+      <textarea id="chairmanQuote" name="chairman_quote" style="min-height:60px;">{{ old('chairman_quote', $content['chairman_quote'] ?? '') }}</textarea>
+    </div>
+    <div class="field">
+      <label for="chairmanMessage">Full Message</label>
+      <textarea id="chairmanMessage" name="chairman_message" style="min-height:130px;" placeholder="One paragraph per blank-line-separated block.">{{ old('chairman_message', $chairmanMessageText) }}</textarea>
+      <span class="hint">Separate paragraphs with a blank line.</span>
+    </div>
+  </div>
+
+  <div class="card card-pad" style="margin-top:20px;">
     <h2 style="font-size:15.5px;margin-bottom:16px;">"Explore Further" Cards</h2>
     <div class="field-row" style="margin-bottom:16px;">
       <div class="field">
@@ -190,10 +208,10 @@
         <input type="text" id="quicklinksHeading" name="quicklinks_heading" value="{{ old('quicklinks_heading', $content['quicklinks_heading'] ?? '') }}">
       </div>
     </div>
-    <p class="hint" style="margin-bottom:14px;">These 5 cards always link to Mission &amp; Vision, MD Message, Directors, Management and Achievements in that order — only the title and description below are editable.</p>
+    <p class="hint" style="margin-bottom:14px;">These 6 cards always link to Mission &amp; Vision, Chairman's Message, MD Message, Directors, Management and Achievements in that order — only the title and description below are editable.</p>
     @include('admin.content._fixed-rows', [
       'prefix' => 'quicklink', 'rows' => $content['quicklinks'] ?? [],
-      'count' => 5, 'itemLabel' => 'Card',
+      'count' => 6, 'itemLabel' => 'Card',
     ])
   </div>
 

@@ -59,8 +59,13 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
+        // Management only — the strip is about who runs the company, so sales
+        // staff (same table, different department) stay off it.
         $leadership = Director::orderBy('order')->take(2)->get()
-            ->concat(\App\Models\TeamMember::orderBy('order')->take(2)->get());
+            ->concat(
+                \App\Models\TeamMember::department(\App\Models\TeamMember::MANAGEMENT)
+                    ->orderBy('order')->take(2)->get()
+            );
 
         $md = Director::managingDirector();
         $services = Service::orderBy('order')->get();

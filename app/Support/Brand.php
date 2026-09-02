@@ -57,6 +57,33 @@ final class Brand
         return self::value('brand_mark_sub');
     }
 
+    /**
+     * The uploaded logo, or null when none has been set — in which case the
+     * header falls back to the inline SVG mark it has always drawn.
+     */
+    public static function logo(): ?string
+    {
+        return self::setting()?->logo_url;
+    }
+
+    /** The logo for dark backgrounds: the header over a hero, and the footer. */
+    public static function logoOnDark(): ?string
+    {
+        return self::setting()?->logo_dark_url;
+    }
+
+    /**
+     * Whether the "RHL / PROPERTIES LTD" text sits beside the logo.
+     *
+     * Defaults to true, so a site that has never opened the setting keeps the
+     * wordmark it has today. An owner whose uploaded logo already contains the
+     * company name turns it off.
+     */
+    public static function showWordmark(): bool
+    {
+        return (bool) (self::setting()?->show_wordmark ?? true);
+    }
+
     /** Site-wide meta description, used when a page banner has none of its own. */
     public static function metaDescription(): string
     {

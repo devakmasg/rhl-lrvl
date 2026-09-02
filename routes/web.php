@@ -12,9 +12,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/mission-vision', [PageController::class, 'missionVision'])->name('mission-vision');
+Route::get('/chairman-message', [PageController::class, 'chairmanMessage'])->name('chairman-message');
 Route::get('/md-message', [PageController::class, 'mdMessage'])->name('md-message');
 Route::get('/directors', [PageController::class, 'directors'])->name('directors');
 Route::get('/management', [PageController::class, 'management'])->name('management');
+Route::get('/sales-team', [PageController::class, 'salesTeam'])->name('sales-team');
 Route::get('/achievements', [PageController::class, 'achievements'])->name('achievements');
 
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
@@ -22,6 +24,7 @@ Route::get('/projects/{project:slug}', [ProjectController::class, 'show'])->name
 
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/partners', [PageController::class, 'partners'])->name('partners');
+Route::get('/landowners', [PageController::class, 'landowners'])->name('landowners');
 Route::get('/testimonials', [PageController::class, 'testimonials'])->name('testimonials');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');

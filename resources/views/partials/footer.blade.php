@@ -17,7 +17,12 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <span class="word">{{ \App\Support\Brand::name() }}</span>
+      @if ($footerLogo = \App\Support\Brand::logoOnDark())
+        <img class="footer-logo" src="{{ $footerLogo }}" alt="{{ \App\Support\Brand::name() }}" width="200" height="44">
+      @endif
+      @if (! $footerLogo || \App\Support\Brand::showWordmark())
+        <span class="word">{{ \App\Support\Brand::name() }}</span>
+      @endif
       <p>{{ $setting->footer_blurb ?? 'A diversified real estate and investment group building landmark residential, commercial and hospitality developments since 1998.' }}</p>
     </div>
     <div>

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             InquirySeeder::class,
             SettingSeeder::class,
             PageSeeder::class,
+            PartnerSeeder::class,
         ]);
     }
 }

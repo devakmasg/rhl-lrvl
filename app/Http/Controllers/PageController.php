@@ -40,6 +40,15 @@ class PageController extends Controller
         return view('pages.md-message', compact('page', 'md'));
     }
 
+    /** Same arrangement as mdMessage(), for the Chairman. */
+    public function chairmanMessage()
+    {
+        $page = Page::where('slug', 'about')->firstOrFail();
+        $chairman = Director::chairman();
+
+        return view('pages.chairman-message', compact('page', 'chairman'));
+    }
+
     public function directors()
     {
         $directors = Director::orderBy('order')->get();
@@ -49,9 +58,23 @@ class PageController extends Controller
 
     public function management()
     {
-        $teamMembers = TeamMember::orderBy('order')->get();
+        $teamMembers = TeamMember::department(TeamMember::MANAGEMENT)->orderBy('order')->get();
 
         return view('pages.management', compact('teamMembers'));
+    }
+
+    /**
+     * Same listing, filtered to the sales department — see TeamMember, where
+     * both pages read one table.
+     */
+    public function salesTeam()
+    {
+        $teamMembers = TeamMember::department(TeamMember::SALES)->orderBy('order')->get();
+        // Only the nav and footer are given the settings row by a composer, so
+        // the fallback message on an empty page needs it passed in.
+        $setting = Setting::first();
+
+        return view('pages.sales-team', compact('teamMembers', 'setting'));
     }
 
     public function achievements()
@@ -75,6 +98,21 @@ class PageController extends Controller
         $setting = Setting::first();
 
         return view('pages.partners', compact('page', 'setting'));
+    }
+
+    /**
+     * The landowner's own page. Its openers, quotes, FAQ and form copy come
+     * from the "landowners" row; the qualifying pillars and the joint-venture
+     * process are read from the partners row, where the Partners page tab
+     * already shows them — one copy, edited in one place.
+     */
+    public function landowners()
+    {
+        $page = Page::where('slug', 'landowners')->firstOrFail();
+        $partnersPage = Page::where('slug', 'partners')->first();
+        $setting = Setting::first();
+
+        return view('pages.landowners', compact('page', 'partnersPage', 'setting'));
     }
 
     public function testimonials()

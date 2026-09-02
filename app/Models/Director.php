@@ -6,7 +6,7 @@ use App\Models\Concerns\ResolvesImageUrl;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['name', 'role', 'is_managing_director', 'photo', 'bio', 'order'])]
+#[Fillable(['name', 'role', 'is_managing_director', 'is_chairman', 'photo', 'bio', 'order'])]
 class Director extends Model
 {
     use ResolvesImageUrl;
@@ -15,6 +15,7 @@ class Director extends Model
     {
         return [
             'is_managing_director' => 'boolean',
+            'is_chairman' => 'boolean',
         ];
     }
 
@@ -40,5 +41,20 @@ class Director extends Model
         return static::where('is_managing_director', true)->first()
             ?? static::where('role', 'Managing Director')->orderBy('order')->first()
             ?? static::orderBy('order')->first();
+    }
+
+    /**
+     * The one director whose portrait and message the Chairman's Message page
+     * shows — the same arrangement as managingDirector(): name, role and photo
+     * come from here, the writing lives on the About page row.
+     *
+     * Unlike the MD there is no final fallback to the first director. A site
+     * with nobody marked as Chairman has no Chairman, and showing some other
+     * board member under that title would be worse than showing none.
+     */
+    public static function chairman(): ?self
+    {
+        return static::where('is_chairman', true)->first()
+            ?? static::where('role', 'like', 'Chairman%')->orderBy('order')->first();
     }
 }

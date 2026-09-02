@@ -85,13 +85,20 @@ class PageSeeder extends Seeder
                     "Our team has grown from a handful of people working out of a single office to a full construction, sales and after-handover support organisation, but the standard hasn't changed: if it isn't something I'd hand the keys to my own family for, it doesn't carry the RHL name.",
                     'To everyone who has trusted us with a booking, a joint-venture plot, or a lease — thank you. To everyone considering it, our door in Gulshan-1 is open, and so are our books.',
                 ],
+                'chairman_quote' => 'A company is judged by what it hands over, not by what it announces.',
+                'chairman_message' => [
+                    "Real estate in this country has never been short of ambition. What it has been short of is patience — the willingness to secure the land properly, price the work honestly, and let a building take the time a building takes.",
+                    'That patience is what the board asks of every team at RHL Properties. We would rather turn down a plot with a clouded title than explain the consequences to a family five years later. We would rather hold a launch back a quarter than move a handover date once it has been promised.',
+                    'To our residents, our landowning partners and our investors: thank you for the trust. It is the only asset in this business that cannot be bought, and we intend to keep earning it.',
+                ],
                 'quicklinks_eyebrow' => 'Explore Further',
                 'quicklinks_heading' => 'Get to know RHL Properties.',
                 'quicklinks' => [
                     ['title' => 'Mission & Vision', 'desc' => "What we're building toward, and the values that guide every development."],
+                    ['title' => "Chairman's Message", 'desc' => 'A word from our Chairman on the values behind every RHL development.'],
                     ['title' => "Managing Director's Message", 'desc' => "A word from our Managing Director on the company's approach to every handover."],
-                    ['title' => 'Board of Directors', 'desc' => 'The board overseeing strategy, governance and capital discipline.'],
-                    ['title' => 'Management Team', 'desc' => 'The people running construction, sales, finance and delivery day to day.'],
+                    ['title' => 'Our Leaders', 'desc' => 'The board overseeing strategy, governance and capital discipline.'],
+                    ['title' => 'Our Team', 'desc' => 'The people running construction, sales, finance and delivery day to day.'],
                     ['title' => 'Achievements', 'desc' => 'Milestones, industry recognition and certifications earned over 25+ years.'],
                 ],
                 // Shown on the About page and, via HomeController::index(), the homepage.

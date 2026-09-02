@@ -23,9 +23,14 @@ class SettingSeeder extends Seeder
             'hours_saturday' => '10:00 – 16:00',
             'hours_friday' => 'Closed',
             'map_query' => 'Gulshan-1, Dhaka, Bangladesh',
-            'social_instagram' => null,
-            'social_linkedin' => null,
-            'social_facebook' => null,
+            // Starter handles so the footer's "Follow" column renders on a
+            // fresh install — the client replaces these in Site Settings.
+            'social_facebook' => 'https://facebook.com/rhlproperties',
+            'social_instagram' => 'https://instagram.com/rhlproperties',
+            'social_linkedin' => 'https://linkedin.com/company/rhlproperties',
+            'social_youtube' => 'https://youtube.com/@rhlproperties',
+            'social_twitter' => null,
+            'social_tiktok' => null,
         ]);
     }
 }

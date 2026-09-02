@@ -173,6 +173,7 @@ class ContentController extends Controller
             'content' => $content,
             'overviewText' => implode("\n\n", $content['overview'] ?? []),
             'mdMessageText' => implode("\n\n", $content['md_message'] ?? []),
+            'chairmanMessageText' => implode("\n\n", $content['chairman_message'] ?? []),
         ]);
     }
 
@@ -214,11 +215,13 @@ class ContentController extends Controller
             'value_desc.*' => ['nullable', 'string'],
             'md_quote' => ['nullable', 'string'],
             'md_message' => ['nullable', 'string'],
+            'chairman_quote' => ['nullable', 'string'],
+            'chairman_message' => ['nullable', 'string'],
             'quicklinks_eyebrow' => ['nullable', 'string', 'max:255'],
             'quicklinks_heading' => ['nullable', 'string', 'max:255'],
-            'quicklink_title' => ['array', 'size:5'],
+            'quicklink_title' => ['array', 'size:6'],
             'quicklink_title.*' => ['nullable', 'string', 'max:255'],
-            'quicklink_desc' => ['array', 'size:5'],
+            'quicklink_desc' => ['array', 'size:6'],
             'quicklink_desc.*' => ['nullable', 'string'],
             'stats_eyebrow' => ['nullable', 'string', 'max:255'],
             'stats_heading' => ['nullable', 'string', 'max:255'],
@@ -264,6 +267,8 @@ class ContentController extends Controller
             'core_values' => $coreValues,
             'md_quote' => $data['md_quote'] ?? '',
             'md_message' => $this->splitParagraphs($data['md_message'] ?? ''),
+            'chairman_quote' => $data['chairman_quote'] ?? '',
+            'chairman_message' => $this->splitParagraphs($data['chairman_message'] ?? ''),
             'quicklinks_eyebrow' => $data['quicklinks_eyebrow'] ?? '',
             'quicklinks_heading' => $data['quicklinks_heading'] ?? '',
             'quicklinks' => $quicklinks,
@@ -276,6 +281,125 @@ class ContentController extends Controller
         $page->update(['content' => $content]);
 
         return redirect()->route('admin.content.about')->with('status', 'About page content saved.');
+    }
+
+    public function editLandowners(): View
+    {
+        $page = Page::where('slug', 'landowners')->firstOrFail();
+
+        return view('admin.content.landowners', [
+            'page' => $page,
+            'content' => $page->content ?? [],
+        ]);
+    }
+
+    public function updateLandowners(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'intro_eyebrow' => ['nullable', 'string', 'max:255'],
+            'intro_heading' => ['nullable', 'string', 'max:255'],
+            'intro_text_1' => ['nullable', 'string'],
+            'intro_text_2' => ['nullable', 'string'],
+            'intro_image' => ['nullable', 'image', 'max:5120'],
+            'video_url' => ['nullable', 'string', 'max:255'],
+            'video_caption' => ['nullable', 'string', 'max:255'],
+            'diff_eyebrow' => ['nullable', 'string', 'max:255'],
+            'diff_heading' => ['nullable', 'string', 'max:255'],
+            'diff_text_1' => ['nullable', 'string'],
+            'diff_text_2' => ['nullable', 'string'],
+            'diff_image' => ['nullable', 'image', 'max:5120'],
+            'pillars_eyebrow' => ['nullable', 'string', 'max:255'],
+            'pillars_heading' => ['nullable', 'string', 'max:255'],
+            'process_eyebrow' => ['nullable', 'string', 'max:255'],
+            'process_heading' => ['nullable', 'string', 'max:255'],
+            'quotes_eyebrow' => ['nullable', 'string', 'max:255'],
+            'quotes_heading' => ['nullable', 'string', 'max:255'],
+            'quote_text' => ['array'],
+            'quote_text.*' => ['nullable', 'string'],
+            'quote_name' => ['array'],
+            'quote_name.*' => ['nullable', 'string', 'max:255'],
+            'quote_project' => ['array'],
+            'quote_project.*' => ['nullable', 'string', 'max:255'],
+            'faq_eyebrow' => ['nullable', 'string', 'max:255'],
+            'faq_heading' => ['nullable', 'string', 'max:255'],
+            'faq_q' => ['array'],
+            'faq_q.*' => ['nullable', 'string', 'max:255'],
+            'faq_a' => ['array'],
+            'faq_a.*' => ['nullable', 'string'],
+            'contact_eyebrow' => ['nullable', 'string', 'max:255'],
+            'contact_heading' => ['nullable', 'string', 'max:255'],
+            'contact_text' => ['nullable', 'string'],
+            'form_note' => ['nullable', 'string', 'max:160'],
+            'aside_heading' => ['nullable', 'string', 'max:255'],
+            'aside_text' => ['nullable', 'string'],
+            'aside_confidence_heading' => ['nullable', 'string', 'max:255'],
+            'aside_confidence_text' => ['nullable', 'string'],
+        ]);
+
+        $page = Page::where('slug', 'landowners')->firstOrFail();
+
+        $content = [
+            'intro_eyebrow' => $data['intro_eyebrow'] ?? '',
+            'intro_heading' => $data['intro_heading'] ?? '',
+            'intro_text_1' => $data['intro_text_1'] ?? '',
+            'intro_text_2' => $data['intro_text_2'] ?? '',
+            'intro_image' => $this->resolveImageInput($request, 'intro_image', 'landowners', $page->get('intro_image', null)),
+            'video_url' => trim((string) ($data['video_url'] ?? '')),
+            'video_caption' => $data['video_caption'] ?? '',
+            'diff_eyebrow' => $data['diff_eyebrow'] ?? '',
+            'diff_heading' => $data['diff_heading'] ?? '',
+            'diff_text_1' => $data['diff_text_1'] ?? '',
+            'diff_text_2' => $data['diff_text_2'] ?? '',
+            'diff_image' => $this->resolveImageInput($request, 'diff_image', 'landowners', $page->get('diff_image', null)),
+            'pillars_eyebrow' => $data['pillars_eyebrow'] ?? '',
+            'pillars_heading' => $data['pillars_heading'] ?? '',
+            'process_eyebrow' => $data['process_eyebrow'] ?? '',
+            'process_heading' => $data['process_heading'] ?? '',
+            'quotes_eyebrow' => $data['quotes_eyebrow'] ?? '',
+            'quotes_heading' => $data['quotes_heading'] ?? '',
+            'quotes' => $this->zipQuotes($data['quote_text'] ?? [], $data['quote_name'] ?? [], $data['quote_project'] ?? []),
+            'faq_eyebrow' => $data['faq_eyebrow'] ?? '',
+            'faq_heading' => $data['faq_heading'] ?? '',
+            'faqs' => $this->zipRepeater($data['faq_q'] ?? [], $data['faq_a'] ?? [], 'q', 'a'),
+            'contact_eyebrow' => $data['contact_eyebrow'] ?? '',
+            'contact_heading' => $data['contact_heading'] ?? '',
+            'contact_text' => $data['contact_text'] ?? '',
+            'form_note' => $data['form_note'] ?? '',
+            'aside_heading' => $data['aside_heading'] ?? '',
+            'aside_text' => $data['aside_text'] ?? '',
+            'aside_confidence_heading' => $data['aside_confidence_heading'] ?? '',
+            'aside_confidence_text' => $data['aside_confidence_text'] ?? '',
+        ];
+
+        $page->update(['content' => $content]);
+
+        return redirect()->route('admin.content.landowners')->with('status', 'Landowners page content saved.');
+    }
+
+    /**
+     * The landowner quotes repeater — three inputs per row rather than the two
+     * zipRepeater handles. A row with no quote text is dropped, so clearing
+     * the quote removes the card.
+     */
+    private function zipQuotes(array $quotes, array $names, array $projects): array
+    {
+        $rows = [];
+
+        foreach ($quotes as $i => $quote) {
+            $quote = trim((string) $quote);
+
+            if ($quote === '') {
+                continue;
+            }
+
+            $rows[] = [
+                'quote' => $quote,
+                'name' => trim((string) ($names[$i] ?? '')),
+                'project' => trim((string) ($projects[$i] ?? '')),
+            ];
+        }
+
+        return $rows;
     }
 
     public function editPartners(): View

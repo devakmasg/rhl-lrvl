@@ -38,7 +38,7 @@ class DirectorController extends Controller
         $data['photo'] = $this->resolveImageInput($request, 'photo', 'people');
 
         $director = Director::create($data);
-        $this->enforceSingleManagingDirector($director);
+        $this->enforceSingleFlags($director);
 
         return redirect()->route('admin.directors.index')->with('status', 'Director added.');
     }
@@ -54,7 +54,7 @@ class DirectorController extends Controller
         $data['photo'] = $this->resolveImageInput($request, 'photo', 'people', $director->photo);
 
         $director->update($data);
-        $this->enforceSingleManagingDirector($director);
+        $this->enforceSingleFlags($director);
 
         return redirect()->route('admin.directors.index')->with('status', 'Director updated.');
     }
@@ -68,20 +68,26 @@ class DirectorController extends Controller
     }
 
     /**
-     * The MD flag identifies exactly one person — the homepage teaser and the
-     * MD Message page both read whoever carries it. Ticking a new director
+     * The MD and Chairman flags each identify exactly one person — the pages
+     * that read them take whoever carries the flag. Ticking a new director
      * clears the previous one rather than leaving two rows fighting over which
      * first() wins.
      */
-    private function enforceSingleManagingDirector(Director $director): void
+    private function enforceSingleFlags(Director $director): void
     {
-        if (! $director->is_managing_director) {
+        $this->enforceSingleHolder($director, 'is_managing_director');
+        $this->enforceSingleHolder($director, 'is_chairman');
+    }
+
+    private function enforceSingleHolder(Director $director, string $flag): void
+    {
+        if (! $director->{$flag}) {
             return;
         }
 
         Director::where('id', '!=', $director->id)
-            ->where('is_managing_director', true)
-            ->update(['is_managing_director' => false]);
+            ->where($flag, true)
+            ->update([$flag => false]);
     }
 
     private function validated(Request $request): array
@@ -90,6 +96,7 @@ class DirectorController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
             'is_managing_director' => ['nullable', 'boolean'],
+            'is_chairman' => ['nullable', 'boolean'],
             'photo' => ['nullable', 'image', 'max:5120'],
             'order' => ['nullable', 'integer', 'min:1'],
             'bio' => ['nullable', 'string'],
@@ -101,6 +108,7 @@ class DirectorController extends Controller
         // An unchecked checkbox sends nothing, so absence has to mean false —
         // otherwise unticking the flag would silently leave it set.
         $data['is_managing_director'] = $request->boolean('is_managing_director');
+        $data['is_chairman'] = $request->boolean('is_chairman');
 
         return $data;
     }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\CtaBlock;
 use App\Models\PageBanner;
+use App\Models\Partner;
 use App\Models\PageSection;
 use App\Models\Setting;
 use App\Support\SectionBag;
@@ -45,6 +46,35 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $view->with('setting', $setting ?: null);
+        });
+
+        /**
+         * The trusted-partner logo strip renders in the layout, above the
+         * footer, on every page — so like the footer it cannot rely on a
+         * controller having loaded anything. The heading is site-wide copy on
+         * the settings row; the logos are their own table.
+         *
+         * Guarded on both tables existing so `migrate` on a fresh database can
+         * still boot, and memoised for the request the same way $setting is.
+         */
+        View::composer('partials.partners', function ($view) {
+            static $partners = null;
+            static $setting = null;
+
+            if ($partners === null) {
+                $partners = Schema::hasTable('partners') ? Partner::forStrip() : collect();
+                $setting = Schema::hasTable('settings') ? Setting::first() : null;
+            }
+
+            // The switch sits on the Trusted Partners screen so an editor can
+            // hide the whole strip without deleting the logos.
+            $enabled = $setting?->show_partners ?? true;
+
+            $view->with([
+                'partners' => $enabled ? $partners : collect(),
+                'partnersEyebrow' => $setting?->partners_eyebrow ?: 'Trusted Partners',
+                'partnersHeading' => $setting?->partners_heading ?: '',
+            ]);
         });
 
         /**

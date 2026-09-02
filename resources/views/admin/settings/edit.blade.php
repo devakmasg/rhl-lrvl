@@ -13,9 +13,35 @@
   </div>
 </div>
 
-<form id="settingsForm" method="POST" action="{{ route('admin.settings.update') }}">
+<form id="settingsForm" method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
   @csrf
   @method('PUT')
+
+  <div class="card card-pad" style="margin-bottom:20px;">
+    <h2 style="font-size:15.5px;margin-bottom:4px;">Company Logo</h2>
+    <div class="card-head-sub" style="margin-bottom:16px;">Shown in the site header on every page and in the footer. Leave both empty to keep the built-in emblem.</div>
+    <div class="field-row">
+      @include('admin.partials.image-field', [
+        'name' => 'logo_path',
+        'label' => 'Logo',
+        'currentUrl' => $setting->logo_url,
+        'hint' => 'PNG or WebP with a transparent background, around 400×85px. Used on light backgrounds — the header once the page is scrolled.',
+      ])
+      @include('admin.partials.image-field', [
+        'name' => 'logo_dark_path',
+        'label' => 'Logo for Dark Backgrounds (optional)',
+        'currentUrl' => $setting->logo_dark_path ? $setting->logo_dark_url : null,
+        'hint' => 'A light or white version, for the header over a hero photo and the dark footer. Leave empty if one logo works on both.',
+      ])
+    </div>
+    <div class="field" style="margin-top:6px;">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" name="show_wordmark" value="1" {{ old('show_wordmark', $setting->show_wordmark) ? 'checked' : '' }} style="width:auto;margin:0;">
+        Show the company name beside the logo
+      </label>
+      <span class="hint">Untick when your logo already contains the company name &mdash; the header wordmark and footer name below are then hidden.</span>
+    </div>
+  </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">
     <h2 style="font-size:15.5px;margin-bottom:16px;">Company Name</h2>
@@ -156,22 +182,14 @@
 
   <div class="card card-pad">
     <h2 style="font-size:15.5px;margin-bottom:16px;">Social Links</h2>
-    <p class="hint" style="margin-bottom:16px;">Only the links you fill in appear in the footer's "Follow" column.</p>
-    <div class="field" style="margin-bottom:16px;">
-      <label for="csInstagram">Instagram</label>
-      <input type="url" id="csInstagram" name="social_instagram" value="{{ old('social_instagram', $setting->social_instagram) }}" placeholder="https://instagram.com/rhlproperties">
-      <span class="field-error">{{ $errors->first('social_instagram') }}</span>
-    </div>
-    <div class="field" style="margin-bottom:16px;">
-      <label for="csLinkedin">LinkedIn</label>
-      <input type="url" id="csLinkedin" name="social_linkedin" value="{{ old('social_linkedin', $setting->social_linkedin) }}" placeholder="https://linkedin.com/company/rhlproperties">
-      <span class="field-error">{{ $errors->first('social_linkedin') }}</span>
-    </div>
-    <div class="field">
-      <label for="csFacebook">Facebook</label>
-      <input type="url" id="csFacebook" name="social_facebook" value="{{ old('social_facebook', $setting->social_facebook) }}" placeholder="https://facebook.com/rhlproperties">
-      <span class="field-error">{{ $errors->first('social_facebook') }}</span>
-    </div>
+    <p class="hint" style="margin-bottom:16px;">Only the links you fill in appear in the footer's &ldquo;Follow&rdquo; column, in the order below.</p>
+    @foreach (\App\Models\Setting::SOCIALS as $column => $platform)
+      <div class="field" @if (! $loop->last) style="margin-bottom:16px;" @endif>
+        <label for="cs{{ $column }}">{{ $platform['label'] }}</label>
+        <input type="url" id="cs{{ $column }}" name="{{ $column }}" value="{{ old($column, $setting->{$column}) }}" placeholder="{{ $platform['placeholder'] }}">
+        <span class="field-error">{{ $errors->first($column) }}</span>
+      </div>
+    @endforeach
   </div>
 </form>
 @endsection

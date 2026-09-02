@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Directors & Team')
+@section('title', 'Leaders & Team')
 
 @section('content')
 <div class="page-head">
   <div>
-    <h1>Board of Directors</h1>
-    <p>Shown on the Board of Directors page and the homepage leadership strip. The one marked Managing Director also appears on the MD&rsquo;s Message page.</p>
+    <h1>Our Leaders</h1>
+    <p>Shown on Our Leaders and the homepage leadership strip. The ones marked Managing Director and Chairman also appear on the MD&rsquo;s Message and Chairman&rsquo;s Message pages.</p>
   </div>
   <div class="page-head-actions">
     @include('admin.partials.view-page', ['route' => 'directors'])
@@ -45,8 +45,8 @@
 
 <div class="page-head">
   <div>
-    <h2 style="font-family:var(--serif);font-size:19px;">Management Team</h2>
-    <p>Shown on the Management Team page and the homepage leadership strip.</p>
+    <h2 style="font-family:var(--serif);font-size:19px;">Our Team &amp; Sales Team</h2>
+    <p>Each person appears on whichever page is set in their &ldquo;Shown On&rdquo; field. The homepage leadership strip shows Our Team only.</p>
   </div>
   <div class="page-head-actions">
     @include('admin.partials.view-page', ['route' => 'management'])
@@ -57,7 +57,7 @@
 <div class="card">
   <div class="table-scroll">
     <table class="table">
-      <thead><tr><th style="width:60px;">Order</th><th></th><th>Name</th><th>Role</th><th>Bio</th><th></th></tr></thead>
+      <thead><tr><th style="width:60px;">Order</th><th></th><th>Name</th><th>Role</th><th>Shown On</th><th>Bio</th><th></th></tr></thead>
       <tbody>
         @forelse ($teamMembers as $t)
           <tr>
@@ -65,6 +65,7 @@
             <td><img src="{{ $t->photo_url ?: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80' }}" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;"></td>
             <td><span class="cell-main">{{ $t->name }}</span></td>
             <td>{{ $t->role }}</td>
+            <td><span class="cell-sub">{{ $t->department_label }}</span></td>
             <td><span class="cell-sub">{{ \Illuminate\Support\Str::limit($t->bio, 60) }}</span></td>
             <td class="cell-actions">
               <button class="btn btn-ghost btn-sm" type="button" data-modal-open="editTeamModal{{ $t->id }}">Edit</button>
@@ -76,7 +77,7 @@
             </td>
           </tr>
         @empty
-          <tr><td colspan="6">No team members yet.</td></tr>
+          <tr><td colspan="7">No team members yet.</td></tr>
         @endforelse
       </tbody>
     </table>
@@ -99,6 +100,13 @@
             This is the Managing Director
           </label>
           <span class="hint">Their name, role and photo appear on the homepage teaser and the Managing Director's Message page. Only one director can be marked.</span>
+        </div>
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" name="is_chairman" value="1" style="width:auto;margin:0;">
+            This is the Chairman
+          </label>
+          <span class="hint">Their name, role and photo appear on the Chairman's Message page. Only one director can be marked.</span>
         </div>
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;"></textarea></div>
@@ -127,6 +135,13 @@
           </label>
           <span class="hint">Their name, role and photo appear on the homepage teaser and the Managing Director's Message page. Marking this director unmarks any other.</span>
         </div>
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" name="is_chairman" value="1" {{ $d->is_chairman ? 'checked' : '' }} style="width:auto;margin:0;">
+            This is the Chairman
+          </label>
+          <span class="hint">Their name, role and photo appear on the Chairman's Message page. Marking this director unmarks any other.</span>
+        </div>
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1" value="{{ $d->order }}"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;">{{ $d->bio }}</textarea></div>
       </div>
@@ -145,6 +160,15 @@
       <div class="modal-body" style="display:flex;flex-direction:column;gap:14px;">
         <div class="field"><label>Name</label><input type="text" name="name" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" required></div>
+        <div class="field">
+          <label>Shown On</label>
+          <select name="department">
+            @foreach (\App\Models\TeamMember::DEPARTMENTS as $value => $label)
+              <option value="{{ $value }}">{{ $label }}</option>
+            @endforeach
+          </select>
+          <span class="hint">Which page this person appears on.</span>
+        </div>
         @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo'])
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;"></textarea></div>
@@ -165,6 +189,15 @@
       <div class="modal-body" style="display:flex;flex-direction:column;gap:14px;">
         <div class="field"><label>Name</label><input type="text" name="name" value="{{ $t->name }}" required></div>
         <div class="field"><label>Role</label><input type="text" name="role" value="{{ $t->role }}" required></div>
+        <div class="field">
+          <label>Shown On</label>
+          <select name="department">
+            @foreach (\App\Models\TeamMember::DEPARTMENTS as $value => $label)
+              <option value="{{ $value }}" {{ $t->department === $value ? 'selected' : '' }}>{{ $label }}</option>
+            @endforeach
+          </select>
+          <span class="hint">Which page this person appears on.</span>
+        </div>
         @include('admin.partials.image-field', ['name' => 'photo', 'label' => 'Photo', 'currentUrl' => $t->photo_url])
         <div class="field"><label>Display Order</label><input type="number" name="order" min="1" value="{{ $t->order }}"></div>
         <div class="field"><label>Bio</label><textarea name="bio" style="min-height:80px;">{{ $t->bio }}</textarea></div>

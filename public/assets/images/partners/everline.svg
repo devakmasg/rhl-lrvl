@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 56" role="img" aria-label="EVERLINE">
+  <g fill="none" stroke="#3f3b34" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" transform="translate(2,4)">
+    <rect x="6" y="6" width="36" height="36" rx="4"/>
+    <path d="M14 30l8-12 8 12" stroke="#b08d57"/>
+    <path d="M14 36h20" stroke-width="1.4"/>
+  </g>
+  <text x="62" y="35" font-family="Georgia, 'Times New Roman', serif" font-size="19" letter-spacing="1.2" fill="#3f3b34">EVERLINE</text>
+</svg>

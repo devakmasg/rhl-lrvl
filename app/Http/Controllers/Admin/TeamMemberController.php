@@ -65,6 +65,7 @@ class TeamMemberController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
+            'department' => ['nullable', 'in:'.implode(',', array_keys(TeamMember::DEPARTMENTS))],
             'photo' => ['nullable', 'image', 'max:5120'],
             'order' => ['nullable', 'integer', 'min:1'],
             'bio' => ['nullable', 'string'],
@@ -72,6 +73,10 @@ class TeamMemberController extends Controller
 
         // 'photo' is set from the upload by the caller, never from the raw input.
         unset($data['photo']);
+
+        // Absent or unrecognised means management — the department every
+        // existing row carries, and the page most people belong on.
+        $data['department'] = $data['department'] ?? TeamMember::MANAGEMENT;
 
         return $data;
     }
