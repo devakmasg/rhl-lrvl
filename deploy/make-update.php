@@ -14,6 +14,8 @@
  * deploy procedure comes with it. See CLAUDE.md for the full agreement.
  */
 
+require __DIR__.'/common.php';
+
 $here     = __DIR__;
 $project  = dirname($here);
 $manifest = $here.'/deployed-manifest.json';
@@ -21,33 +23,7 @@ $manifest = $here.'/deployed-manifest.json';
 // Windows ships bsdtar, which can write zips; fall back to whatever is on PATH.
 $tarExe = is_file('C:/Windows/System32/tar.exe') ? 'C:/Windows/System32/tar.exe' : 'tar';
 
-// Paths that ship. Anything not listed here never reaches the server.
-$appPaths = ['app', 'bootstrap/app.php', 'config', 'database', 'resources', 'routes', 'artisan', 'composer.json', 'composer.lock'];
-$webPaths = ['public/assets', 'public/build', 'public/favicon.ico', 'public/robots.txt', 'public/.htaccess'];
-
-// Never ship: server-only files, secrets, generated state, client data.
-$skip = ['/vendor/', '/node_modules/', '/storage/', '/.git/', '/bootstrap/cache/',
-         '/public/storage/', '/public/hot', '/public/index.php', '/.env', '/database/database.sqlite'];
-
-function collect(string $project, array $paths, array $skip): array {
-    $out = [];
-    foreach ($paths as $p) {
-        $full = $project.'/'.$p;
-        if (is_file($full)) { $out[$p] = md5_file($full); continue; }
-        if (! is_dir($full)) { continue; }
-        $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($full, FilesystemIterator::SKIP_DOTS));
-        foreach ($it as $file) {
-            if (! $file->isFile()) { continue; }
-            $rel = str_replace(DIRECTORY_SEPARATOR, '/', substr($file->getPathname(), strlen($project) + 1));
-            foreach ($skip as $s) { if (str_contains('/'.$rel, $s)) { continue 2; } }
-            $out[$rel] = md5_file($file->getPathname());
-        }
-    }
-    ksort($out);
-    return $out;
-}
-
-$current = collect($project, array_merge($appPaths, $webPaths), $skip);
+$current = deployCollect($project);
 
 if (in_array('--done', $argv, true)) {
     file_put_contents($manifest, json_encode($current, JSON_PRETTY_PRINT));
@@ -56,19 +32,13 @@ if (in_array('--done', $argv, true)) {
     exit;
 }
 
-$previous = is_file($manifest) ? json_decode(file_get_contents($manifest), true) : null;
+[$previous, $changed, $removed] = deployDiff($manifest, $current);
 
 if ($previous === null) {
     echo "No deploy recorded yet. Run: php deploy/make-update.php --done\n";
     echo "(that marks the current code as what is live, so future runs can diff against it)\n";
     exit(1);
 }
-
-$changed = [];
-foreach ($current as $rel => $hash) {
-    if (! isset($previous[$rel]) || $previous[$rel] !== $hash) { $changed[] = $rel; }
-}
-$removed = array_values(array_diff(array_keys($previous), array_keys($current)));
 
 if (! $changed && ! $removed) { echo "Nothing changed since the last deploy.\n"; exit; }
 
@@ -82,10 +52,7 @@ if (is_dir($stage)) {
 mkdir($stage, 0777, true);
 
 foreach ($changed as $rel) {
-    $dest = str_starts_with($rel, 'public/')
-        ? 'public_html/'.substr($rel, 7)
-        : 'laravel/'.$rel;
-    $target = $stage.'/'.$dest;
+    $target = $stage.'/'.deployRemotePath($rel);
     if (! is_dir(dirname($target))) { mkdir(dirname($target), 0777, true); }
     copy($project.'/'.$rel, $target);
 }
@@ -103,7 +70,7 @@ foreach ($changed as $rel) { echo "  $rel\n"; }
 
 if ($removed) {
     echo "\n".count($removed)." file(s) deleted locally — remove these on the server by hand:\n";
-    foreach ($removed as $rel) { echo "  ".(str_starts_with($rel, 'public/') ? 'public_html/'.substr($rel, 7) : 'laravel/'.$rel)."\n"; }
+    foreach ($removed as $rel) { echo "  ".deployRemotePath($rel)."\n"; }
 }
 
 $migrations = array_filter($changed, fn ($f) => str_starts_with($f, 'database/migrations/'));
@@ -126,8 +93,7 @@ if (in_array('composer.lock', $changed, true)) {
    to its real path, reports what it did, and deletes itself. */
 $payload = [];
 foreach ($changed as $rel) {
-    $dest = str_starts_with($rel, 'public/') ? 'public_html/'.substr($rel, 7) : 'laravel/'.$rel;
-    $payload[$dest] = base64_encode(file_get_contents($project.'/'.$rel));
+    $payload[deployRemotePath($rel)] = base64_encode(file_get_contents($project.'/'.$rel));
 }
 
 $key = bin2hex(random_bytes(8));

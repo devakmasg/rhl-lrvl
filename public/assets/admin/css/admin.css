@@ -91,6 +91,7 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:500;color:var(--charcoal);line-
   border-bottom:1px solid var(--sidebar-line);flex:none;
 }
 .sb-brand .mark{width:28px;height:28px;color:var(--gold-light);flex:none;}
+.sb-brand .brand-logo{height:28px;width:auto;max-width:140px;object-fit:contain;flex:none;}
 .sb-brand .word{font-family:var(--serif);font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;}
 .sb-brand .word small{display:block;font-family:var(--sans);font-size:8.5px;letter-spacing:.16em;color:var(--stone);font-weight:600;}
 

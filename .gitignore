@@ -29,4 +29,8 @@ Thumbs.db
 # deploy artifacts (generated, never committed)
 /deploy/update-*.zip
 /deploy/.stage/
+/deploy/.stage.tar.gz
 /deploy/install-*.php
+
+# server credentials — never committed
+/deploy/ssh-config.local.php

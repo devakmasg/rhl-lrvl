@@ -1,9 +1,19 @@
 {{-- Byte-identical shell across every admin page (see hsc TASKS.md
      rhl-html-partials-discipline). Active state driven by route name. --}}
 <aside class="admin-sidebar" id="adminSidebar">
+  @php
+    // Icon/name follow Settings → Company Logo/Name (same source as the public
+    // header, see resources/views/partials/nav.blade.php). "ADMIN PANEL" names
+    // the software, not the company, so it stays fixed regardless of that setting.
+    $sbLogo = \App\Support\Brand::logoOnDark() ?: \App\Support\Brand::logo();
+  @endphp
   <div class="sb-brand">
-    <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1"/><path d="M11 26L20 12l9 14" stroke="#b08d57" stroke-width="1.4"/><circle cx="20" cy="20" r="2.4" fill="#b08d57"/></svg>
-    <span class="word">RHL<small>ADMIN PANEL</small></span>
+    @if ($sbLogo)
+      <img class="brand-logo" src="{{ $sbLogo }}" alt="{{ \App\Support\Brand::name() }}">
+    @else
+      <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1"/><path d="M11 26L20 12l9 14" stroke="#b08d57" stroke-width="1.4"/><circle cx="20" cy="20" r="2.4" fill="#b08d57"/></svg>
+    @endif
+    <span class="word">{{ \App\Support\Brand::mark() }}<small>ADMIN PANEL</small></span>
   </div>
 
   <nav class="sb-nav" aria-label="Admin">
@@ -94,7 +104,7 @@
 
   <div class="sb-foot">
     <div class="sb-user">
-      <img src="{{ auth()->user()->avatar ?? 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80' }}" alt="">
+      <img src="{{ auth()->user()->avatar ? asset('storage/'.auth()->user()->avatar) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80' }}" alt="">
       <div class="sb-user-info">
         <div class="sb-user-name">{{ auth()->user()->name }}</div>
         <div class="sb-user-role">{{ auth()->user()->role }}</div>
