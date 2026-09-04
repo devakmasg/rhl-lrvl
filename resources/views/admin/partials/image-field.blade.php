@@ -1,7 +1,9 @@
 {{-- Upload field for a column that may still hold a seeded URL.
      Expects: $name, $label, and optionally $currentUrl (resolved via the
-     model's *_url accessor) and $hint. --}}
+     model's *_url accessor), $hint, and $accept (defaults to any image —
+     override for a field whose validation allows more, e.g. favicon's .ico). --}}
 @php($currentUrl = $currentUrl ?? null)
+@php($accept = $accept ?? 'image/*')
 <div class="field">
   <label>{{ $label }}</label>
   @if ($currentUrl)
@@ -12,7 +14,7 @@
       </label>
     </div>
   @endif
-  <input type="file" name="{{ $name }}" accept="image/*">
+  <input type="file" name="{{ $name }}" accept="{{ $accept }}">
   <span style="display:block;font-size:11.5px;color:var(--stone);margin-top:5px;">
     {{ $hint ?? ($currentUrl ? 'Upload a new file to replace the current image.' : 'JPG, PNG or WebP — up to 5 MB.') }}
   </span>

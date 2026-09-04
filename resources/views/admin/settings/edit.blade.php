@@ -41,6 +41,15 @@
       </label>
       <span class="hint">Untick when your logo already contains the company name &mdash; the header wordmark and footer name below are then hidden.</span>
     </div>
+    <div class="field-row" style="margin-top:16px;">
+      @include('admin.partials.image-field', [
+        'name' => 'favicon_path',
+        'label' => 'Favicon (optional)',
+        'currentUrl' => $setting->favicon_url,
+        'accept' => '.ico,image/png,image/jpeg,image/webp',
+        'hint' => 'The small icon shown in a browser tab. Square, ideally 32×32 or 64×64 — .ico, PNG, JPG or WebP. Leave empty to keep the built-in emblem.',
+      ])
+    </div>
   </div>
 
   <div class="card card-pad" style="margin-bottom:20px;">

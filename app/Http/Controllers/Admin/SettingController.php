@@ -36,6 +36,10 @@ class SettingController extends Controller
             // an SVG can carry script. PNG/WebP cover a logo either way.
             'logo_path' => ['nullable', 'image', 'max:2048'],
             'logo_dark_path' => ['nullable', 'image', 'max:2048'],
+            // .ico is a real favicon format but not covered by the 'image'
+            // rule, hence the explicit mime list instead. Small cap — a
+            // favicon is never legitimately more than a few KB.
+            'favicon_path' => ['nullable', 'mimes:ico,png,jpg,jpeg,webp', 'max:512'],
             'show_wordmark' => ['nullable', 'boolean'],
             'meta_description' => ['nullable', 'string', 'max:300'],
             'address' => ['required', 'string', 'max:255'],
@@ -63,6 +67,7 @@ class SettingController extends Controller
         // unticked checkbox sends nothing, so absence has to mean false.
         $data['logo_path'] = $this->resolveImageInput($request, 'logo_path', 'brand', $setting->logo_path);
         $data['logo_dark_path'] = $this->resolveImageInput($request, 'logo_dark_path', 'brand', $setting->logo_dark_path);
+        $data['favicon_path'] = $this->resolveImageInput($request, 'favicon_path', 'brand', $setting->favicon_path);
         $data['show_wordmark'] = $request->boolean('show_wordmark');
         $data['show_partners'] = $request->boolean('show_partners');
 

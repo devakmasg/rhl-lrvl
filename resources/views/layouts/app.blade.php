@@ -10,11 +10,19 @@
   $defaultTitle = $banner?->seo_title ?: \App\Support\Brand::name();
   $defaultDescription = $banner?->seo_description ?: \App\Support\Brand::metaDescription();
   $defaultOgImage = $banner?->og_image_url ?: asset('assets/images/hero-1-residential.jpg');
+  // Admin → Settings → Company Logo → Favicon. Nothing uploaded means the
+  // inline SVG below still draws, so an install that never touches it is
+  // unchanged.
+  $favicon = \App\Support\Brand::favicon();
 @endphp
 <title>@yield('title', $defaultTitle)</title>
 <meta name="description" content="@yield('description', $defaultDescription)">
 <meta name="theme-color" content="#111110">
+@if ($favicon)
+<link rel="icon" href="{{ $favicon }}">
+@else
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2040%2040'%3E%3Ccircle%20cx='20'%20cy='20'%20r='20'%20fill='%23111110'/%3E%3Cpath%20d='M11%2026L20%2012l9%2014'%20stroke='%23b08d57'%20stroke-width='2.4'%20fill='none'%20stroke-linejoin='round'/%3E%3Ccircle%20cx='20'%20cy='20'%20r='2.8'%20fill='%23b08d57'/%3E%3C/svg%3E">
+@endif
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ \App\Support\Brand::name() }}">

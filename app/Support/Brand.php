@@ -73,6 +73,15 @@ final class Brand
     }
 
     /**
+     * The browser-tab icon, or null when none has been set — in which case
+     * every layout falls back to the inline SVG it has always drawn.
+     */
+    public static function favicon(): ?string
+    {
+        return self::setting()?->favicon_url;
+    }
+
+    /**
      * Whether the "RHL / PROPERTIES LTD" text sits beside the logo.
      *
      * Defaults to true, so a site that has never opened the setting keeps the

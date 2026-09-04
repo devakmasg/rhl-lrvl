@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 #[Fillable([
     'site_name', 'site_short_name', 'brand_mark', 'brand_mark_sub',
-    'logo_path', 'logo_dark_path', 'show_wordmark',
+    'logo_path', 'logo_dark_path', 'favicon_path', 'show_wordmark',
     'address', 'phone', 'whatsapp', 'email', 'hours_weekday', 'hours_saturday',
     'hours_friday', 'map_query', 'footer_blurb', 'meta_description',
     'footer_contact_heading', 'footer_follow_heading', 'footer_rights', 'footer_credit',
@@ -58,6 +58,11 @@ class Setting extends Model
     public function getLogoDarkUrlAttribute(): ?string
     {
         return $this->resolveImageUrl($this->logo_dark_path) ?? $this->logo_url;
+    }
+
+    public function getFaviconUrlAttribute(): ?string
+    {
+        return $this->resolveImageUrl($this->favicon_path);
     }
 
     /**
