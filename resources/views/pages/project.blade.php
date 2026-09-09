@@ -94,17 +94,11 @@
             <tbody id="pdUnitsBody">
               @foreach ($project->units as $unit)
                 <tr>
-                  @if (!is_null($unit->beds))
-                    <td>{{ $unit->unit_type }}</td>
-                    <td>{{ $unit->size_sqft }}</td>
-                    <td>{{ $unit->beds }}</td>
-                    <td>{{ $unit->baths }}</td>
-                  @else
-                    <td>{{ $unit->unit_type }}</td>
-                    <td>{{ $unit->size_sqft }}</td>
-                    <td>{{ $unit->floorplate }}</td>
-                    <td>{{ $unit->use }}</td>
-                  @endif
+                  {{-- Header and cells walk the same column list, so a row that
+                       leaves one blank still lines up under the right heading. --}}
+                  @foreach ($unitsColumns as $key => $col)
+                    <td>{{ $unit->{$key} ?: '—' }}</td>
+                  @endforeach
                 </tr>
               @endforeach
             </tbody>

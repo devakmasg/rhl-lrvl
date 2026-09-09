@@ -3,7 +3,31 @@
   $factsList = old('fact_keys') ? collect(old('fact_keys'))->map(fn ($k, $i) => ['k' => $k, 'v' => old('fact_values')[$i] ?? '']) : collect($project->facts ?? [])->map(fn ($v, $k) => ['k' => $k, 'v' => $v])->values();
   $featuresList = old('features') ?? ($project->features ?? []);
   $amenitiesList = old('amenities') ?? ($project->amenities->pluck('text')->all() ?? []);
-  $unitsList = $isEdit && ! old('unit_type') ? $project->units->map(fn ($u) => ['type' => $u->unit_type, 'size' => $u->size_sqft, 'beds' => $u->beds, 'baths' => $u->baths, 'floorplate' => $u->floorplate, 'use' => $u->use]) : collect();
+  // Rebuilt from old() after a failed save, so typed rows survive the bounce
+  // back; from the project itself otherwise.
+  $unitsList = old('unit_type')
+    ? collect(old('unit_type'))->map(fn ($type, $i) => [
+        'type' => $type,
+        'size' => old('size_sqft')[$i] ?? '',
+        'beds' => old('beds')[$i] ?? '',
+        'baths' => old('baths')[$i] ?? '',
+        'drawing' => old('drawing_rooms')[$i] ?? '',
+        'dining' => old('dining_rooms')[$i] ?? '',
+        'balconies' => old('balconies')[$i] ?? '',
+        'floorplate' => old('floorplate')[$i] ?? '',
+        'use' => old('unit_use')[$i] ?? '',
+      ])
+    : ($isEdit ? $project->units->map(fn ($u) => [
+        'type' => $u->unit_type,
+        'size' => $u->size_sqft,
+        'beds' => $u->beds,
+        'baths' => $u->baths,
+        'drawing' => $u->drawing_rooms,
+        'dining' => $u->dining_rooms,
+        'balconies' => $u->balconies,
+        'floorplate' => $u->floorplate,
+        'use' => $u->use,
+      ]) : collect());
   $bodyText = old('body') ?? ($project->body ? implode("\n", explode("\n\n", $project->body)) : '');
 @endphp
 
@@ -16,7 +40,9 @@
   .repeater-remove{flex:none;width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--danger);display:flex;align-items:center;justify-content:center;}
   .repeater-remove:hover{background:var(--danger-bg);}
   .repeater-remove svg{width:14px;height:14px;}
-  .units-table{width:100%;border-collapse:collapse;margin-bottom:10px;}
+  /* Nine columns of inputs no longer fit a narrow card, so the table scrolls
+     sideways inside it rather than crushing every field to a few characters. */
+  .units-table{width:100%;min-width:920px;border-collapse:collapse;margin-bottom:10px;}
   .units-table th{text-align:left;font-size:11px;color:var(--stone);text-transform:uppercase;letter-spacing:.05em;padding:0 8px 8px;}
   .units-table td{padding:0 8px 8px;}
   .units-table input{width:100%;}
@@ -168,9 +194,13 @@
         <h2 style="font-size:15.5px;">Unit Information</h2>
         <button type="button" class="btn btn-outline btn-sm" id="addUnitRow">+ Add Row</button>
       </div>
-      <span class="hint" style="display:block;margin-bottom:10px;">Fill Beds/Baths for residential rows, or Floorplate/Use for commercial rows — both column sets are stored per row.</span>
+      <span class="hint" style="display:block;margin-bottom:10px;">
+        Fill Beds/Baths and any of Drawing/Dining/Balcony for residential rows, or Floorplate/Use for commercial rows — every column is stored per row.
+        A column left empty across all rows is not shown on the project page, so there is no need to fill in what a project doesn't quote.
+      </span>
+      <div class="table-scroll">
       <table class="units-table">
-        <thead><tr><th>Unit Type</th><th>Size (sq ft)</th><th>Beds</th><th>Baths</th><th>Floorplate</th><th>Use</th><th></th></tr></thead>
+        <thead><tr><th>Unit Type</th><th>Size (sq ft)</th><th>Beds</th><th>Baths</th><th>Drawing</th><th>Dining</th><th>Balcony</th><th>Floorplate</th><th>Use</th><th></th></tr></thead>
         <tbody id="unitsBody">
           @forelse ($unitsList as $u)
             <tr>
@@ -178,6 +208,9 @@
               <td><input type="text" name="size_sqft[]" value="{{ $u['size'] }}" placeholder="1,980"></td>
               <td><input type="text" name="beds[]" value="{{ $u['beds'] }}" placeholder="3"></td>
               <td><input type="text" name="baths[]" value="{{ $u['baths'] }}" placeholder="3"></td>
+              <td><input type="text" name="drawing_rooms[]" value="{{ $u['drawing'] }}" placeholder="1"></td>
+              <td><input type="text" name="dining_rooms[]" value="{{ $u['dining'] }}" placeholder="1"></td>
+              <td><input type="text" name="balconies[]" value="{{ $u['balconies'] }}" placeholder="2"></td>
               <td><input type="text" name="floorplate[]" value="{{ $u['floorplate'] }}" placeholder="11,000 sq ft"></td>
               <td><input type="text" name="unit_use[]" value="{{ $u['use'] }}" placeholder="Office"></td>
               <td><button type="button" class="repeater-remove" aria-label="Remove row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>
@@ -186,6 +219,7 @@
           @endforelse
         </tbody>
       </table>
+      </div>
     </div>
 
     <div class="card card-pad">
@@ -315,6 +349,9 @@
       <td><input type="text" name="size_sqft[]" placeholder="1,980"></td>
       <td><input type="text" name="beds[]" placeholder="3"></td>
       <td><input type="text" name="baths[]" placeholder="3"></td>
+      <td><input type="text" name="drawing_rooms[]" placeholder="1"></td>
+      <td><input type="text" name="dining_rooms[]" placeholder="1"></td>
+      <td><input type="text" name="balconies[]" placeholder="2"></td>
       <td><input type="text" name="floorplate[]" placeholder="11,000 sq ft"></td>
       <td><input type="text" name="unit_use[]" placeholder="Office"></td>
       <td><button type="button" class="repeater-remove" aria-label="Remove row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>`;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectLocation;
+use App\Models\ProjectUnit;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -78,13 +79,11 @@ class ProjectController extends Controller
             }
         }
 
-        $unitsColumns = null;
-        $units = $project->units;
-        if ($units->isNotEmpty()) {
-            $unitsColumns = ! is_null($units->first()->beds)
-                ? ['Unit Type', 'Size (sq ft)', 'Beds', 'Baths']
-                : ['Floor Range', 'Size (sq ft)', 'Floorplate', 'Use'];
-        }
+        // Which columns the schedule shows follows what the units actually
+        // carry, rather than one fixed set per kind of project.
+        $unitsColumns = $project->units->isNotEmpty()
+            ? ProjectUnit::columnsFor($project->units)
+            : null;
 
         // The map itself comes off the project (map_embed_url), which falls
         // back to a name-and-area search when nothing has been pasted for it.

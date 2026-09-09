@@ -311,6 +311,12 @@ class ProjectController extends Controller
             'size_sqft' => ['nullable', 'array'],
             'beds' => ['nullable', 'array'],
             'baths' => ['nullable', 'array'],
+            'drawing_rooms' => ['nullable', 'array'],
+            'drawing_rooms.*' => ['nullable', 'string', 'max:60'],
+            'dining_rooms' => ['nullable', 'array'],
+            'dining_rooms.*' => ['nullable', 'string', 'max:60'],
+            'balconies' => ['nullable', 'array'],
+            'balconies.*' => ['nullable', 'string', 'max:60'],
             'floorplate' => ['nullable', 'array'],
             'unit_use' => ['nullable', 'array'],
         ];
@@ -402,6 +408,9 @@ class ProjectController extends Controller
         $sizes = $request->input('size_sqft', []);
         $beds = $request->input('beds', []);
         $baths = $request->input('baths', []);
+        $drawings = $request->input('drawing_rooms', []);
+        $dinings = $request->input('dining_rooms', []);
+        $balconies = $request->input('balconies', []);
         $floorplates = $request->input('floorplate', []);
         $uses = $request->input('unit_use', []);
 
@@ -417,6 +426,9 @@ class ProjectController extends Controller
                 'size_sqft' => trim((string) ($sizes[$i] ?? '')) ?: null,
                 'beds' => is_numeric($beds[$i] ?? null) ? (int) $beds[$i] : null,
                 'baths' => is_numeric($baths[$i] ?? null) ? (int) $baths[$i] : null,
+                'drawing_rooms' => trim((string) ($drawings[$i] ?? '')) ?: null,
+                'dining_rooms' => trim((string) ($dinings[$i] ?? '')) ?: null,
+                'balconies' => trim((string) ($balconies[$i] ?? '')) ?: null,
                 'floorplate' => trim((string) ($floorplates[$i] ?? '')) ?: null,
                 'use' => trim((string) ($uses[$i] ?? '')) ?: null,
                 'sort_order' => $order++,
