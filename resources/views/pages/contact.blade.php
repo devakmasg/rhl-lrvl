@@ -51,13 +51,13 @@
   </div>
 </section>
 
-@if ($setting && $setting->map_query)
+@if ($setting && ($setting->map_embed || $setting->map_query))
 <section class="pd-map-section">
   <div class="wrap">
     <span class="intro-tag reveal-up">{{ $sections->eyebrow('map') }}</span>
     <h2 class="reveal-up">{{ $sections->heading('map') }}</h2>
     <div class="pd-map-embed">
-      <iframe src="https://www.google.com/maps?q={{ urlencode($setting->map_query) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ \App\Support\Brand::name() }} head office location"></iframe>
+      <iframe src="{{ $setting->map_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ \App\Support\Brand::name() }} head office location"></iframe>
     </div>
   </div>
 </section>

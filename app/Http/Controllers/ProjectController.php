@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectLocation;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -19,8 +20,12 @@ class ProjectController extends Controller
             $query->where('type', ucfirst($request->query('type')));
         }
 
+        // Locations are admin-managed and can be several words ("Bashundhara
+        // R/A"), which ucfirst() would mangle, so the filter carries the name
+        // lowercased — the same spelling the cards use in data-location — and
+        // the comparison is made case-insensitively.
         if ($request->filled('location') && $request->query('location') !== 'all') {
-            $query->where('location', ucfirst($request->query('location')));
+            $query->whereRaw('LOWER(location) = ?', [mb_strtolower((string) $request->query('location'))]);
         }
 
         if ($request->filled('q')) {
@@ -35,7 +40,10 @@ class ProjectController extends Controller
 
         $projects = $query->orderBy('id')->get();
 
-        return view('pages.projects', compact('projects'));
+        return view('pages.projects', [
+            'projects' => $projects,
+            'locations' => ProjectLocation::query()->live()->ordered()->get(),
+        ]);
     }
 
     public function show(Project $project)
@@ -78,11 +86,11 @@ class ProjectController extends Controller
                 : ['Floor Range', 'Size (sq ft)', 'Floorplate', 'Use'];
         }
 
-        $mapQuery = "{$project->name}, {$project->location}, Dhaka, Bangladesh";
-
+        // The map itself comes off the project (map_embed_url), which falls
+        // back to a name-and-area search when nothing has been pasted for it.
         return view('pages.project', compact(
             'project', 'prev', 'next', 'related', 'stages', 'thresholds',
-            'currentStageIndex', 'unitsColumns', 'mapQuery'
+            'currentStageIndex', 'unitsColumns'
         ));
     }
 }

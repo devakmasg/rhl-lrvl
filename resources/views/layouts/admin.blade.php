@@ -31,7 +31,13 @@
 
       <main class="admin-content" id="adminMain">
         @if (session('status'))
-          <div class="form-status is-good" style="margin-bottom:20px;">{{ session('status') }}</div>
+          {{-- is-ok / is-bad, not is-good: those are the classes the admin
+               stylesheet actually defines, and .form-status stays display:none
+               until one of them is present. --}}
+          <div class="form-status is-ok" style="margin-bottom:20px;">{{ session('status') }}</div>
+        @endif
+        @if (session('error'))
+          <div class="form-status is-bad" style="margin-bottom:20px;">{{ session('error') }}</div>
         @endif
 
         @yield('content')

@@ -132,9 +132,26 @@
   <div class="card card-pad" style="margin-bottom:20px;">
     <h2 style="font-size:15.5px;margin-bottom:16px;">Map</h2>
     <div class="field">
+      <label for="csMapEmbed">Office Map</label>
+      <textarea id="csMapEmbed" name="map_embed" style="min-height:80px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;"
+                placeholder="Paste the Google Maps embed code or link here">{{ old('map_embed', $setting->map_embed) }}</textarea>
+      <span class="hint">
+        In Google Maps, find the office &rarr; <strong>Share</strong> &rarr; <strong>Embed a map</strong> &rarr; <strong>Copy HTML</strong>, and paste it here.
+        A shared link or the address-bar link works too. Shown on the homepage and the Contact page.
+      </span>
+      @error('map_embed') <span class="field-error">{{ $message }}</span> @enderror
+      @if ($setting->map_embed)
+        {{-- The stored value, framed as the public pages frame it. --}}
+        <div style="margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
+          <iframe src="{{ $setting->map_embed_url }}" title="Map preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                  style="display:block;width:100%;height:220px;border:0;"></iframe>
+        </div>
+      @endif
+    </div>
+    <div class="field" style="margin-top:16px;">
       <label for="csMapQuery">Map Search Query</label>
       <input type="text" id="csMapQuery" name="map_query" value="{{ old('map_query', $setting->map_query) }}">
-      <span class="hint">Used to build the Google Maps embed on the homepage and the Contact page.</span>
+      <span class="hint">The fallback — searched for on Google Maps whenever the field above is empty.</span>
     </div>
   </div>
 

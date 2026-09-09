@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\ResolvesMapEmbed;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\ProjectAmenity;
 use App\Models\ProjectFloorPlan;
 use App\Models\ProjectImage;
+use App\Models\ProjectLocation;
 use App\Models\ProjectUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,9 +18,29 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
+    use ResolvesMapEmbed;
+
     protected array $types = ['Residential', 'Commercial', 'Mixed-Use'];
-    protected array $locations = ['Gulshan', 'Banani', 'Dhanmondi', 'Uttara', 'Bashundhara', 'Tejgaon'];
     protected array $statuses = ['Upcoming', 'Ongoing', 'Completed'];
+
+    /**
+     * Locations are client-managed (Projects → Project Locations), so unlike
+     * type and status they are read per request instead of declared here.
+     *
+     * A project whose location has since been hidden or deleted keeps its own
+     * value in the list: without that, opening it to fix a typo would silently
+     * move it to whichever area happens to sit first in the dropdown.
+     */
+    protected function locationOptions(?Project $project = null): array
+    {
+        $names = ProjectLocation::options()->all();
+
+        if ($project?->location && ! in_array($project->location, $names, true)) {
+            array_unshift($names, $project->location);
+        }
+
+        return $names;
+    }
 
     /**
      * Display a listing of the resource.
@@ -61,7 +83,7 @@ class ProjectController extends Controller
         return view('admin.projects.create', [
             'project' => $project,
             'types' => $this->types,
-            'locations' => $this->locations,
+            'locations' => $this->locationOptions(),
             'statuses' => $this->statuses,
         ]);
     }
@@ -102,7 +124,7 @@ class ProjectController extends Controller
         return view('admin.projects.edit', [
             'project' => $project,
             'types' => $this->types,
-            'locations' => $this->locations,
+            'locations' => $this->locationOptions($project),
             'statuses' => $this->statuses,
         ]);
     }
@@ -268,7 +290,8 @@ class ProjectController extends Controller
                 Rule::unique('projects', 'slug')->ignore($project?->id),
             ],
             'type' => ['required', Rule::in($this->types)],
-            'location' => ['required', Rule::in($this->locations)],
+            'location' => ['required', Rule::in($this->locationOptions($project))],
+            'map_embed' => ['nullable', 'string', 'max:5000'],
             'status' => ['required', Rule::in($this->statuses)],
             'progress' => ['nullable', 'integer', 'min:0', 'max:100'],
             'summary' => ['required', 'string'],
@@ -332,6 +355,7 @@ class ProjectController extends Controller
             'slug' => $slug,
             'type' => $validated['type'],
             'location' => $validated['location'],
+            'map_embed' => $this->resolveMapEmbed($validated['map_embed'] ?? null),
             'status' => $validated['status'],
             'progress' => $validated['progress'] ?? null,
             'summary' => $validated['summary'],

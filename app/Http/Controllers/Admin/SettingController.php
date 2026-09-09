@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Concerns\HandlesImageUploads;
+use App\Http\Controllers\Admin\Concerns\ResolvesMapEmbed;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Support\Brand;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    use HandlesImageUploads;
+    use HandlesImageUploads, ResolvesMapEmbed;
 
     /**
      * Show the settings form.
@@ -50,6 +51,7 @@ class SettingController extends Controller
             'hours_saturday' => ['required', 'string', 'max:100'],
             'hours_friday' => ['required', 'string', 'max:100'],
             'map_query' => ['required', 'string', 'max:255'],
+            'map_embed' => ['nullable', 'string', 'max:5000'],
             'footer_blurb' => ['nullable', 'string', 'max:1000'],
             'footer_contact_heading' => ['nullable', 'string', 'max:60'],
             'footer_follow_heading' => ['nullable', 'string', 'max:60'],
@@ -70,6 +72,7 @@ class SettingController extends Controller
         $data['favicon_path'] = $this->resolveImageInput($request, 'favicon_path', 'brand', $setting->favicon_path);
         $data['show_wordmark'] = $request->boolean('show_wordmark');
         $data['show_partners'] = $request->boolean('show_partners');
+        $data['map_embed'] = $this->resolveMapEmbed($data['map_embed'] ?? null);
 
         $setting->update($data);
 

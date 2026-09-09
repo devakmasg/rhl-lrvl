@@ -58,7 +58,33 @@
               <option value="{{ $l }}" @selected(old('location', $project->location) === $l)>{{ $l }}</option>
             @endforeach
           </select>
+          <span class="hint">
+            @if (count($locations))
+              <a href="{{ route('admin.project-locations.index') }}">Manage locations</a> to add an area that isn't listed.
+            @else
+              No locations yet — <a href="{{ route('admin.project-locations.index') }}">add one</a> before saving.
+            @endif
+          </span>
+          @error('location') <span class="field-error">{{ $message }}</span> @enderror
         </div>
+      </div>
+      <div class="field" style="margin-bottom:16px;">
+        <label for="pMapEmbed">Map</label>
+        <textarea id="pMapEmbed" name="map_embed" style="min-height:80px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;"
+                  placeholder="Paste the Google Maps embed code or link here">{{ old('map_embed', $project->map_embed) }}</textarea>
+        <span class="hint">
+          In Google Maps, find the exact spot &rarr; <strong>Share</strong> &rarr; <strong>Embed a map</strong> &rarr; <strong>Copy HTML</strong>, and paste it here.
+          A shared link or the address-bar link works too. Leave this empty and the map searches for the project by name and area instead.
+        </span>
+        @error('map_embed') <span class="field-error">{{ $message }}</span> @enderror
+        @if ($project->map_embed)
+          {{-- The stored value, framed exactly as the public page frames it —
+               the only way to be sure the paste points where it should. --}}
+          <div style="margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
+            <iframe src="{{ $project->map_embed_url }}" title="Map preview" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    style="display:block;width:100%;height:220px;border:0;"></iframe>
+          </div>
+        @endif
       </div>
       <div class="field-row">
         <div class="field">

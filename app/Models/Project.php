@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Models\Concerns\ResolvesImageUrl;
+use App\Support\MapEmbed;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
-    'slug', 'name', 'type', 'location', 'status', 'progress', 'hero_image',
+    'slug', 'name', 'type', 'location', 'map_embed', 'status', 'progress', 'hero_image',
     'summary', 'body', 'facts', 'features', 'published', 'featured', 'brochure_path',
 ])]
 class Project extends Model
@@ -33,6 +34,17 @@ class Project extends Model
     public function getBrochureUrlAttribute(): ?string
     {
         return $this->resolveImageUrl($this->brochure_path);
+    }
+
+    /**
+     * What the project page's map frame loads: the map pasted in the admin, or
+     * — while that is empty — the name-and-area search the page used before the
+     * field existed, so every project still shows something.
+     */
+    public function getMapEmbedUrlAttribute(): string
+    {
+        return MapEmbed::url($this->map_embed)
+            ?? MapEmbed::forQuery("{$this->name}, {$this->location}, Dhaka, Bangladesh");
     }
 
     public function images(): HasMany

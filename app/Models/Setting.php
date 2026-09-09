@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\ResolvesImageUrl;
+use App\Support\MapEmbed;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
     'site_name', 'site_short_name', 'brand_mark', 'brand_mark_sub',
     'logo_path', 'logo_dark_path', 'favicon_path', 'show_wordmark',
     'address', 'phone', 'whatsapp', 'email', 'hours_weekday', 'hours_saturday',
-    'hours_friday', 'map_query', 'footer_blurb', 'meta_description',
+    'hours_friday', 'map_query', 'map_embed', 'footer_blurb', 'meta_description',
     'footer_contact_heading', 'footer_follow_heading', 'footer_rights', 'footer_credit',
     'partners_eyebrow', 'partners_heading', 'show_partners',
     'nav_cta_label',
@@ -48,6 +49,17 @@ class Setting extends Model
     public function getLogoUrlAttribute(): ?string
     {
         return $this->resolveImageUrl($this->logo_path);
+    }
+
+    /**
+     * What the office map frames on the homepage and the Contact page: the map
+     * pasted on Site Settings, or — while that is empty — a search for the map
+     * query, which is what both pages did before the paste field existed.
+     */
+    public function getMapEmbedUrlAttribute(): string
+    {
+        return MapEmbed::url($this->map_embed)
+            ?? MapEmbed::forQuery((string) ($this->map_query ?: $this->address));
     }
 
     /**

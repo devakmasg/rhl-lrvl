@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\PageSectionController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ProjectLocationController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TeamMemberController;
@@ -38,6 +39,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('projects/{project}/images/reorder', [ProjectController::class, 'reorderImages'])->name('projects.images.reorder');
         Route::post('projects/{project}/floor-plans', [ProjectController::class, 'storeFloorPlan'])->name('projects.floor-plans.store');
         Route::delete('projects/{project}/floor-plans/{floorPlan}', [ProjectController::class, 'destroyFloorPlan'])->name('projects.floor-plans.destroy');
+
+        Route::get('project-locations', [ProjectLocationController::class, 'index'])->name('project-locations.index');
+        Route::post('project-locations', [ProjectLocationController::class, 'store'])->name('project-locations.store');
+        Route::put('project-locations/{projectLocation}', [ProjectLocationController::class, 'update'])->name('project-locations.update');
+        Route::delete('project-locations/{projectLocation}', [ProjectLocationController::class, 'destroy'])->name('project-locations.destroy');
 
         Route::get('inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
         Route::get('inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');

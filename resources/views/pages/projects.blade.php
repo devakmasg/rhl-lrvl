@@ -46,10 +46,12 @@
           <label class="filter-label" for="f-location">Location</label>
           <select id="f-location" name="location" class="filter-select" onchange="this.form.submit()">
             <option value="all" {{ !request()->filled('location') || request('location') === 'all' ? 'selected' : '' }}>All locations</option>
-            <option value="banani" {{ request('location') === 'banani' ? 'selected' : '' }}>Banani</option>
-            <option value="gulshan" {{ request('location') === 'gulshan' ? 'selected' : '' }}>Gulshan</option>
-            <option value="dhanmondi" {{ request('location') === 'dhanmondi' ? 'selected' : '' }}>Dhanmondi</option>
-            <option value="tejgaon" {{ request('location') === 'tejgaon' ? 'selected' : '' }}>Tejgaon</option>
+            {{-- Values are the lowercased name, matching each card's
+                 data-location so the client-side filter in projects.js keeps
+                 working without a second list to maintain. --}}
+            @foreach ($locations as $location)
+              <option value="{{ $location->filter_value }}" {{ strtolower((string) request('location')) === $location->filter_value ? 'selected' : '' }}>{{ $location->name }}</option>
+            @endforeach
           </select>
         </div>
 

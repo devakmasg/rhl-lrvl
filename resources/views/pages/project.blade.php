@@ -148,7 +148,7 @@
       <span class="intro-tag reveal-up">{{ $sections->eyebrow('location') }}</span>
       <h2 class="reveal-up">{{ $sections->heading('location') }}</h2>
       <div class="pd-map-embed">
-        <iframe id="pdMapEmbed" src="https://www.google.com/maps?q={{ urlencode($mapQuery) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Development location"></iframe>
+        <iframe id="pdMapEmbed" src="{{ $project->map_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Development location"></iframe>
       </div>
     </div>
   </section>

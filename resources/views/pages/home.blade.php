@@ -338,7 +338,7 @@
 <section class="map-band" id="locateUs">
   <div class="map-grid">
     <div class="map-embed reveal-card">
-      <iframe src="https://www.google.com/maps?q={{ urlencode($setting->map_query) }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ \App\Support\Brand::name() }} head office location"></iframe>
+      <iframe src="{{ $setting->map_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ \App\Support\Brand::name() }} head office location"></iframe>
     </div>
     <div class="map-info reveal-up">
       <span class="intro-tag">{{ $page->section('map', 'eyebrow') }}</span>
