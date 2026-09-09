@@ -34,7 +34,12 @@
 <style>
   .form-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;}
   @media (max-width:1080px){.form-grid{grid-template-columns:1fr;}}
-  .form-stack{display:flex;flex-direction:column;gap:20px;}
+  /* min-width:0 on both, or the units table's own min-width propagates up as a
+     minimum size for this grid item and widens the whole page instead of
+     scrolling inside its card — a grid item will not shrink below its content
+     unless told it may. */
+  .form-stack{display:flex;flex-direction:column;gap:20px;min-width:0;}
+  .form-stack > .card{min-width:0;}
   .repeater-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
   .repeater-row .field{flex:1;margin-bottom:0;}
   .repeater-remove{flex:none;width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--danger);display:flex;align-items:center;justify-content:center;}
@@ -291,7 +296,13 @@
 
     <div class="card card-pad">
       <h2 style="font-size:14px;margin-bottom:10px;">Location Map</h2>
-      <p class="hint">Map embed query is built automatically from Name + Location, matching the public project page.</p>
+      <p class="hint">
+        @if ($project->map_embed)
+          Set from the <strong>Map</strong> box under Basic Information, with a preview beneath it.
+        @else
+          Built automatically from Name + Location. To pin it exactly, paste a Google Maps embed into the <strong>Map</strong> box under Basic Information.
+        @endif
+      </p>
     </div>
   </div>
 </form>
