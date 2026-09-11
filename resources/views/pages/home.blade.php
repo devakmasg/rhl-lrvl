@@ -344,7 +344,8 @@
       <span class="intro-tag">{{ $page->section('map', 'eyebrow') }}</span>
       <h3>{{ $page->section('map') }}</h3>
       <p>{{ $setting->address }}</p>
-      <p><a href="tel:{{ $setting->phone }}">{{ $setting->phone }}</a></p>
+      @php($officeNumber = \App\Models\ContactNumber::primary())
+      <p><a href="tel:{{ $officeNumber->tel }}">{{ $officeNumber->number }}</a></p>
       <p><a href="mailto:{{ $setting->email }}">{{ $setting->email }}</a></p>
       <a href="{{ route('contact') }}" class="link-arrow">{{ $page->link('map') }} &rarr;</a>
     </div>

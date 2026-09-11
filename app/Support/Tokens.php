@@ -2,8 +2,8 @@
 
 namespace App\Support;
 
+use App\Models\ContactNumber;
 use App\Models\Director;
-use App\Models\Setting;
 
 /**
  * Placeholders an admin may use inside editable copy.
@@ -20,7 +20,7 @@ final class Tokens
         '{company_full}' => 'Full legal name, e.g. RHL Properties Ltd',
         '{md_name}' => "The Managing Director's name",
         '{chairman_name}' => "The Chairman's name",
-        '{phone}' => 'Office phone number from Settings',
+        '{phone}' => 'The main phone number from Contact Numbers',
     ];
 
     /** Replace every {token} with its current value. */
@@ -37,7 +37,7 @@ final class Tokens
             '{company_full}' => Brand::name(),
             '{md_name}' => Director::managingDirector()?->name ?: 'the Managing Director',
             '{chairman_name}' => Director::chairman()?->name ?: 'our Chairman',
-            '{phone}' => Setting::first()?->phone ?: '',
+            '{phone}' => ContactNumber::primary()->number,
         ]);
     }
 }

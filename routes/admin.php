@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ContactNumberController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\CtaBlockController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -98,6 +99,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('achievements', [AchievementController::class, 'store'])->name('achievements.store');
         Route::put('achievements/{achievement}', [AchievementController::class, 'update'])->name('achievements.update');
         Route::delete('achievements/{achievement}', [AchievementController::class, 'destroy'])->name('achievements.destroy');
+
+        Route::get('contact-numbers', [ContactNumberController::class, 'index'])->name('contact-numbers.index');
+        Route::post('contact-numbers', [ContactNumberController::class, 'store'])->name('contact-numbers.store');
+        Route::put('contact-numbers/{contactNumber}', [ContactNumberController::class, 'update'])->name('contact-numbers.update');
+        Route::delete('contact-numbers/{contactNumber}', [ContactNumberController::class, 'destroy'])->name('contact-numbers.destroy');
 
         Route::get('trusted-partners', [PartnerController::class, 'index'])->name('partners.index');
         Route::put('trusted-partners/section', [PartnerController::class, 'updateStrip'])->name('partners.strip.update');

@@ -202,7 +202,9 @@
         <input type="text" id="asideHeading" name="aside_heading" value="{{ old('aside_heading', $content['aside_heading'] ?? '') }}">
         <label for="asideText" style="margin-top:12px;">Sidebar Text</label>
         <textarea id="asideText" name="aside_text" style="min-height:70px;">{{ old('aside_text', $content['aside_text'] ?? '') }}</textarea>
-        <span class="hint">The phone number and email beneath it come from Site Settings.</span>
+        <span class="hint">The phone number beneath it is the one set as <strong>Landowner enquiries</strong> on
+          <a href="{{ route('admin.contact-numbers.index') }}">Contact Numbers</a> (or the main number, if no
+          landowner number is set). The email comes from Site Settings.</span>
       </div>
       <div class="field">
         <label for="asideConfidenceHeading">Confidentiality Heading</label>

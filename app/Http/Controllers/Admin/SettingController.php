@@ -44,7 +44,9 @@ class SettingController extends Controller
             'show_wordmark' => ['nullable', 'boolean'],
             'meta_description' => ['nullable', 'string', 'max:300'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:50'],
+            // No 'phone' rule: the column still exists as the pre-ContactNumber
+            // fallback, but it is no longer edited here — the Contact Numbers
+            // screen owns every number the site shows.
             'whatsapp' => ['required', 'string', 'max:50'],
             'email' => ['required', 'email', 'max:255'],
             'hours_weekday' => ['required', 'string', 'max:100'],

@@ -80,8 +80,8 @@
   <div class="mobile-nav-foot">
     <a href="{{ route('contact') }}" class="btn-solid">{{ $navCta }}</a>
     <p class="contact-line">
-      @php($navPhone = $setting->phone ?? '+880 1711-234567')
-      <a href="tel:{{ preg_replace('/\s+/', '', $navPhone) }}">{{ $navPhone }}</a><br>
+      @php($navPhone = \App\Models\ContactNumber::primary())
+      <a href="tel:{{ $navPhone->tel }}">{{ $navPhone->number }}</a><br>
       <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>
     </p>
   </div>

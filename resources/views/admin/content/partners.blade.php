@@ -156,7 +156,9 @@
       <label for="contactText">Lead Paragraph</label>
       <textarea id="contactText" name="contact_text" style="min-height:70px;">{{ old('contact_text', $content['contact_text'] ?? '') }}</textarea>
     </div>
-    <p class="hint" style="margin-top:8px;">The "Partnership desk" phone and email in the sidebar come from Settings, not this page.</p>
+    <p class="hint" style="margin-top:8px;">The "Partnership desk" phone is the number set as <strong>Partnership desk</strong> on
+      <a href="{{ route('admin.contact-numbers.index') }}">Contact Numbers</a> (or the main number, if none is set);
+      the email comes from Site Settings. Neither is edited on this page.</p>
   </div>
 
   <div class="card card-pad">

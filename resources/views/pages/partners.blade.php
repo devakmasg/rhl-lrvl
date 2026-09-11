@@ -181,7 +181,8 @@
     <aside class="contact-aside">
       <div class="detail-block reveal-up">
         <h3>{{ $sections->heading('aside_desk') }}</h3>
-        <a href="tel:{{ preg_replace('/\s+/', '', $setting->phone ?? '+8801711234567') }}">{{ $setting->phone ?? '+880 1711-234567' }}</a>
+        @php($asideNumber = \App\Models\ContactNumber::forSlot('partnerships'))
+        <a href="tel:{{ $asideNumber->tel }}">{{ $asideNumber->number }}</a>
         <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>
       </div>
       <div class="detail-block reveal-up">

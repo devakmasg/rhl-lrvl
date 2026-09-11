@@ -94,13 +94,16 @@
     </div>
     <div class="field-row">
       <div class="field">
-        <label for="csPhone">Primary Phone</label>
-        <input type="tel" id="csPhone" name="phone" value="{{ old('phone', $setting->phone) }}">
-        <span class="field-error">{{ $errors->first('phone') }}</span>
+        <label>Phone Numbers</label>
+        <p class="hint" style="margin:6px 0 0;">
+          Phone numbers now live on their own screen, so the site can show more than one &mdash;
+          office, sales, a hotline. <a href="{{ route('admin.contact-numbers.index') }}">Edit Contact Numbers &rarr;</a>
+        </p>
       </div>
       <div class="field">
         <label for="csWhatsapp">WhatsApp Number</label>
         <input type="tel" id="csWhatsapp" name="whatsapp" value="{{ old('whatsapp', $setting->whatsapp) }}">
+        <span class="hint">The number behind the WhatsApp button. Kept here because it is one number, not a list.</span>
         <span class="field-error">{{ $errors->first('whatsapp') }}</span>
       </div>
     </div>

@@ -3,8 +3,15 @@
 @section('canonical', route('contact'))
 
 @section('content')
+@php
+  // One line of intro copy has room for one number, so it names the main one.
+  // The aside below lists every number the client has published.
+  $primaryNumber = \App\Models\ContactNumber::primary();
+  $contactNumbers = \App\Models\ContactNumber::live();
+  $contactNumbers = $contactNumbers->isNotEmpty() ? $contactNumbers : collect([$primaryNumber]);
+@endphp
 @include('partials.page-header', [
-  'introHtml' => 'Reach us at <a href="tel:'.e(preg_replace('/\s+/', '', $setting->phone ?? '+8801711234567')).'" style="color:var(--gold-light)">'.e($setting->phone ?? '+880 1711-234567').'</a>'
+  'introHtml' => 'Reach us at <a href="tel:'.e($primaryNumber->tel).'" style="color:var(--gold-light)">'.e($primaryNumber->number).'</a>'
     .' or <a href="mailto:'.e($setting->email ?? 'hello@rhlproperties.com.bd').'" style="color:var(--gold-light)">'.e($setting->email ?? 'hello@rhlproperties.com.bd').'</a>.',
 ])
 
@@ -23,10 +30,10 @@
     <aside class="contact-aside">
       <div class="detail-block reveal-up">
         <h3>{{ $sections->heading('talk') }}</h3>
-        <a href="tel:{{ $setting->phone ?? '+8801711234567' }}">{{ $setting->phone ?? '+880 1711-234567' }}</a>
+        @include('partials.contact-numbers', ['numbers' => $contactNumbers])
         <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>
         <div class="quick-contact">
-          <a href="tel:{{ $setting->phone ?? '+8801711234567' }}" class="btn-solid quick-contact-call">Call Now</a>
+          <a href="tel:{{ $primaryNumber->tel }}" class="btn-solid quick-contact-call">Call Now</a>
           <a href="https://wa.me/{{ preg_replace('/\D/', '', $setting->whatsapp ?? '8801711234567') }}" target="_blank" rel="noopener" class="btn-solid quick-contact-whatsapp">WhatsApp Us</a>
         </div>
       </div>

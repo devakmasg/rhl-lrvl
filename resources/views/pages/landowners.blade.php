@@ -234,7 +234,8 @@
       <div class="detail-block reveal-up">
         <h3>{{ $page->get('aside_heading') }}</h3>
         <p class="muted">{{ $page->get('aside_text') }}</p>
-        <a href="tel:{{ preg_replace('/\s+/', '', $setting->phone ?? '+8801711234567') }}">{{ $setting->phone ?? '+880 1711-234567' }}</a>
+        @php($asideNumber = \App\Models\ContactNumber::forSlot('landowners'))
+        <a href="tel:{{ $asideNumber->tel }}">{{ $asideNumber->number }}</a>
         <a href="mailto:{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}">{{ $setting->email ?? 'hello@rhlproperties.com.bd' }}</a>
       </div>
       <div class="detail-block reveal-up">

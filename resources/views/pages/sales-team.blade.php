@@ -11,7 +11,8 @@
       {{-- Nobody assigned to sales yet. The closing CTA below still gives a
            visitor a way to reach the office, so the page is never a dead end. --}}
       <p class="people-empty">Our sales team is being introduced here shortly. In the meantime, call
-        <a href="tel:{{ preg_replace('/\s+/', '', $setting?->phone ?? '') }}">{{ $setting?->phone }}</a>
+        @php($salesNumber = \App\Models\ContactNumber::forSlot('sales'))
+        <a href="tel:{{ $salesNumber->tel }}">{{ $salesNumber->number }}</a>
         and we will put you through.</p>
     @else
       <div class="people-grid">

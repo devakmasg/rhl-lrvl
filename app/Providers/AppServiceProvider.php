@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ContactNumber;
 use App\Models\CtaBlock;
 use App\Models\PageBanner;
 use App\Models\Partner;
@@ -45,7 +46,14 @@ class AppServiceProvider extends ServiceProvider
                 $setting = Schema::hasTable('settings') ? Setting::first() : false;
             }
 
-            $view->with('setting', $setting ?: null);
+            $view->with([
+                'setting' => $setting ?: null,
+                // The footer's Contact column lists the numbers ticked for it;
+                // ContactNumber memoises the query the same way $setting is
+                // memoised here, so the floating call button below the footer
+                // costs nothing extra.
+                'contactNumbers' => ContactNumber::footerList(),
+            ]);
         });
 
         /**
