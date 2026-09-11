@@ -47,7 +47,7 @@
     </div>
     <div class="field" style="margin-bottom:16px;">
       <label for="profRole">Role</label>
-      <input type="text" id="profRole" value="{{ $user->role }}" disabled>
+      <input type="text" id="profRole" value="{{ $user->role_label }}" disabled>
     </div>
     <button class="btn btn-primary" type="submit">Save Profile</button>
   </form>

@@ -8,9 +8,11 @@
     <h1>Welcome back, {{ explode(' ', auth()->user()->name)[0] }}</h1>
     <p>Here's what's happening across RHL Properties today.</p>
   </div>
+  @if ($canAddProject)
   <div class="page-head-actions">
     <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">+ New Project</a>
   </div>
+  @endif
 </div>
 
 <div class="stat-grid">
@@ -35,6 +37,7 @@
     <div class="stat-num">{{ $stats['completed_projects'] }}</div>
     <div class="stat-label">Completed Projects</div>
   </div>
+  @if ($showInquiries)
   <div class="stat-card">
     <div class="stat-top">
       <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
@@ -42,8 +45,10 @@
     <div class="stat-num">{{ $stats['total_inquiries'] }}</div>
     <div class="stat-label">Total Inquiries</div>
   </div>
+  @endif
 </div>
 
+@if ($showInquiries)
 <div class="card">
   <div class="card-head">
     <div>
@@ -81,4 +86,5 @@
     </table>
   </div>
 </div>
+@endif
 @endsection

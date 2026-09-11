@@ -18,10 +18,12 @@ use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ProjectLocationController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -29,7 +31,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::middleware('admin.auth')->group(function () {
+    Route::middleware(['admin.auth', 'admin.section'])->group(function () {
+        // Exempted inside EnsureUserIsAdmin so a user holding a temporary password
+        // can reach this and nothing else.
+        Route::get('password/change', [AuthController::class, 'showPasswordChange'])->name('password.change');
+        Route::put('password/change', [AuthController::class, 'updatePasswordChange'])->name('password.change.update');
+
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::resource('projects', ProjectController::class);
@@ -111,6 +118,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+
+        // Administrator-only, and never grantable through a role: being able to
+        // edit permissions is equivalent to holding all of them.
+        Route::middleware('admin.administrator')->group(function () {
+            Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+            Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+            Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+            Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+            Route::get('users', [UserController::class, 'index'])->name('users.index');
+            Route::post('users', [UserController::class, 'store'])->name('users.store');
+            Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+            Route::put('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.password');
+            Route::post('users/{user}/toggle', [UserController::class, 'toggleActive'])->name('users.toggle');
+            Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+        });
 
         Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
