@@ -306,6 +306,15 @@ body.sb-open .sidebar-scrim{display:block;}
 .modal-close:hover{background:var(--surface-muted);color:var(--charcoal);}
 .modal-close svg{width:16px;height:16px;}
 .modal-body{padding:20px 22px;overflow-y:auto;font-size:13.5px;color:var(--charcoal-soft);}
+/* A tall form (e.g. Add User, or the Roles permission list) scrolls inside the
+   modal — max-height on .modal caps it and the body takes the overflow. Force a
+   visible scrollbar rather than the overlay one the OS may fade out, so it is
+   obvious there is more below. Only shows when there is actually overflow. */
+.modal-body{scrollbar-width:thin;scrollbar-color:var(--stone) transparent;overscroll-behavior:contain;}
+.modal-body::-webkit-scrollbar{width:10px;}
+.modal-body::-webkit-scrollbar-track{background:transparent;}
+.modal-body::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;border:2px solid var(--surface);}
+.modal-body::-webkit-scrollbar-thumb:hover{background:var(--stone);}
 .modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 22px;border-top:1px solid var(--line);flex:none;}
 /* Phones: the modal filled 460px and overran the viewport because a flex child
    won't shrink past its content. Pin it to the available width, trim the
