@@ -307,6 +307,20 @@ body.sb-open .sidebar-scrim{display:block;}
 .modal-close svg{width:16px;height:16px;}
 .modal-body{padding:20px 22px;overflow-y:auto;font-size:13.5px;color:var(--charcoal-soft);}
 .modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 22px;border-top:1px solid var(--line);flex:none;}
+/* Phones: the modal filled 460px and overran the viewport because a flex child
+   won't shrink past its content. Pin it to the available width, trim the
+   chrome, and let a tall body (e.g. the Roles permission list) scroll. */
+@media (max-width:560px){
+  .modal-overlay{padding:12px;align-items:flex-start;}
+  .modal,.modal.modal-wide{max-width:100%;width:100%;min-width:0;max-height:calc(100vh - 24px);}
+  .modal-head{padding:15px 16px;}
+  .modal-body{padding:16px;}
+  .modal-foot{padding:14px 16px;}
+  /* Stack the footer buttons so neither is pushed off-screen, and make them
+     full width so they are easy to tap. */
+  .modal-foot{flex-direction:column-reverse;}
+  .modal-foot .btn{width:100%;}
+}
 
 /* ---------- TOASTS ---------- */
 .toast-stack{position:fixed;bottom:22px;right:22px;z-index:120;display:flex;flex-direction:column;gap:10px;max-width:320px;}

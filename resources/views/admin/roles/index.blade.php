@@ -5,8 +5,11 @@
 @push('head')
 <style>
   /* The shared .modal caps at 460px, which is too narrow for the permission
-     grid. Widened here rather than in admin.css so no other modal shifts. */
-  .modal.modal-wide{max-width:720px;}
+     grid. Widened here rather than in admin.css so no other modal shifts.
+     min() keeps it inside the viewport on phones — a plain 720px would push
+     the modal off a narrow screen, since this rule sits after admin.css and
+     would otherwise beat its responsive cap. */
+  .modal.modal-wide{max-width:min(720px, 100%);}
   .perm-group{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:10px;}
   .perm-group-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
   .perm-group-head h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--stone);margin:0;}
