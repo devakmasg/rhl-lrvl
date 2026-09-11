@@ -305,7 +305,16 @@ body.sb-open .sidebar-scrim{display:block;}
 .modal-close{width:30px;height:30px;border:none;background:none;color:var(--stone);border-radius:7px;display:flex;align-items:center;justify-content:center;}
 .modal-close:hover{background:var(--surface-muted);color:var(--charcoal);}
 .modal-close svg{width:16px;height:16px;}
-.modal-body{padding:20px 22px;overflow-y:auto;font-size:13.5px;color:var(--charcoal-soft);}
+/* Nearly every admin modal wraps its body and footer in a <form>, so the form —
+   not .modal-body — is the flex child of .modal. Left unstyled it takes its full
+   content height, overruns the modal's max-height and pushes the footer off the
+   card, and .modal-body never gets a bounded height to scroll inside (Edit Role,
+   with all twenty sections, was the worst case). Carry the column layout through
+   the form, and let the body be the part that flexes.
+   min-height:0 on both is load-bearing: a flex child defaults to min-height:auto,
+   which refuses to shrink below its content, so overflow-y:auto never engages. */
+.modal>form{display:flex;flex-direction:column;min-height:0;flex:1 1 auto;}
+.modal-body{padding:20px 22px;overflow-y:auto;flex:1 1 auto;min-height:0;font-size:13.5px;color:var(--charcoal-soft);}
 /* A tall form (e.g. Add User, or the Roles permission list) scrolls inside the
    modal — max-height on .modal caps it and the body takes the overflow. Force a
    visible scrollbar rather than the overlay one the OS may fade out, so it is
