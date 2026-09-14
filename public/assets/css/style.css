@@ -564,6 +564,8 @@ body.nav-open{overflow:hidden;}
 }
 .pcard-status.is-ongoing{background:rgba(176,141,87,.92);}
 .pcard-status.is-upcoming{background:rgba(28,27,25,.78);}
+.pcard-status.is-under-construction{background:rgba(150,116,66,.92);}
+.pcard-status.is-handover{background:rgba(103,95,80,.88);}
 .pcard-status.is-completed{background:rgba(74,70,64,.85);}
 .pcard-body{padding:26px 26px 30px;display:flex;flex-direction:column;gap:9px;flex:1;}
 .pcard-meta{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);}

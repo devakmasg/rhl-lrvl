@@ -24,9 +24,9 @@
       <label for="pStatus">Status</label>
       <select id="pStatus" name="status">
         <option value="">All statuses</option>
-        <option value="Ongoing" @selected(request('status') === 'Ongoing')>Ongoing</option>
-        <option value="Completed" @selected(request('status') === 'Completed')>Completed</option>
-        <option value="Upcoming" @selected(request('status') === 'Upcoming')>Upcoming</option>
+        @foreach ($statuses as $s)
+          <option value="{{ $s }}" @selected(request('status') === $s)>{{ $s }}</option>
+        @endforeach
       </select>
     </div>
     <div class="field" style="width:170px;">

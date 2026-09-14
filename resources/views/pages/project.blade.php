@@ -11,7 +11,7 @@
     <div class="page-header-media" id="pdHeroMedia" data-parallax-header="0.22" style="background-image:url('{{ $project->hero_image_url }}')"></div>
     <div class="wrap pd-hero-inner">
       <a href="{{ route('projects.index') }}#portfolio" class="pd-back">← All developments</a>
-      <span class="pcard-status is-{{ strtolower($project->status) }}" id="pdStatus">{{ $project->status }}</span>
+      <span class="pcard-status is-{{ $project->status_slug }}" id="pdStatus">{{ $project->status }}</span>
       <h1 data-reveal="load" id="pdName">{{ $project->name }}</h1>
       <p class="pd-meta" id="pdMeta">{{ $project->type }} &middot; {{ $project->location }}</p>
       <p class="pd-summary" id="pdSummary">{{ $project->summary }}</p>

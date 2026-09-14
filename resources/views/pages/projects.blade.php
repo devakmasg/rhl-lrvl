@@ -19,12 +19,13 @@
           <div class="seg">
             <input type="radio" name="status" value="all" id="f-st-all" {{ !request()->filled('status') || request('status') === 'all' ? 'checked' : '' }} onchange="this.form.submit()">
             <label for="f-st-all">All</label>
-            <input type="radio" name="status" value="ongoing" id="f-st-ongoing" {{ request('status') === 'ongoing' ? 'checked' : '' }} onchange="this.form.submit()">
-            <label for="f-st-ongoing">Ongoing</label>
-            <input type="radio" name="status" value="upcoming" id="f-st-upcoming" {{ request('status') === 'upcoming' ? 'checked' : '' }} onchange="this.form.submit()">
-            <label for="f-st-upcoming">Upcoming</label>
-            <input type="radio" name="status" value="completed" id="f-st-completed" {{ request('status') === 'completed' ? 'checked' : '' }} onchange="this.form.submit()">
-            <label for="f-st-completed">Completed</label>
+            {{-- Values are the slugged status, matching each card's data-status
+                 so the client-side filter in projects.js keeps working without
+                 a second list to maintain. --}}
+            @foreach (\App\Models\Project::statusFilterOptions() as $slug => $label)
+              <input type="radio" name="status" value="{{ $slug }}" id="f-st-{{ $slug }}" {{ request('status') === $slug ? 'checked' : '' }} onchange="this.form.submit()">
+              <label for="f-st-{{ $slug }}">{{ $label }}</label>
+            @endforeach
           </div>
         </fieldset>
 

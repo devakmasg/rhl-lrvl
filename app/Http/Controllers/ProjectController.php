@@ -13,8 +13,13 @@ class ProjectController extends Controller
     {
         $query = Project::where('published', true);
 
+        // The filter carries the slugged status ("under-construction"), which
+        // ucfirst() could not turn back into the stored spelling, so the model
+        // resolves it. An unknown value filters nothing rather than everything.
         if ($request->filled('status') && $request->query('status') !== 'all') {
-            $query->where('status', ucfirst($request->query('status')));
+            if ($status = Project::statusFromSlug($request->query('status'))) {
+                $query->where('status', $status);
+            }
         }
 
         if ($request->filled('type') && $request->query('type') !== 'all') {

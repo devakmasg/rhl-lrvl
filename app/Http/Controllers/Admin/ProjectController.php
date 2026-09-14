@@ -21,7 +21,7 @@ class ProjectController extends Controller
     use ResolvesMapEmbed;
 
     protected array $types = ['Residential', 'Commercial', 'Mixed-Use'];
-    protected array $statuses = ['Upcoming', 'Ongoing', 'Completed'];
+    protected array $statuses = Project::STATUSES;
 
     /**
      * Locations are client-managed (Projects → Project Locations), so unlike
@@ -66,7 +66,10 @@ class ProjectController extends Controller
 
         $projects = $query->orderBy('name')->paginate(12)->withQueryString();
 
-        return view('admin.projects.index', compact('projects'));
+        return view('admin.projects.index', [
+            'projects' => $projects,
+            'statuses' => $this->statuses,
+        ]);
     }
 
     /**
